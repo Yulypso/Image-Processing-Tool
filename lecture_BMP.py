@@ -1,7 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import argparse 
 import os 
 import sys
 
+def ouverture_Fichiers_Image(image_name):
+    #read in binary mode
+    f_lecture =open(image_name,'rb') 
+    i=1
+    octet = bytes([0])
+    octets=[]
+
+    #Lecture du MAGIC NUMBER
+    #lecture Magic number sur 2 octets
+    while (i <=2): 
+        #Lecture octet par octet 
+        octets.append(ord(octet))
+        octet=f_lecture.read(1) 
+        print (octet.decode('utf-8')," dec=",ord(octet)) 
+        i=i+1
+    print(" =>Magic Number =", octets, " BM => BitMap")
+
+    #BLOC ENTETE 54 octets en standard 
+    while (i<=54):
+        octet=f_lecture.read(1) 
+        i=i+1
+
+    f_lecture.close
 
 def process_bmp():
     parser = argparse.ArgumentParser(description='BMP reader')
@@ -18,8 +43,8 @@ def process_bmp():
         sys.exit(-1)
         
     print('Success Opening {}...'.format(file_name))
-    if __name__ == '__main__': 
-        process_bmp() 
-        sys.exit(0)
-        
-process_bmp()
+    ouverture_Fichiers_Image(file_name)
+
+if __name__ == '__main__': 
+    process_bmp() 
+    sys.exit(0)
