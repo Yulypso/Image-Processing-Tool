@@ -1,4 +1,4 @@
-# Imagerie Numérique
+# Digital Image
 
 ## Author
 
@@ -12,8 +12,36 @@ This project is about creating a tool that reads an image in a given format (bit
 
 ## Get Started
 
+__Setup__
 ```bash
-#To run: 
+> cd TD1
+> python3 -m venv .venv
+
+# for MacOs/Linux
+> source .venv/bin/activate
+
+#for Windows
+> py -3 -m venv .venv
+> .venv\scripts\activate
+
+# to install requirements (here: numpy)
+> pip3 install -r requirements.txt
+```
+
+__Note__: In Visual Studio Code, don't forget to select the correct Python interpreter. <br>
+
+[CMD + SHIFT + P] > select Interpreter > Python 3.9.0 64-bits ('.venv') [./.venv/bin/python])
+
+<br>
+
+__Run the code__
+```bash
 > cd TD1
 > python3 imagerie_couleur.py --bmp ../images/<IMAGE_NAME>.bmp
+```
+
+__Stop the code__
+```bash
+#don't forget to deactivate the virtual environement (.venv)
+> deactivate
 ```

@@ -5,6 +5,30 @@
 import argparse 
 import os
 import sys
+#import numpy as np
+
+def affichage_pixel_RGB(image_name, file_size):
+    """
+    Affichage de la couleur d'un pixel de la matrice de l'image
+    """
+    i = 0
+    octets = []
+
+    f_lecture =open(image_name,'rb') 
+    file_opened = True
+
+    #get all bytes from the image
+    while i < file_size:
+        octet=f_lecture.read(1) 
+        octets.append(ord(octet))
+        i=i+1
+
+    #image_bytes = np.array(octets[55, 60])
+    #print(len(image_bytes))
+
+
+
+
 
 def ouverture_Fichiers_Image(image_name):
     """
@@ -49,6 +73,7 @@ def ouverture_Fichiers_Image(image_name):
     print("{}\t\t=>Taille de Fichier = {} octets".format(
         size_table, 
         str(int.from_bytes(size, byteorder='little'))))
+    file_size = int.from_bytes(size, byteorder='little')
         
     #bfReserved1 (2bytes) 8
     application_image_1 = []
@@ -75,6 +100,7 @@ def ouverture_Fichiers_Image(image_name):
         str(int.from_bytes(off_bits, byteorder='little'))))
         
     print("\n\t --Début En-tête du bitmap BITMAPINFOEADER--")
+
     #biSize (4 bytes) 18
     bisize = []
     for n in range (14, 18):
@@ -170,5 +196,7 @@ def ouverture_Fichiers_Image(image_name):
     print("\t\t=>Nombre de couleurs importantes dans l'image = {}\
             \n\t\t\t\t->0=toutes importantes".format(
         str(int.from_bytes(clr_important, byteorder='little'))))
+
+    affichage_pixel_RGB(image_name, file_size)
 
     f_lecture.close
