@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+#--lecture_BMP.py
 import argparse 
-import os 
+import os
 import sys
 
 def ouverture_Fichiers_Image(image_name):
@@ -25,7 +27,8 @@ def ouverture_Fichiers_Image(image_name):
                             " hexa=", 
                             hex(ord(octet))[2:].upper()) 
         i=i+1
-    print(" =>Magic Number =", octets, " BM => BitMap")
+    #bfType (2 bytes) 2
+    print(" =>Magic Number =", octets, " BM => BitMap signature", "\n\n\t --Début En-tête du fichier BITMAPFILEHEADER--")
 
     #BLOC ENTETE 54 octets en standard 
     while (i<=54):
@@ -33,15 +36,13 @@ def ouverture_Fichiers_Image(image_name):
         octets.append(ord(octet))
         i=i+1
 
-    #line 1
+    #bfSize (4 bytes) 6
     size = []
     for j in range(2, 6):
         size.append(octets[j])
         print(hex(octets[j])[2:].upper().zfill(2), end=' ')
     print("\t\t=>Taille de Fichier = {} octets".format(
         str(int.from_bytes(size, byteorder='little'))))
-
-    #line 2
     size_table = []
     for k in range(2, 6):
         size_table.append(octets[k])
@@ -49,23 +50,40 @@ def ouverture_Fichiers_Image(image_name):
         size_table, 
         str(int.from_bytes(size, byteorder='little'))))
         
-    #line 3
-    application_image = []
-    for l in range(6, 10):
-        application_image.append(octets[l])
+    #bfReserved1 (2bytes) 8
+    application_image_1 = []
+    for l in range(6, 8):
+        application_image_1.append(octets[l])
         print(hex(octets[l])[2:].upper().zfill(2), end=' ')
-    print("\t\t=>Application image = {} noms".format(
-        str(int.from_bytes(application_image, byteorder='little'))))
-   
-    #line 4
-    taille_entete = []
-    for m in range (10, 14):
-        taille_entete.append(octets[m])
-        print(hex(octets[m])[2:].upper().zfill(2), end=' ')    
-    print("\t\t=>Taille entete = {} octets".format(
-        str(int.from_bytes(taille_entete, byteorder='little'))))
+    print("\t\t\t=>Application image (champ réservé 1) = {} noms".format(
+        str(int.from_bytes(application_image_1, byteorder='little'))))
 
-    #line 5
+    #bfReserved2 (2 bytes) 10
+    application_image_2 = []
+    for l in range(8, 10):
+        application_image_2.append(octets[l])
+        print(hex(octets[l])[2:].upper().zfill(2), end=' ')
+    print("\t\t\t=>Application image (champ réservé 2) = {} noms".format(
+        str(int.from_bytes(application_image_2, byteorder='little'))))
+   
+    #bfOffBits (4 bytes) 14
+    off_bits = []
+    for m in range (10, 14):
+        off_bits.append(octets[m])
+        print(hex(octets[m])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Off Bits (adresse zone definition image) = {} octets".format(
+        str(int.from_bytes(off_bits, byteorder='little'))))
+        
+    print("\n\t --Début En-tête du bitmap BITMAPINFOEADER--")
+    #biSize (4 bytes) 18
+    bisize = []
+    for n in range (14, 18):
+        bisize.append(octets[n])
+        print(hex(octets[n])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Taille de l'entête BITMAPINFOHEADER = {} octets".format(
+        str(int.from_bytes(bisize, byteorder='little'))))
+
+    #biSize (4 bytes) 22
     largeur_image = []
     for n in range (18, 22):
         largeur_image.append(octets[n])
@@ -73,15 +91,15 @@ def ouverture_Fichiers_Image(image_name):
     print("\t\t=>Largeur image = {} octets".format(
         str(int.from_bytes(largeur_image, byteorder='little'))))
 
-    #line 6
+    #biWidth (4 bytes) 26
     hauteur_image = []
-    for o in range (18, 22):
+    for o in range (22, 26):
         hauteur_image.append(octets[o])
         print(hex(octets[o])[2:].upper().zfill(2), end=' ')    
     print("\t\t=>Hauteur image = {} octets".format(
         str(int.from_bytes(hauteur_image, byteorder='little'))))
 
-    #line 7
+    #biPlanes (2 bytes) 28
     nb_plan_image = []
     for p in range (26, 28):
         nb_plan_image.append(octets[p])
@@ -89,41 +107,68 @@ def ouverture_Fichiers_Image(image_name):
     print("\t\t\t=>NB plan image = {} plan".format(
         str(int.from_bytes(nb_plan_image, byteorder='little'))))
 
-    #line 7
-    couleur_image = []
-    for q in range (28, 30):
-        couleur_image.append(octets[q])
+    #biBitCount (2 bytes) 30
+    bit_count = []
+    for p in range (28, 30):
+        bit_count.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t\t=>Nombre de bits par pixel (couleur) = {} bits/pixel".format(
+        str(int.from_bytes(bit_count, byteorder='little'))))
+
+    #biCompression (4 bytes) 34
+    compression = []
+    for q in range (30, 34):
+        compression.append(octets[q])
         print(hex(octets[q])[2:].upper().zfill(2), end=' ')    
-    print("\t\t\t=>Couleur image = {} couleurs".format(
-        str(int.from_bytes(couleur_image, byteorder='little'))))
+    print("\t\t=>Type de compression = {}\
+            \n\t\t\t\t->0=pas de compression\
+            \n\t\t\t\t->1=compressé à 8 bits par pixel\
+            \n\t\t\t\t->2=compressé à 4 bits par pixel".format(
+        str(int.from_bytes(compression, byteorder='little'))))
+
+
+    #biSizeImage (4 bytes) 38
+    size_image = []
+    for p in range (34, 38):
+        size_image.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Taille des données de l'image = {} octets".format(
+        str(int.from_bytes(size_image, byteorder='little'))))
+
+    #biXpelsPerMeter (4 bytes) 42
+    xpels_per_meter = []
+    for p in range (38, 42):
+        xpels_per_meter.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Résolution horizontale axe X = {} pixels/mètre".format(
+        str(int.from_bytes(xpels_per_meter, byteorder='little'))))
+
+    #biYpelsPerMeter (4 bytes) 46
+    ypels_per_meter = []
+    for p in range (42, 46):
+        ypels_per_meter.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Résolution verticale axe Y = {} pixels/mètre".format(
+        str(int.from_bytes(ypels_per_meter, byteorder='little'))))
+
+    #biClrUsed (4 bytes) 50
+    clr_used = []
+    for p in range (46, 50):
+        clr_used.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Nombre de couleurs dans l'image = {}\
+            \n\t\t\t\t->0=maximum possible\
+            \n\t\t\t\t->Si une palette est utilisée, ce nombre indique\
+            \n\t\t\t\t  le nombre de couleurs de la palette".format(
+        str(int.from_bytes(clr_used, byteorder='little'))))
+    
+    #biClrUsed (4 bytes) 54
+    clr_important = []
+    for p in range (50, 54):
+        clr_important.append(octets[p])
+        print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
+    print("\t\t=>Nombre de couleurs importantes dans l'image = {}\
+            \n\t\t\t\t->0=toutes importantes".format(
+        str(int.from_bytes(clr_important, byteorder='little'))))
 
     f_lecture.close
-
-
-def process_bmp():
-    """
-    Lecture et ouverture de l'image en format bmp
-    """
-    parser = argparse.ArgumentParser(description='BMP reader')
-    parser.add_argument('--bmp', 
-                        metavar='<bmp file name>', 
-                        help='image file to parse', 
-                        default= 'image.bmp',
-                        required=True)
-    args = parser.parse_args()
-    
-    file_name = args.bmp
-    if not os.path.isfile(file_name):
-        print('"{}" does not exist'.format(file_name), file=sys.stderr)
-        sys.exit(-1)
-        
-    print('Success Opening {}...'.format(file_name))
-    ouverture_Fichiers_Image(file_name)
-
-
-if __name__ == '__main__': 
-    """
-    To run: python3 lecture_BMP.py --bmp images/<IMAGE>
-    """
-    process_bmp() 
-    sys.exit(0)
