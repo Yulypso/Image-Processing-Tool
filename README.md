@@ -14,5 +14,6 @@ This project is about creating a tool that reads an image in a given format (bit
 
 ```bash
 #To run: 
-> python3 lecture_BMP.py --bmp images/<IMAGE>
+> cd TD1
+> python3 imagerie_couleur.py --bmp ../images/<IMAGE_NAME>.bmp
 ```
