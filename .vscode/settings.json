@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": ".venv/bin/python",
-    "python.autoComplete.extraPaths": [
-        "./TD1",
-    ]
-}

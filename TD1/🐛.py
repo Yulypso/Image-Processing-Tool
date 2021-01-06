@@ -3,7 +3,7 @@
 import argparse 
 import os 
 import sys
-from lecture_BMP import ouverture_Fichiers_Image as ofi
+import lecture_BMP as lecture_BMP
 
 def process_bmp():
     """
@@ -24,13 +24,13 @@ def process_bmp():
         sys.exit(-1)
         
     print('Success Opening {}...'.format(file_name))
-    ofi(file_name)
+    lecture_BMP.ouverture_Fichiers_Image(file_name)
 
 
 
 def main():
     """
-    To run: python3 imagerie_couleur.py --bmp ../images/<IMAGE_NAME>.bmp
+    To run: python3 🐛.py --bmp ../images/<IMAGE_NAME>.bmp
     """
     process_bmp() 
     sys.exit(0)
