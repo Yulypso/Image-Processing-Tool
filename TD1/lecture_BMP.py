@@ -138,7 +138,7 @@ def ouverture_Fichiers_Image(image_name):
     for p in range (28, 30):
         bit_count.append(octets[p])
         print(hex(octets[p])[2:].upper().zfill(2), end=' ')    
-    print("\t\t\t=>Nombre de bits par pixel (couleur) = {} bits/pixel".format(
+    print("\t\t\t=>Nombre de bits par pixel = {} bits/pixel".format(
         str(int.from_bytes(bit_count, byteorder='little'))))
 
     #biCompression (4 bytes) 34
