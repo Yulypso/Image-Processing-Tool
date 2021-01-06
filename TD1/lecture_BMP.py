@@ -5,7 +5,7 @@
 import argparse 
 import os
 import sys
-#import numpy as np
+import numpy as np
 
 def affichage_pixel_RGB(image_name, file_size):
     """
@@ -23,8 +23,8 @@ def affichage_pixel_RGB(image_name, file_size):
         octets.append(ord(octet))
         i=i+1
 
-    #image_bytes = np.array(octets[55, 60])
-    #print(len(image_bytes))
+    image_bytes = np.array(octets)
+    print(len(image_bytes))
 
 
 
