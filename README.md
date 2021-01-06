@@ -37,7 +37,7 @@ __Note__: In Visual Studio Code, don't forget to select the correct Python inter
 __Run the code__
 ```bash
 > cd TD1
-> python3 imagerie_couleur.py --bmp ../images/<IMAGE_NAME>.bmp
+> python3 🐛.py --bmp ../images/<IMAGE_NAME>.bmp
 ```
 
 __Stop the code__
