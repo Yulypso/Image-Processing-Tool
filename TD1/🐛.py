@@ -4,6 +4,7 @@ import argparse
 import os 
 import sys
 import lecture_BMP as lecture_BMP
+from imageBmp import imageBmp 
 
 def process_bmp():
     """
@@ -24,8 +25,10 @@ def process_bmp():
         sys.exit(-1)
         
     print('Success Opening {}...'.format(file_name))
-    lecture_BMP.ouverture_Fichiers_Image(file_name)
+    #lecture_BMP.ouverture_Fichiers_Image(file_name)
 
+    my_bmp = imageBmp(file_name)
+    my_bmp.fit()
 
 
 def main():

@@ -24,9 +24,7 @@ def affichage_pixel_RGB(image_name, file_size):
         i=i+1
 
     image_bytes = np.array(octets)
-    print(len(image_bytes))
-
-
+    print(len(image_bytes)) 
 
 
 
@@ -34,6 +32,7 @@ def ouverture_Fichiers_Image(image_name):
     """
     Analyse du header de l'image ouvert
     """
+
     #read in binary mode
     f_lecture =open(image_name,'rb') 
     i=1
@@ -52,7 +51,8 @@ def ouverture_Fichiers_Image(image_name):
                             hex(ord(octet))[2:].upper()) 
         i=i+1
     #bfType (2 bytes) 2
-    print(" =>Magic Number =", octets, " BM => BitMap signature", "\n\n\t --Début En-tête du fichier BITMAPFILEHEADER--")
+    print(" =>Magic Number =", octets, " BM => BitMap signature", 
+        "\n\n\t --Début En-tête du fichier BITMAPFILEHEADER--")
 
     #BLOC ENTETE 54 octets en standard 
     while (i<=54):
