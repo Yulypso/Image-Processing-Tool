@@ -109,7 +109,7 @@ def ouverture_Fichiers_Image(image_name):
     print("\t\t=>Taille de l'entête BITMAPINFOHEADER = {} octets".format(
         str(int.from_bytes(bisize, byteorder='little'))))
 
-    #biSize (4 bytes) 22
+    #biwidth (4 bytes) 22
     largeur_image = []
     for n in range (18, 22):
         largeur_image.append(octets[n])

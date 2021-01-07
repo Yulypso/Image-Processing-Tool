@@ -29,6 +29,7 @@ def process_bmp():
 
     my_bmp = imageBmp(file_name)
     my_bmp.fit()
+    my_bmp.display_header()
 
 
 def main():
