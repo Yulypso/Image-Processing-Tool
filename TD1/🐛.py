@@ -30,6 +30,8 @@ def process_bmp():
     my_bmp = imageBmp(file_name)
     my_bmp.fit()
     my_bmp.display_header()
+    my_bmp.display_pixels()
+    my_bmp.save_image('🐼.bmp')
 
 
 def main():

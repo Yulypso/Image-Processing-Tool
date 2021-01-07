@@ -13,7 +13,10 @@ class imageBmp:
         Initialisation of the bitmap header in ndarray
         '''
         self.img = img
+        #whole bytes from bitmap
         self.octets = []
+        #image bytes from bitmap into matrix
+        self.image_matrix = None 
         #BITMAP FILE HEADER (ascii bytes)
         self.bf_type = None
         self.bf_size = None
@@ -51,7 +54,38 @@ class imageBmp:
         self.bi_ypelspermeter = self.octets[42:46]
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
+        self.image_matrix = self.octets[54:].reshape(
+            self.get_int_from_bytes(self.bi_width.tolist()), 
+            self.get_int_from_bytes(self.bi_height.tolist()),
+            int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
+
+
+    def save_image(self, output):
+        f_output = open(output, 'wb')
+        print(output)
+        print(self.bf_type.tolist())
+
+        bf_type = bytearray(self.bf_type.tolist())
+        print(bf_type)
+        f_output.write(bf_type)
+
+        bf_size = bytearray(self.bf_size.tolist())
+        print(bf_size)
+        print('')
+        print(type(bf_size))
+        f_output.write(bf_size)
+
+        f_output.close
+
+
+    def display_pixels(self):
+        '''
+        Display pixels of image
+        '''
+        pass
+        #print(image_matrix)
+        
     def display_header(self):
         '''
         Display information about the bitmap header 
