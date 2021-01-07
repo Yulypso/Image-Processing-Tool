@@ -7,12 +7,13 @@ class ImageBmpProcessing:
     Implementation of an BMP format image
     '''
 
-    def __init__(self, img):
+    def __init__(self, img, verbose):
         '''
         Initialisation of the bitmap header in ndarray
         img: ../path/to/image.bmp
         '''
         self.img = img
+        self.verbose = verbose
         #whole bytes from bitmap
         self.octets = []
         #image bytes from bitmap into matrix
@@ -59,17 +60,22 @@ class ImageBmpProcessing:
             self.get_int_from_bytes(self.bi_width.tolist()), 
             self.get_int_from_bytes(self.bi_height.tolist()),
             int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
+        if self.verbose:
+            print('image successfully loaded\n')
+        
 
-    def resize_image(self, new_width, new_height):
+    def resize_image(self, factor):
+        new_width = factor * self.get_int_from_bytes(self.bi_width.tolist())
+        new_height = factor * self.get_int_from_bytes(self.bi_height.tolist())
 
         nb_rows = int(np.shape(self.image_matrix)[0])
         nb_cols = int(np.shape(self.image_matrix)[1]) 
         self.image_matrix = [
             [ 
-                self.image_matrix[int(nb_rows * r / new_width)]
-                                 [int(nb_cols * c / new_height)] 
-                                    for c in range(int(new_height))
-            ] for r in range(int(new_width))
+                self.image_matrix[int(nb_rows * a / new_width)]
+                                 [int(nb_cols * b / new_height)] 
+                                    for b in range(int(new_height))
+            ] for a in range(int(new_width))
         ]
        
         self.bi_width = []
@@ -121,7 +127,9 @@ class ImageBmpProcessing:
 
         self.octets = np.array(octets)
 
-        print("{} has been resized to {} x {}".format(self.img,
+        if self.verbose:
+            print("{} has been resized to {} x {}".format(
+                             self.img.replace('../images/',''),
                                                     new_height, 
                                                     new_width))
         
@@ -142,15 +150,14 @@ class ImageBmpProcessing:
             raise Exception("Invalid rotation number, Try Again")
 
         self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
-        self.octets[54:] = np.reshape(
-                            self.image_matrix, (
-                                self.get_int_from_bytes(
-                                    self.bi_sizeimage.tolist()
-                                )
-                            )
-                        )
+        flattened = np.array(self.image_matrix).flatten().tolist()
+        octets = self.octets[:54].tolist()
+        [octets.append(i) for i in flattened]
 
-        print("{} has been rotated to {} degree".format(self.img, degree))
+        self.octets = np.array(octets)
+                        
+        if self.verbose:
+            print("{} has been rotated to {} degree".format(self.img, degree))
 
 
     def save_image(self, output):
@@ -173,13 +180,15 @@ class ImageBmpProcessing:
         f_output.write(bytearray(self.bi_clrimportant.tolist()))
         f_output.write(bytearray(self.octets[54:].tolist()))
         f_output.close
+        print('generated image has been saved to {}'.format(output.replace('..', '')))
 
 
     def display_pixels(self):
         '''
         Display pixels of image
         '''
-        print("\nAffichage de la matrice de pixel [ Blue Green Red ]")
+        if self.verbose:
+            print("\nAffichage de la matrice de pixel [ Bleu Vert Rouge ]")
         print(self.image_matrix)
         
 
@@ -187,13 +196,14 @@ class ImageBmpProcessing:
         '''
         Display information about the bitmap header 
         '''
+        print('Bitmap header information')
         print (" dec=",self.bf_type[0], 
                 " hexa=", hex(self.bf_type[0])[2:].upper()) 
         print (" dec=",self.bf_type[1], 
                 " hexa=", hex(self.bf_type[1])[2:].upper())
 
         print(" =>Magic Number =", self.bf_type, " BM => BitMap signature", 
-        "\n\n\t --Début En-tête du fichier BITMAPFILEHEADER--")
+        "\n\n\t --BITMAP FILE HEADER--")
 
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bf_size], end=' ')
         print("\t\t=>Taille de Fichier = {} octets".format(
@@ -219,9 +229,10 @@ class ImageBmpProcessing:
             ".format(
         str(int.from_bytes(self.bf_offbits.tolist(), byteorder='little'))))
 
+        print("\n\t --BITMAP INFO HEADER--")
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bi_size], 
             end=' ')
-        print("\t\t=>Taille de l'entête BITMAPINFOHEADER = {} octets".format(
+        print("\t\t=>Taille de l'entête BITMAP INFO HEADER = {} octets".format(
         str(int.from_bytes(self.bi_size.tolist(), byteorder='little'))))
 
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bi_width], 
