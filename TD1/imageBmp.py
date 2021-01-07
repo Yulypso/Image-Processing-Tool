@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-class imageBmp: 
+class ImageBmp: 
     '''
     Implementation of an BMP format image
-    img: ../path/to/image.bmp
     '''
 
     def __init__(self, img):
         '''
         Initialisation of the bitmap header in ndarray
+        img: ../path/to/image.bmp
         '''
         self.img = img
         #whole bytes from bitmap
@@ -36,6 +36,7 @@ class imageBmp:
         self.bi_clrused = None
         self.bi_clrimportant = None
 
+
     def fit(self):
         self.ouverture_fichiers_image()
         self.bf_type = self.octets[0:2]
@@ -59,6 +60,30 @@ class imageBmp:
             self.get_int_from_bytes(self.bi_height.tolist()),
             int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
+
+    def rotate_image(self, degree):
+        '''
+        Rotate an image by a degree
+        '''
+        if degree == 0: 
+            nb_rot = 0
+        elif degree == 90: 
+            nb_rot = 1
+        elif degree == 180:
+            nb_rot = 2
+        elif degree == 270:
+            nb_rot = 3
+        else:
+            raise Exception("Invalid rotation number, Try Again")
+
+        self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
+        self.octets[54:] = np.reshape(
+                            self.image_matrix, (
+                                self.get_int_from_bytes(
+                                    self.bi_sizeimage.tolist()
+                                )
+                            )
+                        )
 
 
     def save_image(self, output):
@@ -87,9 +112,10 @@ class imageBmp:
         '''
         Display pixels of image
         '''
-        pass
-        #print(image_matrix)
+        print("\nAffichage de la matrice de pixel [ Blue Green Red ]")
+        print(self.image_matrix)
         
+
     def display_header(self):
         '''
         Display information about the bitmap header 
@@ -167,12 +193,14 @@ class imageBmp:
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bi_xpelspermeter], 
             end=' ')
         print("\t\t=>Résolution horizontale axe X = {} pixels/mètre".format(
-        str(int.from_bytes(self.bi_xpelspermeter.tolist(), byteorder='little'))))
+        str(int.from_bytes(self.bi_xpelspermeter.tolist(), 
+            byteorder='little'))))
 
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bi_ypelspermeter], 
             end=' ')
         print("\t\t=>Résolution verticale axe Y = {} pixels/mètre".format(
-        str(int.from_bytes(self.bi_ypelspermeter.tolist(), byteorder='little'))))
+        str(int.from_bytes(self.bi_ypelspermeter.tolist(), 
+            byteorder='little'))))
 
         print(*[hex(x)[2:].upper().zfill(2) for x in self.bi_clrused], 
             end=' ')
@@ -186,7 +214,9 @@ class imageBmp:
             end=' ')
         print("\t\t=>Nombre de couleurs importantes dans l'image = {}\
             \n\t\t\t\t->0=toutes importantes".format(
-        str(int.from_bytes(self.bi_clrimportant.tolist(), byteorder='little'))))
+        str(int.from_bytes(self.bi_clrimportant.tolist(), 
+            byteorder='little'))))
+
 
     def ouverture_fichiers_image(self):
         '''
