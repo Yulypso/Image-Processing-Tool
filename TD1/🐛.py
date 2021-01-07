@@ -4,7 +4,7 @@ import argparse
 import os 
 import sys
 import numpy as np
-from imageBmp import ImageBmp 
+from imageBmp import ImageBmpProcessing
 
 def process_bmp():
     """
@@ -25,11 +25,12 @@ def process_bmp():
         sys.exit(-1)
         
     print('Success Opening {}...'.format(file_name))
-    my_bmp = ImageBmp(file_name)
+    my_bmp = ImageBmpProcessing(file_name)
     my_bmp.fit()
     my_bmp.display_header()
-    my_bmp.display_pixels()
+    #my_bmp.display_pixels()
     my_bmp.rotate_image(90)
+    my_bmp.resize_image(800, 800)
     my_bmp.save_image('../images/🐼.bmp')
 
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-class ImageBmp: 
+class ImageBmpProcessing: 
     '''
     Implementation of an BMP format image
     '''
@@ -60,6 +60,71 @@ class ImageBmp:
             self.get_int_from_bytes(self.bi_height.tolist()),
             int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
+    def resize_image(self, new_width, new_height):
+
+        nb_rows = int(np.shape(self.image_matrix)[0])
+        nb_cols = int(np.shape(self.image_matrix)[1]) 
+        self.image_matrix = [
+            [ 
+                self.image_matrix[int(nb_rows * r / new_width)]
+                                 [int(nb_cols * c / new_height)] 
+                                    for c in range(int(new_height))
+            ] for r in range(int(new_width))
+        ]
+       
+        self.bi_width = []
+        for i in new_width.to_bytes(4, byteorder='little'):
+            self.bi_width.append(i)
+        self.bi_width = np.array(self.bi_width)
+
+        self.bi_height = []
+        for i in new_height.to_bytes(4, byteorder='little'):
+            self.bi_height.append(i)
+        self.bi_height = np.array(self.bi_height)
+
+        self.bf_size = []
+        for i in (  int(
+                        str(
+                            (np.shape(self.image_matrix)[0])
+                        )
+                    ) * 
+                    int(
+                        str(
+                            (np.shape(self.image_matrix)[1])
+                        )
+                    ) * 
+                    int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8) 
+                    + int(self.get_int_from_bytes(self.bf_offbits.tolist()))
+                ).to_bytes(4, byteorder='little'):
+            self.bf_size.append(i)
+        self.bf_size = np.array(self.bf_size)
+
+        self.bi_sizeimage = []
+        for i in (  int(
+                        str(
+                            (np.shape(self.image_matrix)[0])
+                        )
+                    ) * 
+                    int(
+                        str(
+                            (np.shape(self.image_matrix)[1])
+                        )
+                    ) * 
+                    int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8) 
+                ).to_bytes(4, byteorder='little'):
+            self.bi_sizeimage.append(i)
+        self.bi_sizeimage = np.array(self.bi_sizeimage)
+    
+        flattened = np.array(self.image_matrix).flatten().tolist()
+        octets = self.octets[:54].tolist()
+        [octets.append(i) for i in flattened]
+
+        self.octets = np.array(octets)
+
+        print("{} has been resized to {} x {}".format(self.img,
+                                                    new_height, 
+                                                    new_width))
+        
 
     def rotate_image(self, degree):
         '''
@@ -84,6 +149,8 @@ class ImageBmp:
                                 )
                             )
                         )
+
+        print("{} has been rotated to {} degree".format(self.img, degree))
 
 
     def save_image(self, output):
