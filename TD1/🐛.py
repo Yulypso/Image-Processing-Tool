@@ -31,7 +31,7 @@ def process_bmp():
     my_bmp.fit()
     my_bmp.display_header()
     my_bmp.display_pixels()
-    my_bmp.save_image('🐼.bmp')
+    my_bmp.save_image('../images/🐼.bmp')
 
 
 def main():

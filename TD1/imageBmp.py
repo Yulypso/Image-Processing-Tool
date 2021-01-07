@@ -63,19 +63,23 @@ class imageBmp:
 
     def save_image(self, output):
         f_output = open(output, 'wb')
-        print(output)
-        print(self.bf_type.tolist())
-
-        bf_type = bytearray(self.bf_type.tolist())
-        print(bf_type)
-        f_output.write(bf_type)
-
-        bf_size = bytearray(self.bf_size.tolist())
-        print(bf_size)
-        print('')
-        print(type(bf_size))
-        f_output.write(bf_size)
-
+        f_output.write(bytearray(self.bf_type.tolist()))
+        f_output.write(bytearray(self.bf_size.tolist()))
+        f_output.write(bytearray(self.bf_reserved1.tolist()))
+        f_output.write(bytearray(self.bf_reserved2.tolist()))
+        f_output.write(bytearray(self.bf_offbits.tolist()))
+        f_output.write(bytearray(self.bi_size.tolist()))
+        f_output.write(bytearray(self.bi_width.tolist()))
+        f_output.write(bytearray(self.bi_height.tolist()))
+        f_output.write(bytearray(self.bi_planes.tolist()))
+        f_output.write(bytearray(self.bi_bitcount.tolist()))
+        f_output.write(bytearray(self.bi_compression.tolist()))
+        f_output.write(bytearray(self.bi_sizeimage.tolist()))
+        f_output.write(bytearray(self.bi_xpelspermeter.tolist()))
+        f_output.write(bytearray(self.bi_ypelspermeter.tolist()))
+        f_output.write(bytearray(self.bi_clrused.tolist()))
+        f_output.write(bytearray(self.bi_clrimportant.tolist()))
+        f_output.write(bytearray(self.octets[54:].tolist()))
         f_output.close
 
 
