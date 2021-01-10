@@ -39,7 +39,7 @@ def process_bmp():
                         '-o',
                         help = 'generated file',
                         metavar = '<file_name.bmp>',
-                        required = '--rotate' or '--resize' in sys.argv)
+                        required = False)
     args = parser.parse_args()
 
     print('--- Bitmap processing tool ---')

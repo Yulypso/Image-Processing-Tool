@@ -56,10 +56,14 @@ class BmpProcessing:
         self.bi_ypelspermeter = self.octets[42:46]
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
-        self.image_matrix = self.octets[54:].reshape(
-            self.get_int_from_bytes(self.bi_width.tolist()), 
-            self.get_int_from_bytes(self.bi_height.tolist()),
-            int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
+
+        #Uniquement si l'image est un bitmap V3 (offbits == 54)
+        if self.get_int_from_bytes(self.bf_offbits.tolist()) == 54:
+            self.image_matrix = self.octets[54:].reshape(
+                self.get_int_from_bytes(self.bi_width.tolist()), 
+                self.get_int_from_bytes(self.bi_height.tolist()),
+                int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
+
         if self.verbose:
             print('image successfully loaded\n')
         
@@ -180,7 +184,7 @@ class BmpProcessing:
         f_output.write(bytearray(self.bi_clrimportant.tolist()))
         f_output.write(bytearray(self.octets[54:].tolist()))
         f_output.close
-        print('generated image has been saved to {}'.format(output.replace('..', '')))
+        print('generated image has been saved to {}'.format(output))
 
 
     def display_pixels(self):
