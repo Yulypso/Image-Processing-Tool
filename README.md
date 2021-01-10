@@ -14,7 +14,8 @@ This project is about creating a tool that reads an image in a given format (bit
 
 __Setup__
 ```bash
-> cd TD1
+> git clone https://github.com/Yulypso/Imagerie_Numerique.git
+> cd Imagerie_numerique
 > python3 -m venv .venv
 
 # for MacOs/Linux
@@ -36,7 +37,7 @@ __Note__: In Visual Studio Code, don't forget to select the correct Python inter
 
 __Run the code__
 ```bash
-> cd TD1
+> cd project/bitmapProcessing
 > python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] [--resize <ratio resizing>] [--verbose] [--pixels] --output <file_name.bmp>
 ```
 
