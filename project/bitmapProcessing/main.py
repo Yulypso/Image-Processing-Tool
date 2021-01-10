@@ -4,7 +4,7 @@ import argparse
 import os 
 import sys
 import numpy as np
-from imageBmp import ImageBmpProcessing
+import bmpProcessing.BmpProcessing as BmpProcessing
 
 def process_bmp():
     """
@@ -46,7 +46,7 @@ def process_bmp():
     input_file_name = args.bmp
     if input_file_name:
         print('input file name:', input_file_name)
-        input_file_name = '../images/' + args.bmp
+        input_file_name = '../../images/' + args.bmp
 
     pixels = args.pixels
     print('display pixels:', pixels) if pixels else print('display pixels: False')
@@ -63,7 +63,7 @@ def process_bmp():
     output_file_name = args.output
     if output_file_name:
         print('output file name:', output_file_name)
-        output_file_name = '../images/generated/' + args.output
+        output_file_name = '../../images/generated/' + args.output
 
 
     print('------------------------------\n')
@@ -74,7 +74,7 @@ def process_bmp():
         
     print('Opening {} successfully\n'.format(input_file_name))
 
-    my_bmp = ImageBmpProcessing(input_file_name, verbose)
+    my_bmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
     my_bmp.fit()
     my_bmp.display_header()
     if pixels:

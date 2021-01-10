@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-class ImageBmpProcessing: 
+class BmpProcessing: 
     '''
     Implementation of an BMP format image
     '''
