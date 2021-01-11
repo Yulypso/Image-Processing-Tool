@@ -23,18 +23,21 @@ def process_bmp():
                         help = 'image file to parse', 
                         required = True)
     parser.add_argument('--rotate',
+                        '-rt',
                         metavar = '<rotation degree>',
                         help = 'degree of image rotation',
                         type = int,
                         choices = [0, 90, 180, 270],
                         required = False)
     parser.add_argument('--resize',
+                        '-rs',
                         metavar = '<resizing ratio> or [<width> <height>]',
                         type = int,
                         help = 'ratio of image resizing',
                         required = False,
                         nargs='+')
     parser.add_argument('--contrast',
+                        '-c',
                         metavar = '<contrast value>',
                         type = check_contrast_interval,
                         help = 'image contrast',
@@ -44,7 +47,13 @@ def process_bmp():
                         help = 'get more information',
                         action='store_true',
                         required = False)
+    parser.add_argument('--flip',
+                        '-fp',
+                        help = 'image flip',
+                        action='store_true',
+                        required = False)
     parser.add_argument('--pixels',
+                        '-p',
                         help = 'display input image pixels',
                         action='store_true',
                         required = False)
@@ -52,7 +61,17 @@ def process_bmp():
                         '-o',
                         help = 'generated file',
                         metavar = '<file_name.bmp>',
-                        required = ('--rotate' or '--resize') in sys.argv)
+                        required = '--resize' in sys.argv or 
+                                   '-rs' in sys.argv or
+                                   '--rotate' in sys.argv or
+                                   '-rt' in sys.argv or
+                                   '--contrast' in sys.argv or
+                                   '-c' in sys.argv or
+                                   '--rotate' in sys.argv or
+                                   '-rt' in sys.argv or
+                                   '--flip' in sys.argv or
+                                   '-fp' in sys.argv 
+                        )
     args = parser.parse_args()
 
     print('--- Bitmap processing tool ---')
@@ -73,13 +92,18 @@ def process_bmp():
     contrast_value = args.contrast
     print('contrast value:', contrast_value) if contrast_value else print('contrast value: Default')
 
+    flip = args.flip
+    print('flip image:', flip) if flip else print('flip image: False')
+
     verbose = args.verbose
     print('verbose:', verbose) if verbose else print('verbose: False')
 
     output_file_name = args.output
     if output_file_name:
+        if '.bmp' not in output_file_name:
+            output_file_name = output_file_name + '.bmp'
         print('output file name:', output_file_name)
-        output_file_name = '../../images/generated/' + args.output
+        output_file_name = '../../images/generated/' + output_file_name
 
 
     print('------------------------------\n')
@@ -91,7 +115,11 @@ def process_bmp():
     print('Opening {} successfully\n'.format(input_file_name))
 
     my_bmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
-    my_bmp.fit()
+    if output_file_name:
+        is_processing = True
+    else:
+        is_processing = False
+    my_bmp.fit(is_processing)
     my_bmp.display_header()
     if pixels:
         my_bmp.display_pixels()
@@ -101,6 +129,8 @@ def process_bmp():
         my_bmp.resize_image(ratio_resize)
     if rotation_degree:
         my_bmp.rotate_image(rotation_degree)
+    if flip:
+        my_bmp.flip_image()
     if output_file_name:
         my_bmp.save_image(output_file_name)
 

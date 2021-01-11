@@ -8,7 +8,22 @@
 
 ## Introduction 
 
-This project is about creating a tool that reads an image in a given format (bitmap or jpeg), process this image (enlarge, shrink ...), save the image in an output file different from the one given as input ( same format as input or different) to never corrupt the original files.
+This project is about creating a tool that reads an image in a given format (bitmap or jpeg), process this image (enlarge, shrink ...), save the image in an output file different from the one given as input ( same format as input or different) to never corrupt the original files. 
+
+<br>
+
+__Note__: This Bitmap Processing tool cannot process:
+
+- Due to RLE compression (Run length encoding)
+  - bitmap v3 
+  - bitmap v5
+  - bitmap v7 
+- Due to bits per pixels < 8
+  - bitmap v6
+  - bitmap v7
+  - bitmap v8
+
+<br>
 
 ## Get Started
 

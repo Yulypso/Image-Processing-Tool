@@ -40,13 +40,15 @@ class BmpProcessing:
         self.b_palette = []
 
 
-    def fit(self):
+    def fit(self, is_processing):
         self.ouverture_fichiers_image()
+        #file header
         self.bf_type = self.octets[0:2]
         self.bf_size = self.octets[2:6]
         self.bf_reserved1 = self.octets[6:8]
         self.bf_reserved2 = self.octets[8:10]
         self.bf_offbits = self.octets[10:14]
+        #file info
         self.bi_size = self.octets[14:18]
         self.bi_width = self.octets[18:22]
         self.bi_height = self.octets[22:26]
@@ -58,16 +60,17 @@ class BmpProcessing:
         self.bi_ypelspermeter = self.octets[42:46]
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
-        self.b_palette = self.octets[54:self.get_int_from_bytes(
-            self.bf_offbits.tolist())]
-            
-        #Afin de tenir compte des offbits
-        self.image_matrix = self.octets[
-                self.get_int_from_bytes(self.bf_offbits.tolist()):
-            ].reshape(
-            self.get_int_from_bytes(self.bi_height.tolist()),
-            self.get_int_from_bytes(self.bi_width.tolist()), 
-            int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
+        if is_processing :
+            #palette
+            self.b_palette = self.octets[54:self.get_int_from_bytes(
+                self.bf_offbits.tolist())]
+            #Image
+            self.image_matrix = self.octets[
+                    self.get_int_from_bytes(self.bf_offbits.tolist()):
+                ].reshape(
+                self.get_int_from_bytes(self.bi_height.tolist()),
+                self.get_int_from_bytes(self.bi_width.tolist()), 
+                int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
         if self.verbose:
             print('image successfully loaded\n')
@@ -162,9 +165,17 @@ class BmpProcessing:
             raise Exception("Invalid rotation degree, Try Again")
 
         self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
-
+        
         if self.verbose:
             print("{} has been rotated to {} degree".format(self.img, degree))
+
+
+    def flip_image(self):
+        '''
+        Flip an image
+        '''
+        self.image_matrix = self.image_matrix[:, ::-1, ...]
+        #self.image_matrix = np.flip(self.image_matrix, 1) equivalent
 
 
     def save_image(self, output):
