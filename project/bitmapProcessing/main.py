@@ -80,10 +80,10 @@ def process_bmp():
     my_bmp.display_header()
     if pixels:
         my_bmp.display_pixels()
-    if rotation_degree:
-        my_bmp.rotate_image(rotation_degree)
     if ratio_resize:
         my_bmp.resize_image(ratio_resize)
+    if rotation_degree:
+        my_bmp.rotate_image(rotation_degree)
     if output_file_name:
         my_bmp.save_image(output_file_name)
     #my_bmp.contrast_image()

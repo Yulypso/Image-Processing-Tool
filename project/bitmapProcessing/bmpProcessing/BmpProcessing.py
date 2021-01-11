@@ -182,12 +182,12 @@ class BmpProcessing:
         self.octets = np.array(octets)
 
         bi_width = []
-        for i in np.shape(self.image_matrix)[0].to_bytes(4, byteorder='little'):
+        for i in np.shape(self.image_matrix)[1].to_bytes(4, byteorder='little'):
             bi_width.append(i)
         self.bi_width = np.array(bi_width)
 
         bi_height = []
-        for i in np.shape(self.image_matrix)[1].to_bytes(4, byteorder='little'):
+        for i in np.shape(self.image_matrix)[0].to_bytes(4, byteorder='little'):
             bi_height.append(i)
         self.bi_height = np.array(bi_height)
 
