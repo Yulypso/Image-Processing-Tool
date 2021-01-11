@@ -74,7 +74,29 @@ class BmpProcessing:
 
         if self.verbose:
             print('image successfully loaded\n')
-        
+
+
+    def grayscale_image(self):
+        for row in self.image_matrix:
+            for pixel in row:
+                temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
+                pixel[0] = round(temp_mean) #bleu
+                pixel[1] = round(temp_mean) #vert
+                pixel[2] = round(temp_mean) #rouge
+                #Si le pixel calculé n'appartient pas à [0, 255] on le truncate
+                if pixel[0] > 255:
+                    pixel[0] = 255
+                elif pixel[0] < 0:
+                    pixel[0] = 0
+                if pixel[1] > 255:
+                    pixel[1] = 255
+                elif pixel[1] < 0:
+                    pixel[1] = 0
+                if pixel[2] > 255:
+                    pixel[2] = 255
+                elif pixel[2] < 0:
+                    pixel[2] = 0
+
 
     def contrast_image(self, contrast):
         #calcul du facteur de contrast
@@ -104,8 +126,8 @@ class BmpProcessing:
             new_width = int(factor[0])
             new_height = int(factor[1])
         else:
-            new_width = factor[0] * self.get_int_from_bytes(self.bi_width.tolist())
-            new_height = factor[0] * self.get_int_from_bytes(self.bi_height.tolist())
+            new_width = int(float(factor[0]) * self.get_int_from_bytes(self.bi_width.tolist()))
+            new_height = int(float(factor[0]) * self.get_int_from_bytes(self.bi_height.tolist()))
 
         nb_cols = np.shape(self.image_matrix)[1] #width
         nb_rows = np.shape(self.image_matrix)[0] #height
@@ -174,8 +196,7 @@ class BmpProcessing:
         '''
         Flip an image
         '''
-        self.image_matrix = self.image_matrix[:, ::-1, ...]
-        #self.image_matrix = np.flip(self.image_matrix, 1) equivalent
+        self.image_matrix = np.flip(self.image_matrix, 1)
 
 
     def save_image(self, output):

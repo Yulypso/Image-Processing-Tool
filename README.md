@@ -25,6 +25,18 @@ __Note__: This Bitmap Processing tool cannot process:
 
 <br>
 
+## Features implemented
+
+- Rotate image [90, 180, 270]
+- Resize image \<ratio> or \<width> \<height>
+- Contrast adjustment [-255, +255]
+- Color image to Grayscale image
+- Flip image
+- Verbose
+- Display Pixels
+
+<br>
+
 ## Get Started
 
 __Setup__
@@ -53,10 +65,10 @@ __Note__: In Visual Studio Code, don't forget to select the correct Python inter
 __Run the code__
 ```bash
 > cd project/bitmapProcessing
-> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] 
-                  [--resize <resizing ratio> or [<width> <height>]
-                  [<resizing ratio> or [<width> <height>] ...]] [--verbose] 
-                  [--pixels] [--output <file_name.bmp>]
+> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>]
+               [--resize <resizing ratio> or [<width> <height>]
+               [<resizing ratio> or [<width> <height>] ...]] [--contrast <contrast value>]
+               [--verbose] [--flip] [--grayscale] [--pixels] [--output <file_name.bmp>]
 ```
 
 ```bash
@@ -66,12 +78,16 @@ optional arguments:
   -h, --help            show this help message and exit
   --bmp <file_name.bmp>
                         image file to parse
-  --rotate <rotation degree>
+  --rotate <rotation degree>, -rt <rotation degree>
                         degree of image rotation
-  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
+  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...], -rs <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
                         ratio of image resizing
+  --contrast <contrast value>, -c <contrast value>
+                        image contrast
   --verbose, -v         get more information
-  --pixels              display input image pixels
+  --flip, -fp           image flip
+  --grayscale, -gs      image grayscale
+  --pixels, -p          display input image pixels
   --output <file_name.bmp>, -o <file_name.bmp>
                         generated file
 ```

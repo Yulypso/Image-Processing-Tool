@@ -9,9 +9,16 @@ import bmpProcessing.BmpProcessing as BmpProcessing
 def check_contrast_interval(value):
     if (int(value) < -255) or (int(value) > 255):
         raise argparse.ArgumentTypeError(
-            "{} is an incorrect value of contrast please ".format(value)+
+            "{} is an incorrect contrast value. Please ".format(value)+
             "choose a value between [-255, +255]")
     return int(value)
+
+def check_resize_ratio(value):
+    if float(value) <= 0:
+        raise argparse.ArgumentTypeError(
+            "{} is an incorrect ratio value. \n\t\tPlease ".format(value)+
+            "choose a strictly positive ratio value (float)")
+    return value
 
 def process_bmp():
     """
@@ -32,7 +39,7 @@ def process_bmp():
     parser.add_argument('--resize',
                         '-rs',
                         metavar = '<resizing ratio> or [<width> <height>]',
-                        type = int,
+                        type = check_resize_ratio,
                         help = 'ratio of image resizing',
                         required = False,
                         nargs='+')
@@ -50,6 +57,11 @@ def process_bmp():
     parser.add_argument('--flip',
                         '-fp',
                         help = 'image flip',
+                        action='store_true',
+                        required = False)
+    parser.add_argument('--grayscale',
+                        '-gs',
+                        help = 'image grayscale',
                         action='store_true',
                         required = False)
     parser.add_argument('--pixels',
@@ -70,7 +82,9 @@ def process_bmp():
                                    '--rotate' in sys.argv or
                                    '-rt' in sys.argv or
                                    '--flip' in sys.argv or
-                                   '-fp' in sys.argv 
+                                   '-fp' in sys.argv or
+                                   '--grayscale' in sys.argv or
+                                   '-gs' in sys.argv 
                         )
     args = parser.parse_args()
 
@@ -87,13 +101,18 @@ def process_bmp():
     print('rotation degree:', rotation_degree) if rotation_degree else print('rotation degree: Default')
     
     ratio_resize = args.resize
-    print('ratio size: {} x {}'.format(ratio_resize[0], ratio_resize[1])) if ratio_resize else print('ratio size: Default')
+    if ratio_resize:
+        print('ratio size: {} x {}'.format(ratio_resize[0], ratio_resize[1])) if len(ratio_resize) == 2 else print('ratio size: Default')
+        print('ratio size: {}'.format(ratio_resize[0])) if len(ratio_resize) == 1 else print('ratio size: Default')
 
     contrast_value = args.contrast
     print('contrast value:', contrast_value) if contrast_value else print('contrast value: Default')
 
     flip = args.flip
     print('flip image:', flip) if flip else print('flip image: False')
+
+    grayscale = args.grayscale
+    print('grayscale image:', grayscale) if grayscale else print('grayscale image: False')
 
     verbose = args.verbose
     print('verbose:', verbose) if verbose else print('verbose: False')
@@ -125,12 +144,14 @@ def process_bmp():
         my_bmp.display_pixels()
     if contrast_value:
         my_bmp.contrast_image(contrast_value)
+    if grayscale:
+        my_bmp.grayscale_image()
     if ratio_resize:
         my_bmp.resize_image(ratio_resize)
-    if rotation_degree:
-        my_bmp.rotate_image(rotation_degree)
     if flip:
         my_bmp.flip_image()
+    if rotation_degree:
+        my_bmp.rotate_image(rotation_degree)
     if output_file_name:
         my_bmp.save_image(output_file_name)
 
