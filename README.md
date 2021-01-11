@@ -38,8 +38,10 @@ __Note__: In Visual Studio Code, don't forget to select the correct Python inter
 __Run the code__
 ```bash
 > cd project/bitmapProcessing
-> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] [--resize <resizing ratio> or [<width> <height>]
-                  [<resizing ratio> or [<width> <height>] ...]] [--verbose] [--pixels] [--output <file_name.bmp>]
+> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] 
+                  [--resize <resizing ratio> or [<width> <height>]
+                  [<resizing ratio> or [<width> <height>] ...]] [--verbose] 
+                  [--pixels] [--output <file_name.bmp>]
 ```
 
 ```bash
