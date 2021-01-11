@@ -36,6 +36,8 @@ class BmpProcessing:
         self.bi_ypelspermeter = None
         self.bi_clrused = None
         self.bi_clrimportant = None
+        #Palette de couleur
+        self.b_palette = []
 
 
     def fit(self):
@@ -56,7 +58,9 @@ class BmpProcessing:
         self.bi_ypelspermeter = self.octets[42:46]
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
-
+        self.b_palette = self.octets[54:self.get_int_from_bytes(
+            self.bf_offbits.tolist())]
+            
         #Afin de tenir compte des offbits
         self.image_matrix = self.octets[
                 self.get_int_from_bytes(self.bf_offbits.tolist()):
@@ -175,7 +179,8 @@ class BmpProcessing:
         self.bi_height = np.array(bi_height)
 
         flattened = np.array(self.image_matrix).flatten().tolist()
-        octets = self.octets[:54].tolist()
+        octets = self.octets[
+            :self.get_int_from_bytes(self.bf_offbits.tolist())].tolist()
         [octets.append(i) for i in flattened]
         self.octets = np.array(octets)
 
@@ -196,7 +201,9 @@ class BmpProcessing:
         f_output.write(bytearray(self.bi_ypelspermeter.tolist()))
         f_output.write(bytearray(self.bi_clrused.tolist()))
         f_output.write(bytearray(self.bi_clrimportant.tolist()))
-        f_output.write(bytearray(self.octets[self.get_int_from_bytes(self.bf_offbits.tolist()):].tolist()))
+        f_output.write(bytearray(self.b_palette.tolist()))
+        f_output.write(bytearray(self.octets[self.get_int_from_bytes(
+            self.bf_offbits.tolist()):].tolist()))
         f_output.close
         print('generated image has been saved to {}'.format(output))
 
