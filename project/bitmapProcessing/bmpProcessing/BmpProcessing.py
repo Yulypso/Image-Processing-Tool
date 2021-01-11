@@ -68,17 +68,28 @@ class BmpProcessing:
         if self.verbose:
             print('image successfully loaded\n')
         
-    def contrast_image(self):
-        #in progress
-        flattened = self.octets[54:]
-        flattened_bool = np.all(flattened >= 128)
-        print(flattened_bool)
-        if flattened_bool:
-            flattened+=1*127
-        else:
-            flattened-=1*127
-        flattened = np.all(abs(flattened) > 255)
-        self.octets[54:] = flattened
+
+    def contrast_image(self, contrast):
+        #calcul du facteur de contrast
+        factor = (259 * (contrast + 255)) / (255 * (259 - contrast))
+        for row in self.image_matrix:
+            for pixel in row:
+                pixel[0] = round(factor * (pixel[0] - 128) + 128) #bleu
+                pixel[1] = round(factor * (pixel[1] - 128) + 128) #vert
+                pixel[2] = round(factor * (pixel[2] - 128) + 128) #rouge
+                #Si le pixel calculé n'appartient pas à [0, 255] on le truncate
+                if pixel[0] > 255:
+                    pixel[0] = 255
+                elif pixel[0] < 0:
+                    pixel[0] = 0
+                if pixel[1] > 255:
+                    pixel[1] = 255
+                elif pixel[1] < 0:
+                    pixel[1] = 0
+                if pixel[2] > 255:
+                    pixel[2] = 255
+                elif pixel[2] < 0:
+                    pixel[2] = 0
         
                         
     def resize_image(self, factor):
