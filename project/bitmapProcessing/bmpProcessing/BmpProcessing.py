@@ -57,17 +57,19 @@ class BmpProcessing:
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
 
-        #Uniquement si l'image est un bitmap V1 (offbits == 54)
-        if self.get_int_from_bytes(self.bf_offbits.tolist()) == 54:
-            self.image_matrix = self.octets[54:].reshape(
-                self.get_int_from_bytes(self.bi_height.tolist()),
-                self.get_int_from_bytes(self.bi_width.tolist()), 
-                int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
+        #Afin de tenir compte des offbits
+        self.image_matrix = self.octets[
+                self.get_int_from_bytes(self.bf_offbits.tolist()):
+            ].reshape(
+            self.get_int_from_bytes(self.bi_height.tolist()),
+            self.get_int_from_bytes(self.bi_width.tolist()), 
+            int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
         if self.verbose:
             print('image successfully loaded\n')
         
     def contrast_image(self):
+        #in progress
         flattened = self.octets[54:]
         flattened_bool = np.all(flattened >= 128)
         print(flattened_bool)
@@ -90,25 +92,12 @@ class BmpProcessing:
         nb_cols = np.shape(self.image_matrix)[1] #width
         nb_rows = np.shape(self.image_matrix)[0] #height
 
-        image_matrix = [
+        self.image_matrix = [
             [self.image_matrix[int(nb_rows * a / new_height)]
                               [int(nb_cols * b / new_width)]
                     for b in range(new_width)
             ] for a in range(new_height)
         ]
-
-        self.image_matrix = image_matrix
-        print(np.shape(image_matrix))
-
-        self.bi_width = []
-        for i in new_width.to_bytes(4, byteorder='little'):
-            self.bi_width.append(i)
-        self.bi_width = np.array(self.bi_width)
-
-        self.bi_height = []
-        for i in new_height.to_bytes(4, byteorder='little'):
-            self.bi_height.append(i)
-        self.bi_height = np.array(self.bi_height)
 
         self.bf_size = []
         for i in (  int(
@@ -134,12 +123,6 @@ class BmpProcessing:
                 ).to_bytes(4, byteorder='little'):
             self.bi_sizeimage.append(i)
         self.bi_sizeimage = np.array(self.bi_sizeimage)
-    
-        flattened = np.array(self.image_matrix).flatten().tolist()
-        octets = np.zeros(54, dtype=int).tolist()
-        [octets.append(i) for i in flattened]
-
-        self.octets = np.array(octets)
 
         if self.verbose:
             print("{} has been resized to {} x {}".format(
@@ -161,26 +144,15 @@ class BmpProcessing:
         elif degree == 270:
             nb_rot = 3
         else:
-            raise Exception("Invalid rotation number, Try Again")
-        
-        #-- issue: TD1 - Imagerie de couleur #1
-        #print('--debug--')
-        #test = np.array([[[1,2,3],    [4,5,6],    [7,8,9], [10,11,12]],
-        #        [[13,14,15], [16,17,18], [10,11,12], [19,20,21]],
-        #        [[22,23,24], [25,26,27], [28,29,30], [31,32,33]]])
-        #
-        #test = np.rot90(test, k=1)
-        #ftest = np.array(test).flatten().tolist()
-        #print(test)
-        #print(ftest)
-        #-- debug --
+            raise Exception("Invalid rotation degree, Try Again")
 
         self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
-        flattened = np.array(self.image_matrix).flatten().tolist()
-        octets = self.octets[:54].tolist()
-        [octets.append(i) for i in flattened]
-        self.octets = np.array(octets)
 
+        if self.verbose:
+            print("{} has been rotated to {} degree".format(self.img, degree))
+
+
+    def save_image(self, output):
         bi_width = []
         for i in np.shape(self.image_matrix)[1].to_bytes(4, byteorder='little'):
             bi_width.append(i)
@@ -191,11 +163,11 @@ class BmpProcessing:
             bi_height.append(i)
         self.bi_height = np.array(bi_height)
 
-        if self.verbose:
-            print("{} has been rotated to {} degree".format(self.img, degree))
+        flattened = np.array(self.image_matrix).flatten().tolist()
+        octets = self.octets[:54].tolist()
+        [octets.append(i) for i in flattened]
+        self.octets = np.array(octets)
 
-
-    def save_image(self, output):
         f_output = open(output, 'wb')
         f_output.write(bytearray(self.bf_type.tolist()))
         f_output.write(bytearray(self.bf_size.tolist()))
@@ -213,7 +185,7 @@ class BmpProcessing:
         f_output.write(bytearray(self.bi_ypelspermeter.tolist()))
         f_output.write(bytearray(self.bi_clrused.tolist()))
         f_output.write(bytearray(self.bi_clrimportant.tolist()))
-        f_output.write(bytearray(self.octets[54:].tolist()))
+        f_output.write(bytearray(self.octets[self.get_int_from_bytes(self.bf_offbits.tolist()):].tolist()))
         f_output.close
         print('generated image has been saved to {}'.format(output))
 
