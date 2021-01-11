@@ -38,23 +38,23 @@ __Note__: In Visual Studio Code, don't forget to select the correct Python inter
 __Run the code__
 ```bash
 > cd project/bitmapProcessing
-> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] [--resize <ratio resizing>] [--verbose] [--pixels] --output <file_name.bmp>
+> python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>] [--resize <resizing ratio> or [<width> <height>]
+                  [<resizing ratio> or [<width> <height>] ...]] [--verbose] [--pixels] [--output <file_name.bmp>]
 ```
 
 ```bash
 --Bitmap processing tool--
 
 optional arguments:
-
   -h, --help            show this help message and exit
   --bmp <file_name.bmp>
                         image file to parse
   --rotate <rotation degree>
                         degree of image rotation
-  --resize <ratio resizing>
+  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
                         ratio of image resizing
   --verbose, -v         get more information
-  --pixels              display image pixels
+  --pixels              display input image pixels
   --output <file_name.bmp>, -o <file_name.bmp>
                         generated file
 ```
