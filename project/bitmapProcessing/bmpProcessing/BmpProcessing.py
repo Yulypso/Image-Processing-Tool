@@ -57,31 +57,49 @@ class BmpProcessing:
         self.bi_clrused = self.octets[46:50]
         self.bi_clrimportant = self.octets[50:54]
 
-        #Uniquement si l'image est un bitmap V3 (offbits == 54)
+        #Uniquement si l'image est un bitmap V1 (offbits == 54)
         if self.get_int_from_bytes(self.bf_offbits.tolist()) == 54:
             self.image_matrix = self.octets[54:].reshape(
-                self.get_int_from_bytes(self.bi_width.tolist()), 
                 self.get_int_from_bytes(self.bi_height.tolist()),
+                self.get_int_from_bytes(self.bi_width.tolist()), 
                 int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8))
 
         if self.verbose:
             print('image successfully loaded\n')
         
-
+    def contrast_image(self):
+        flattened = self.octets[54:]
+        flattened_bool = np.all(flattened >= 128)
+        print(flattened_bool)
+        if flattened_bool:
+            flattened+=1*127
+        else:
+            flattened-=1*127
+        flattened = np.all(abs(flattened) > 255)
+        self.octets[54:] = flattened
+        
+                        
     def resize_image(self, factor):
-        new_width = factor * self.get_int_from_bytes(self.bi_width.tolist())
-        new_height = factor * self.get_int_from_bytes(self.bi_height.tolist())
+        if len(factor) == 2:
+            new_width = int(factor[0])
+            new_height = int(factor[1])
+        else:
+            new_width = factor[0] * self.get_int_from_bytes(self.bi_width.tolist())
+            new_height = factor[0] * self.get_int_from_bytes(self.bi_height.tolist())
 
-        nb_rows = int(np.shape(self.image_matrix)[0])
-        nb_cols = int(np.shape(self.image_matrix)[1]) 
-        self.image_matrix = [
-            [ 
-                self.image_matrix[int(nb_rows * a / new_width)]
-                                 [int(nb_cols * b / new_height)] 
-                                    for b in range(int(new_height))
-            ] for a in range(int(new_width))
+        nb_cols = np.shape(self.image_matrix)[1] #width
+        nb_rows = np.shape(self.image_matrix)[0] #height
+
+        image_matrix = [
+            [self.image_matrix[int(nb_rows * a / new_height)]
+                              [int(nb_cols * b / new_width)]
+                    for b in range(new_width)
+            ] for a in range(new_height)
         ]
-       
+
+        self.image_matrix = image_matrix
+        print(np.shape(image_matrix))
+
         self.bi_width = []
         for i in new_width.to_bytes(4, byteorder='little'):
             self.bi_width.append(i)
@@ -94,14 +112,10 @@ class BmpProcessing:
 
         self.bf_size = []
         for i in (  int(
-                        str(
-                            (np.shape(self.image_matrix)[0])
-                        )
+                        (np.shape(self.image_matrix)[1]) 
                     ) * 
                     int(
-                        str(
-                            (np.shape(self.image_matrix)[1])
-                        )
+                            (np.shape(self.image_matrix)[0]) 
                     ) * 
                     int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8) 
                     + int(self.get_int_from_bytes(self.bf_offbits.tolist()))
@@ -111,14 +125,10 @@ class BmpProcessing:
 
         self.bi_sizeimage = []
         for i in (  int(
-                        str(
-                            (np.shape(self.image_matrix)[0])
-                        )
+                        (np.shape(self.image_matrix)[1]) 
                     ) * 
                     int(
-                        str(
-                            (np.shape(self.image_matrix)[1])
-                        )
+                        (np.shape(self.image_matrix)[0]) 
                     ) * 
                     int(self.get_int_from_bytes(self.bi_bitcount.tolist())/8) 
                 ).to_bytes(4, byteorder='little'):
@@ -126,7 +136,7 @@ class BmpProcessing:
         self.bi_sizeimage = np.array(self.bi_sizeimage)
     
         flattened = np.array(self.image_matrix).flatten().tolist()
-        octets = self.octets[:54].tolist()
+        octets = np.zeros(54, dtype=int).tolist()
         [octets.append(i) for i in flattened]
 
         self.octets = np.array(octets)
@@ -134,8 +144,8 @@ class BmpProcessing:
         if self.verbose:
             print("{} has been resized to {} x {}".format(
                              self.img.replace('../images/',''),
-                                                    new_height, 
-                                                    new_width))
+                                                    new_width, 
+                                                    new_height))
         
 
     def rotate_image(self, degree):
@@ -152,14 +162,35 @@ class BmpProcessing:
             nb_rot = 3
         else:
             raise Exception("Invalid rotation number, Try Again")
+        
+        #-- issue: TD1 - Imagerie de couleur #1
+        #print('--debug--')
+        #test = np.array([[[1,2,3],    [4,5,6],    [7,8,9], [10,11,12]],
+        #        [[13,14,15], [16,17,18], [10,11,12], [19,20,21]],
+        #        [[22,23,24], [25,26,27], [28,29,30], [31,32,33]]])
+        #
+        #test = np.rot90(test, k=1)
+        #ftest = np.array(test).flatten().tolist()
+        #print(test)
+        #print(ftest)
+        #-- debug --
 
         self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
         flattened = np.array(self.image_matrix).flatten().tolist()
         octets = self.octets[:54].tolist()
         [octets.append(i) for i in flattened]
-
         self.octets = np.array(octets)
-                        
+
+        bi_width = []
+        for i in np.shape(self.image_matrix)[0].to_bytes(4, byteorder='little'):
+            bi_width.append(i)
+        self.bi_width = np.array(bi_width)
+
+        bi_height = []
+        for i in np.shape(self.image_matrix)[1].to_bytes(4, byteorder='little'):
+            bi_height.append(i)
+        self.bi_height = np.array(bi_height)
+
         if self.verbose:
             print("{} has been rotated to {} degree".format(self.img, degree))
 

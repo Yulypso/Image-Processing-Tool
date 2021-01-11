@@ -10,7 +10,7 @@ def process_bmp():
     """
     Lecture et ouverture de l'image en format bmp
     """
-    parser = argparse.ArgumentParser(description = '--Bitmap processing tool--')
+    parser = argparse.ArgumentParser(description='--Bitmap processing tool--')
     parser.add_argument('--bmp', 
                         metavar = '<file_name.bmp>', 
                         help = 'image file to parse', 
@@ -22,24 +22,25 @@ def process_bmp():
                         choices = [0, 90, 180, 270],
                         required = False)
     parser.add_argument('--resize',
-                        metavar = '<ratio resizing>',
+                        metavar = '<resizing ratio> or [<width> <height>]',
                         type = int,
                         help = 'ratio of image resizing',
-                        required = False)
+                        required = False,
+                        nargs='+')
     parser.add_argument('--verbose',
                         '-v',
                         help = 'get more information',
                         action='store_true',
                         required = False)
     parser.add_argument('--pixels',
-                        help = 'display image pixels',
+                        help = 'display input image pixels',
                         action='store_true',
                         required = False)
     parser.add_argument('--output',
                         '-o',
                         help = 'generated file',
                         metavar = '<file_name.bmp>',
-                        required = False)
+                        required = ('--rotate' or '--resize') in sys.argv)
     args = parser.parse_args()
 
     print('--- Bitmap processing tool ---')
@@ -85,7 +86,7 @@ def process_bmp():
         my_bmp.resize_image(ratio_resize)
     if output_file_name:
         my_bmp.save_image(output_file_name)
-
+    #my_bmp.contrast_image()
 
 def main():
     process_bmp() 
