@@ -80,7 +80,8 @@ optional arguments:
                         image file to parse
   --rotate <rotation degree>, -rt <rotation degree>
                         degree of image rotation
-  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...], -rs <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
+  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...], 
+       -rs <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
                         ratio of image resizing
   --contrast <contrast value>, -c <contrast value>
                         image contrast
