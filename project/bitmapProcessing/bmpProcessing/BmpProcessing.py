@@ -76,6 +76,20 @@ class BmpProcessing:
             print('image successfully loaded\n')
 
 
+    def blackwhite_image(self):
+        for row in self.image_matrix:
+            for pixel in row:
+                temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
+                if temp_mean > 127: 
+                    pixel[0] = 255 #bleu
+                    pixel[1] = 255 #vert
+                    pixel[2] = 255 #rouge
+                else:
+                    pixel[0] = 0 #bleu
+                    pixel[1] = 0 #vert
+                    pixel[2] = 0 #rouge
+
+
     def grayscale_image(self):
         for row in self.image_matrix:
             for pixel in row:
@@ -83,21 +97,8 @@ class BmpProcessing:
                 pixel[0] = round(temp_mean) #bleu
                 pixel[1] = round(temp_mean) #vert
                 pixel[2] = round(temp_mean) #rouge
-                #Si le pixel calculé n'appartient pas à [0, 255] on le truncate
-                if pixel[0] > 255:
-                    pixel[0] = 255
-                elif pixel[0] < 0:
-                    pixel[0] = 0
-                if pixel[1] > 255:
-                    pixel[1] = 255
-                elif pixel[1] < 0:
-                    pixel[1] = 0
-                if pixel[2] > 255:
-                    pixel[2] = 255
-                elif pixel[2] < 0:
-                    pixel[2] = 0
 
-
+                
     def contrast_image(self, contrast):
         #calcul du facteur de contrast
         factor = (259 * (contrast + 255)) / (255 * (259 - contrast))
@@ -373,6 +374,7 @@ class BmpProcessing:
             i += 1
         self.octets = np.array(self.octets)
         f_lecture.close
+
 
     def get_int_from_bytes(self, b_array):
         return int.from_bytes(b_array, byteorder='little')

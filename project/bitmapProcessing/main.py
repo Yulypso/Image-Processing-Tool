@@ -27,7 +27,7 @@ def process_bmp():
     parser = argparse.ArgumentParser(description='--Bitmap processing tool--')
     parser.add_argument('--bmp', 
                         metavar = '<file_name.bmp>', 
-                        help = 'image file to parse', 
+                        help = 'image file to parse and gives information', 
                         required = True)
     parser.add_argument('--rotate',
                         '-rt',
@@ -62,6 +62,11 @@ def process_bmp():
     parser.add_argument('--grayscale',
                         '-gs',
                         help = 'image grayscale',
+                        action='store_true',
+                        required = False)
+    parser.add_argument('--blackwhite',
+                        '-bw',
+                        help = 'image black & white',
                         action='store_true',
                         required = False)
     parser.add_argument('--pixels',
@@ -114,6 +119,9 @@ def process_bmp():
     grayscale = args.grayscale
     print('grayscale image:', grayscale) if grayscale else print('grayscale image: False')
 
+    blackwhite = args.blackwhite
+    print('black & white image:', blackwhite) if blackwhite else print('black & white image: False')
+
     verbose = args.verbose
     print('verbose:', verbose) if verbose else print('verbose: False')
 
@@ -146,6 +154,9 @@ def process_bmp():
         my_bmp.contrast_image(contrast_value)
     if grayscale:
         my_bmp.grayscale_image()
+    if blackwhite:
+        my_bmp.blackwhite_image()
+    #color processing goes here
     if ratio_resize:
         my_bmp.resize_image(ratio_resize)
     if flip:
