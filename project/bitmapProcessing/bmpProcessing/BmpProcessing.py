@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import numpy as np
+import matplotlib.pyplot as plt
 
 class BmpProcessing: 
     '''
@@ -79,6 +80,27 @@ class BmpProcessing:
         if self.verbose:
             print('image successfully loaded\n')
 
+
+    def display_histogram(self):
+        fig, ax = plt.subplots()
+        total_pixels = self.image_matrix[:,:,:].flatten()
+        red_pixels = self.image_matrix[:,:,2].flatten()
+        green_pixels = self.image_matrix[:,:,1].flatten()
+        blue_pixels = self.image_matrix[:,:,0].flatten()
+
+        ax.hist(total_pixels, bins=256, color='orange', alpha=0.5)
+        if not (red_pixels.all() == green_pixels.all() == blue_pixels.all()):
+            ax.hist(red_pixels, bins=256, color='red', alpha=0.5)
+            ax.hist(green_pixels, bins=256, color='green', alpha=0.5)
+            ax.hist(blue_pixels, bins=256, color='blue', alpha=0.5)
+        ax.set_title('Color Histogram')
+        ax.set_xlabel('Channel intensity value')
+        ax.set_ylabel('Counter')
+        plt.legend(['Total', 'Red_Channel', 'Green_Channel', 'Blue_Channel'])
+
+        fig.tight_layout()
+        plt.show()
+
     def negative_image(self):
         '''
         Turn color image into black and white image
@@ -136,16 +158,29 @@ class BmpProcessing:
 
 
 
-    def grayscale_image(self):
+    def grayscale_image(self, grayscale_method):
         '''
         Turn color image into grayscale image
+        1. mean method
+        2. depending on luminance method (more accurate)
         '''
+        def channel_luminance(channel):
+            if channel <= 0.04045:
+                return (channel/12.92) 
+            else:
+                return (((channel+0.055)/(1+0.055))**2.4)
+                
         for row in self.image_matrix:
             for pixel in row:
-                temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
-                pixel[0] = round(temp_mean) #blue
-                pixel[1] = round(temp_mean) #green
-                pixel[2] = round(temp_mean) #red
+                if 'mean' in grayscale_method:
+                    temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
+                elif 'luminance' in grayscale_method:
+                    temp_mean = (0.0722*channel_luminance(pixel[0]/255) + 
+                                0.7152*channel_luminance(pixel[1]/255) + 
+                                0.2126*channel_luminance(pixel[2]/255)) * 255
+                pixel[0] = round(temp_mean)
+                pixel[1] = round(temp_mean)
+                pixel[2] = round(temp_mean)
 
 
     def contrast_image(self, contrast):

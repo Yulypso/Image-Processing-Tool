@@ -27,13 +27,18 @@ __Note__: This Bitmap Processing tool cannot process:
 
 ## Features implemented
 
-- Rotate image [90, 180, 270]
-- Resize image \<ratio> or \<width> \<height>
-- Contrast adjustment [-255, +255]
-- Color image to Grayscale image
-- Flip image
-- Verbose
-- Display Pixels
+- __Display bitmap header__
+- __Rotate image__ [90, 180, 270]
+- __Resize image__ \<ratio> or \<width> \<height>
+- __Contrast adjustment__ [-255, +255]
+- __Color image to Grayscale image__ \<mean> method or \<luminance> method
+- __Flip image__
+- __Color image to 1 or 2 colors channel__ (blue/red/green/blue-green/blue-red/green-red)
+- __Negative image__
+- __Black & white image__
+- __Verbose__
+- __Display Pixels__
+- __Display image histogram__
 
 <br>
 
@@ -52,7 +57,7 @@ __Setup__
 > py -3 -m venv .venv
 > .venv\scripts\activate
 
-# to install requirements (here: numpy)
+# to install requirements 
 > pip3 install -r requirements.txt
 ```
 
@@ -66,9 +71,10 @@ __Run the code__
 ```bash
 > cd project/bitmapProcessing
 > python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>]
-               [--resize <resizing ratio> or [<width> <height>]
-               [<resizing ratio> or [<width> <height>] ...]] [--contrast <contrast value>]
-               [--verbose] [--flip] [--grayscale] [--pixels] [--output <file_name.bmp>]
+               [--resize <resizing ratio> or [<width> <height>]] [--contrast <contrast value>]
+               [--verbose] [--flip] [--grayscale <grayscale method>] [--negative] 
+               [--color <color>][--blackwhite] [--pixels] [--histogram] 
+               [--output <file_name.bmp>]
 ```
 
 ```bash
@@ -77,19 +83,24 @@ __Run the code__
 optional arguments:
   -h, --help            show this help message and exit
   --bmp <file_name.bmp>
-                        image file to parse
-  --rotate <rotation degree>, -rt <rotation degree>
-                        degree of image rotation
-  --resize <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...],
-       -rs <resizing ratio> or [<width> <height>] [<resizing ratio> or [<width> <height>] ...]
+                        image file to parse and gives header information
+  --rotate, -rt <rotation degree>
+                        degree of image rotation [90, 180, 270]
+  --resize, -rs <resizing ratio> or [<width> <height>]
                         ratio of image resizing
-  --contrast <contrast value>, -c <contrast value>
-                        image contrast
+  --contrast, -ct <contrast value>
+                        image contrast [-255, +255]
   --verbose, -v         get more information
   --flip, -fp           image flip
-  --grayscale, -gs      image grayscale
+  --grayscale, -gs <grayscale method>
+                        image grayscale <mean> or <luminance>
+  --negative, -n        image negative
+  --color, -cl <color>
+                        image color adjustment ['r', 'g', 'b', 'rg', 'rb', 'gb']
+  --blackwhite, -bw     image black & white
   --pixels, -p          display input image pixels
-  --output <file_name.bmp>, -o <file_name.bmp>
+  --histogram, -hg      display input image histogram
+  --output, -o <file_name.bmp>
                         generated file
 ```
 

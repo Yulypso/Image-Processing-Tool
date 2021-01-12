@@ -27,12 +27,12 @@ def process_bmp():
     parser = argparse.ArgumentParser(description='--Bitmap processing tool--')
     parser.add_argument('--bmp', 
                         metavar = '<file_name.bmp>', 
-                        help = 'image file to parse and gives information', 
+                        help = 'image file to parse and gives header information', 
                         required = True)
     parser.add_argument('--rotate',
                         '-rt',
                         metavar = '<rotation degree>',
-                        help = 'degree of image rotation',
+                        help = 'degree of image rotation [90, 180, 270]',
                         type = int,
                         choices = [0, 90, 180, 270],
                         required = False)
@@ -47,7 +47,7 @@ def process_bmp():
                         '-ct',
                         metavar = '<contrast value>',
                         type = check_contrast_interval,
-                        help = 'image contrast',
+                        help = 'image contrast [-255, +255]',
                         required = False)
     parser.add_argument('--verbose',
                         '-v',
@@ -61,8 +61,10 @@ def process_bmp():
                         required = False)
     parser.add_argument('--grayscale',
                         '-gs',
-                        help = 'image grayscale',
-                        action='store_true',
+                        metavar = '<grayscale method>',
+                        help = 'image grayscale <mean> or <luminance>',
+                        type = str,
+                        choices = ['mean', 'luminance'],
                         required = False)
     parser.add_argument('--negative', #TODO add within README
                         '-n',
@@ -74,7 +76,7 @@ def process_bmp():
                         metavar = '<color>',
                         choices = ['r', 'g', 'b', 'rg', 'rb', 'gb', 'gr', 'br', 'bg'],
                         type = str,
-                        help = 'image color adjustment',
+                        help = "image color adjustment ['r', 'g', 'b', 'rg', 'rb', 'gb']",
                         required = False)
     parser.add_argument('--blackwhite', #TODO add within README
                         '-bw',
@@ -84,6 +86,11 @@ def process_bmp():
     parser.add_argument('--pixels',
                         '-p',
                         help = 'display input image pixels',
+                        action='store_true',
+                        required = False)
+    parser.add_argument('--histogram',
+                        '-hg',
+                        help = 'display input image histogram',
                         action='store_true',
                         required = False)
     parser.add_argument('--output',
@@ -100,6 +107,12 @@ def process_bmp():
                                    '-rt' in sys.argv or
                                    '--flip' in sys.argv or
                                    '-fp' in sys.argv or
+                                   '--blackwhite' in sys.argv or
+                                   '-bw' in sys.argv or
+                                   '--color' in sys.argv or
+                                   '-cl' in sys.argv or
+                                   '--negative' in sys.argv or
+                                   '-n' in sys.argv or
                                    '--grayscale' in sys.argv or
                                    '-gs' in sys.argv 
                         )
@@ -143,6 +156,9 @@ def process_bmp():
     verbose = args.verbose
     print('verbose:', verbose) if verbose else print('verbose: False')
 
+    histogram = args.histogram
+    print('histogram:', histogram) if histogram else print('histogram: False')
+
     output_file_name = args.output
     if output_file_name:
         if '.bmp' not in output_file_name:
@@ -160,18 +176,20 @@ def process_bmp():
     print('Opening {} successfully\n'.format(input_file_name))
 
     my_bmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
-    if output_file_name:
+    if output_file_name or histogram:
         is_processing = True
     else:
         is_processing = False
     my_bmp.fit(is_processing)
     my_bmp.display_header()
+    if histogram:
+        my_bmp.display_histogram()
     if pixels:
         my_bmp.display_pixels()
     if contrast_value:
         my_bmp.contrast_image(contrast_value)
     if grayscale:
-        my_bmp.grayscale_image()
+        my_bmp.grayscale_image(grayscale)
     if blackwhite:
         my_bmp.blackwhite_image()
     if color:
