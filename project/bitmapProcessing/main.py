@@ -64,14 +64,19 @@ def process_bmp():
                         help = 'image grayscale',
                         action='store_true',
                         required = False)
-    parser.add_argument('--color', ##TODO add within README
+    parser.add_argument('--negative', #TODO add within README
+                        '-n',
+                        help = 'image negative',
+                        action='store_true',
+                        required = False)
+    parser.add_argument('--color', #TODO add within README
                         '-cl',
                         metavar = '<color>',
                         choices = ['r', 'g', 'b', 'rg', 'rb', 'gb', 'gr', 'br', 'bg'],
                         type = str,
                         help = 'image color adjustment',
                         required = False)
-    parser.add_argument('--blackwhite', ##TODO add within README
+    parser.add_argument('--blackwhite', #TODO add within README
                         '-bw',
                         help = 'image black & white',
                         action='store_true',
@@ -129,6 +134,9 @@ def process_bmp():
     blackwhite = args.blackwhite
     print('black & white image:', blackwhite) if blackwhite else print('black & white image: False')
 
+    negative = args.negative
+    print('negative image:', negative) if negative else print('negative image: False')
+
     color = args.color
     print('image color adjustment:', color) if color else print('image color adjustment: Default')
 
@@ -168,6 +176,8 @@ def process_bmp():
         my_bmp.blackwhite_image()
     if color:
         my_bmp.color_image(color)
+    if negative:
+        my_bmp.negative_image()
     if ratio_resize:
         my_bmp.resize_image(ratio_resize)
     if flip:

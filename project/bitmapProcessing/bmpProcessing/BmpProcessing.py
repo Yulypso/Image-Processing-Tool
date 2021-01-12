@@ -79,6 +79,15 @@ class BmpProcessing:
         if self.verbose:
             print('image successfully loaded\n')
 
+    def negative_image(self):
+        '''
+        Turn color image into black and white image
+        '''
+        for row in self.image_matrix:
+            for pixel in row:
+                pixel[0] = 255 - pixel[0] #bleu
+                pixel[1] = 255 - pixel[1] #vert
+                pixel[2] = 255 - pixel[2] #rouge
 
     def blackwhite_image(self):
         '''
