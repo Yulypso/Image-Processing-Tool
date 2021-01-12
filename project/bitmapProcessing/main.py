@@ -6,10 +6,10 @@ import sys
 import numpy as np
 import bmpProcessing.BmpProcessing as BmpProcessing
 
-def check_contrast_interval(value):
+def check_interval(value):
     if (int(value) < -255) or (int(value) > 255):
         raise argparse.ArgumentTypeError(
-            "{} is an incorrect contrast value. Please ".format(value)+
+            "{} is an incorrect value. Please ".format(value)+
             "choose a value between [-255, +255]")
     return int(value)
 
@@ -46,8 +46,14 @@ def process_bmp():
     parser.add_argument('--contrast',
                         '-ct',
                         metavar = '<contrast value>',
-                        type = check_contrast_interval,
+                        type = check_interval,
                         help = 'image contrast [-255, +255]',
+                        required = False)
+    parser.add_argument('--brightness',
+                        '-bn',
+                        metavar = '<brightness value>',
+                        type = check_interval,
+                        help = 'image brightness [-255, +255]',
                         required = False)
     parser.add_argument('--verbose',
                         '-v',
@@ -103,6 +109,8 @@ def process_bmp():
                                    '-rt' in sys.argv or
                                    '--contrast' in sys.argv or
                                    '-c' in sys.argv or
+                                   '--brightness' in sys.argv or
+                                   '-bn' in sys.argv or
                                    '--rotate' in sys.argv or
                                    '-rt' in sys.argv or
                                    '--flip' in sys.argv or
@@ -121,8 +129,10 @@ def process_bmp():
     print('--- Bitmap processing tool ---')
     input_file_name = args.bmp
     if input_file_name:
+        if '.bmp' not in input_file_name:
+            input_file_name = input_file_name + '.bmp'
         print('input file name:', input_file_name)
-        input_file_name = '../../images/' + args.bmp
+        input_file_name = '../../images/' + input_file_name
 
     pixels = args.pixels
     print('display pixels:', pixels) if pixels else print('display pixels: False')
@@ -137,6 +147,9 @@ def process_bmp():
 
     contrast_value = args.contrast
     print('contrast value:', contrast_value) if contrast_value else print('contrast value: Default')
+
+    brightness_value = args.brightness
+    print('brightness value:', brightness_value) if brightness_value else print('brightness value: Default')
 
     flip = args.flip
     print('flip image:', flip) if flip else print('flip image: False')
@@ -186,14 +199,16 @@ def process_bmp():
         my_bmp.display_histogram()
     if pixels:
         my_bmp.display_pixels()
-    if contrast_value:
-        my_bmp.contrast_image(contrast_value)
     if grayscale:
         my_bmp.grayscale_image(grayscale)
     if blackwhite:
         my_bmp.blackwhite_image()
     if color:
         my_bmp.color_image(color)
+    if contrast_value:
+        my_bmp.contrast_image(contrast_value)
+    if brightness_value:
+        my_bmp.brightness_image(brightness_value)
     if negative:
         my_bmp.negative_image()
     if ratio_resize:

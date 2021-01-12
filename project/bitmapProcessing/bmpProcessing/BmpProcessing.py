@@ -81,6 +81,31 @@ class BmpProcessing:
             print('image successfully loaded\n')
 
 
+    def brightness_image(self, brightness):
+        '''
+        Image brightness adjustment
+        '''
+        #contrast factor calculation
+        for row in self.image_matrix:
+            for pixel in row:
+                pixel[0] = round(brightness + pixel[0]) #blue
+                pixel[1] = round(brightness + pixel[1]) #green
+                pixel[2] = round(brightness + pixel[2]) #red
+                #Si le pixel calculé n'appartient pas à [0, 255] on le truncate
+                if pixel[0] > 255:
+                    pixel[0] = 255
+                elif pixel[0] < 0:
+                    pixel[0] = 0
+                if pixel[1] > 255:
+                    pixel[1] = 255
+                elif pixel[1] < 0:
+                    pixel[1] = 0
+                if pixel[2] > 255:
+                    pixel[2] = 255
+                elif pixel[2] < 0:
+                    pixel[2] = 0
+
+
     def display_histogram(self):
         fig, ax = plt.subplots()
         total_pixels = self.image_matrix[:,:,:].flatten()
@@ -169,7 +194,7 @@ class BmpProcessing:
                 return (channel/12.92) 
             else:
                 return (((channel+0.055)/(1+0.055))**2.4)
-                
+
         for row in self.image_matrix:
             for pixel in row:
                 if 'mean' in grayscale_method:

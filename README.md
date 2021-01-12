@@ -31,6 +31,7 @@ __Note__: This Bitmap Processing tool cannot process:
 - __Rotate image__ [90, 180, 270]
 - __Resize image__ \<ratio> or \<width> \<height>
 - __Contrast adjustment__ [-255, +255]
+- __Brightness adjustment__ [-255, +255]
 - __Color image to Grayscale image__ \<mean> method or \<luminance> method
 - __Flip image__
 - __Color image to 1 or 2 colors channel__ (blue/red/green/blue-green/blue-red/green-red)
@@ -74,7 +75,7 @@ __Run the code__
                [--resize <resizing ratio> or [<width> <height>]] [--contrast <contrast value>]
                [--verbose] [--flip] [--grayscale <grayscale method>] [--negative] 
                [--color <color>][--blackwhite] [--pixels] [--histogram] 
-               [--output <file_name.bmp>]
+               [--brightness <brightness value>] [--output <file_name.bmp>]
 ```
 
 ```bash
@@ -90,6 +91,8 @@ optional arguments:
                         ratio of image resizing
   --contrast, -ct <contrast value>
                         image contrast [-255, +255]
+  --brightness <brightness value>, -bn <brightness value>
+                        image brightness [-255, +255]
   --verbose, -v         get more information
   --flip, -fp           image flip
   --grayscale, -gs <grayscale method>
