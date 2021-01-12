@@ -44,7 +44,7 @@ def process_bmp():
                         required = False,
                         nargs='+')
     parser.add_argument('--contrast',
-                        '-c',
+                        '-ct',
                         metavar = '<contrast value>',
                         type = check_contrast_interval,
                         help = 'image contrast',
@@ -64,7 +64,14 @@ def process_bmp():
                         help = 'image grayscale',
                         action='store_true',
                         required = False)
-    parser.add_argument('--blackwhite',
+    parser.add_argument('--color', ##TODO add within README
+                        '-cl',
+                        metavar = '<color>',
+                        choices = ['r', 'g', 'b', 'rg', 'rb', 'gb', 'gr', 'br', 'bg'],
+                        type = str,
+                        help = 'image color adjustment',
+                        required = False)
+    parser.add_argument('--blackwhite', ##TODO add within README
                         '-bw',
                         help = 'image black & white',
                         action='store_true',
@@ -122,6 +129,9 @@ def process_bmp():
     blackwhite = args.blackwhite
     print('black & white image:', blackwhite) if blackwhite else print('black & white image: False')
 
+    color = args.color
+    print('image color adjustment:', color) if color else print('image color adjustment: Default')
+
     verbose = args.verbose
     print('verbose:', verbose) if verbose else print('verbose: False')
 
@@ -156,7 +166,8 @@ def process_bmp():
         my_bmp.grayscale_image()
     if blackwhite:
         my_bmp.blackwhite_image()
-    #color processing goes here
+    if color:
+        my_bmp.color_image(color)
     if ratio_resize:
         my_bmp.resize_image(ratio_resize)
     if flip:
@@ -165,6 +176,7 @@ def process_bmp():
         my_bmp.rotate_image(rotation_degree)
     if output_file_name:
         my_bmp.save_image(output_file_name)
+
 
 def main():
     process_bmp() 

@@ -41,6 +41,10 @@ class BmpProcessing:
 
 
     def fit(self, is_processing):
+        '''
+        Fit the bitmap header
+        1. if output is required, fit the bitmap palette and image bytes
+        '''
         self.ouverture_fichiers_image()
         #file header
         self.bf_type = self.octets[0:2]
@@ -77,6 +81,9 @@ class BmpProcessing:
 
 
     def blackwhite_image(self):
+        '''
+        Turn color image into black and white image
+        '''
         for row in self.image_matrix:
             for pixel in row:
                 temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
@@ -89,24 +96,60 @@ class BmpProcessing:
                     pixel[1] = 0 #vert
                     pixel[2] = 0 #rouge
 
+    def color_image(self, color_array): 
+        '''
+        Turn color image into only 1 or 2 primary colors image
+        '''
+        def change_color(blue, green, red):
+            for row in self.image_matrix:
+                for pixel in row:
+                    if blue != None:
+                        pixel[0] = blue 
+                    if green != None:
+                        pixel[1] = green 
+                    if red != None:
+                        pixel[2] = red 
+            
+        if len(color_array) == 2:
+            if 'b' in color_array and 'g' in color_array: #cyan
+                change_color(blue=None, green=None, red=0)
+            elif 'b' in color_array and 'r' in color_array: #magenta
+                change_color(blue=None, green=0, red=None)
+            elif 'g' in color_array and 'r' in color_array: #yellow
+                change_color(blue=0, green=None, red=None)
+        elif len(color_array) == 1:
+            if 'b' in color_array: #blue
+                change_color(blue=None, green=0, red=0)
+            elif 'g' in color_array: #green
+                change_color(blue=0, green=None, red=0)
+            elif 'r' in color_array: #red
+                change_color(blue=0, green=0, red=None)
+
+
 
     def grayscale_image(self):
+        '''
+        Turn color image into grayscale image
+        '''
         for row in self.image_matrix:
             for pixel in row:
                 temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
-                pixel[0] = round(temp_mean) #bleu
-                pixel[1] = round(temp_mean) #vert
-                pixel[2] = round(temp_mean) #rouge
+                pixel[0] = round(temp_mean) #blue
+                pixel[1] = round(temp_mean) #green
+                pixel[2] = round(temp_mean) #red
 
-                
+
     def contrast_image(self, contrast):
-        #calcul du facteur de contrast
+        '''
+        Image contrast adjustment
+        '''
+        #contrast factor calculation
         factor = (259 * (contrast + 255)) / (255 * (259 - contrast))
         for row in self.image_matrix:
             for pixel in row:
-                pixel[0] = round(factor * (pixel[0] - 128) + 128) #bleu
-                pixel[1] = round(factor * (pixel[1] - 128) + 128) #vert
-                pixel[2] = round(factor * (pixel[2] - 128) + 128) #rouge
+                pixel[0] = round(factor * (pixel[0] - 128) + 128) #blue
+                pixel[1] = round(factor * (pixel[1] - 128) + 128) #green
+                pixel[2] = round(factor * (pixel[2] - 128) + 128) #red
                 #Si le pixel calculé n'appartient pas à [0, 255] on le truncate
                 if pixel[0] > 255:
                     pixel[0] = 255
@@ -123,6 +166,11 @@ class BmpProcessing:
         
                         
     def resize_image(self, factor):
+        '''
+        Resize image 
+        1. with ratio value (strictly positive integer)
+        2. with dimension (width x height)
+        '''
         if len(factor) == 2:
             new_width = int(factor[0])
             new_height = int(factor[1])
@@ -201,6 +249,9 @@ class BmpProcessing:
 
 
     def save_image(self, output):
+        '''
+        Adjust bytes and save image
+        '''
         bi_width = []
         for i in np.shape(self.image_matrix)[1].to_bytes(4, byteorder='little'):
             bi_width.append(i)
@@ -377,4 +428,7 @@ class BmpProcessing:
 
 
     def get_int_from_bytes(self, b_array):
+        '''
+        convert bytes array into integer 
+        '''
         return int.from_bytes(b_array, byteorder='little')
