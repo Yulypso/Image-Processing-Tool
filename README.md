@@ -63,7 +63,7 @@ __Setup__
 
 __Note__: In Visual Studio Code, don't forget to select the correct Python interpreter. <br>
 
-[CMD + SHIFT + P] > select Interpreter > Python 3.9.0 64-bits ('.venv') [./.venv/bin/python])
+[CMD + SHIFT + P] > select Interpreter > Python 3.9.0 64-bits ('.venv') [./.venv/bin/python]
 
 <br>
 
