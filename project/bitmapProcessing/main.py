@@ -213,7 +213,6 @@ def process_bmp():
         print('display pixels:         False')
 
     if ratio_resize:
-        print(ratio_size)
         if len(ratio_resize) == 2:
             print('ratio size: {} x {}'.format(ratio_resize[0], ratio_resize[1]))
         elif len(ratio_resize) == 1:

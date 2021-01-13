@@ -118,3 +118,15 @@ __Stop the code__
 #don't forget to deactivate the virtual environement (.venv)
 > deactivate
 ```
+
+__Unit Test__
+```bash
+> cd project/bitmapProcessing
+> python3 unitTest.py
+
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+```
