@@ -1,4 +1,4 @@
-# Digital Image
+# Digital Image - Bitmap processing tool
 
 ## Author
 
@@ -61,6 +61,10 @@ __Setup__
 # to install requirements 
 > pip3 install -r requirements.txt
 ```
+
+__[Check Dependency Graph](https://github.com/Yulypso/Imagerie_Numerique/network/dependencies)__
+
+<br>
 
 __Note__: In Visual Studio Code, don't forget to select the correct Python interpreter. <br>
 
