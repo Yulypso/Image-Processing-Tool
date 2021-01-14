@@ -94,24 +94,29 @@ class BmpProcessing:
 
 
     def filter_image(self, filter_type):
-        print(filter_type)
-        if 'edged' == filter_type:
-            kernel = [[0, 1, 0], [1, -4, 1], [0, 1, 0]]
-        current_image = self.image_matrix
-        h = int(np.shape(current_image)[0])
-        w = int(np.shape(current_image)[1])
-        self.image_matrix = np.zeros((w, h, 3))
+        print('filter type:', filter_type)
+        kernel = np.array([[0,0,0],[0,0,0],[0,0,0]])
+        if 'edge' == filter_type:
+            print('edge mode')
+            kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
+            #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
+            #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
+            #kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+            #kernel = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+    
+        def filter(matrix, kernel):
+            copies = np.zeros((len(kernel)*len(kernel), len(matrix), len(matrix[1]), int(get_int_from_bytes(self.bi_bitcount)/8)), dtype='int64') #creation de 9 copies profondes
+            for i in range(np.shape(kernel)[1]):
+                for j in range(np.shape(kernel)[0]):
+                    copies[i*3 + j] = np.roll(matrix.copy(), (i-(len(kernel)//2), j-(len(kernel)//2)), (0,1)) * kernel[i][j]  
+            new = copies.sum(axis=0)
+            new[new < 0] = 0
+            new[new > 255] = 255
+            return (new).astype('uint8')
+
+        self.image_matrix = filter(self.image_matrix, kernel)
         print(np.shape(self.image_matrix))
-        for i in range(h): #height - rows
-            for j in range(w): #width - cols
-                if i > 0 and i < h-1 and j > 0 and j < w-1: #convolution matrix
-                    new_green_pixel = 0
-                    new_blue_pixel = 0
-                    new_red_pixel = 0
-                    #within kernel
-                    for k in range(3):
-                        for l in range(3):
-                            new_green_pixel += current_image[i]
+    
 
 
     def brightness_image(self, brightness):
