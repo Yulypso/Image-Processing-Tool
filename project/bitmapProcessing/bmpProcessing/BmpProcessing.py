@@ -148,14 +148,20 @@ class BmpProcessing:
         ax.hist(total_pixels, bins=256, color='orange', alpha=0.5)
 
         # grayscale bitmap doesn't need red/green/blue channel to be displayed but only total channel 
-        if not (red_pixels.all() == green_pixels.all() == blue_pixels.all()):
+        if not (red_pixels.all() == green_pixels.all() == blue_pixels.all()):  
             ax.hist(red_pixels, bins=256, color='red', alpha=0.5)
             ax.hist(green_pixels, bins=256, color='green', alpha=0.5)
             ax.hist(blue_pixels, bins=256, color='blue', alpha=0.5)
-        ax.set_title('Color Histogram')
-        ax.set_xlabel('Channel intensity value')
-        ax.set_ylabel('Counter')
-        plt.legend(['Total', 'Red_Channel', 'Green_Channel', 'Blue_Channel'])
+            ax.set_title('Color channel Histogram')
+            ax.set_xlabel('Channel intensity value')
+            ax.set_ylabel('Counter')
+            plt.legend(['Total', 'Red_Channel', 'Green_Channel', 'Blue_Channel'])
+        else:
+            ax.hist(red_pixels, bins=256, color='gray', alpha=0.5)
+            ax.set_title('Color channel Histogram for Grayscale')
+            ax.set_xlabel('Channel intensity value')
+            ax.set_ylabel('Counter')
+            plt.legend(['Total', 'Each color channel'])
         fig.tight_layout()
         plt.show()
 

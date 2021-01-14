@@ -189,43 +189,45 @@ def process_bmp():
             # add .bmp extension on input file if it has been forgotten
             input_file_name = input_file_name + '.bmp'
     
-        print('input file name:       ', input_file_name)
+        print('[X] input file name:       ', input_file_name)
         input_file_name = '../../images/' + input_file_name
 
-    print('rotation degree:       ', rotation_degree) if rotation_degree else print('rotation degree:        Default')
-    print('contrast value:        ', contrast_value) if contrast_value else print('contrast value:         Default')
-    print('brightness value:      ', brightness_value) if brightness_value else print('brightness value:       Default')
-    print('flip image:            ', flip) if flip else print('flip image:             False')
-    print('grayscale image:       ', grayscale) if grayscale else print('grayscale image:        False')
-    print('black & white image:   ', blackwhite) if blackwhite else print('black & white image:    False')
-    print('negative image:        ', negative) if negative else print('negative image:         False')
-    print('image color adjustment:', color) if color else print('image color adjustment: None')
-    print('image filter:          ', filter_type) if filter_type else print('image filter:           None')
-    print('verbose:               ', verbose) if verbose else print('verbose:                False')
-    print('histogram:             ', histogram) if histogram else print('histogram:              False')
+    print('[X] rotation degree:       ', rotation_degree) if rotation_degree else print('[ ] rotation degree:        Default')
+    print('[X] contrast value:        ', contrast_value) if contrast_value else print('[ ] contrast value:         Default')
+    print('[X] brightness value:      ', brightness_value) if brightness_value else print('[ ] brightness value:       Default')
+    print('[X] flip image:            ', flip) if flip else print('[ ] flip image:             False')
+    print('[X] grayscale image:       ', grayscale) if grayscale else print('[ ] grayscale image:        False')
+    print('[X] black & white image:   ', blackwhite) if blackwhite else print('[ ] black & white image:    False')
+    print('[X] negative image:        ', negative) if negative else print('[ ] negative image:         False')
+    print('[X] image color adjustment:', color) if color else print('[ ] image color adjustment: None')
+    print('[X] image filter:          ', filter_type) if filter_type else print('[ ] image filter:           None')
+    print('[X] verbose:               ', verbose) if verbose else print('[ ] verbose:                False')
+    print('[X] histogram:             ', histogram) if histogram else print('[ ] histogram:              False')
     
     if pixels:
         if len(pixels) == 2:
-            print('display pixels:         ({}, {})'.format(pixels[0], pixels[1]))
+            print('[X] display pixels:         ({}, {})'.format(pixels[0], pixels[1]))
         elif len(pixels) == 1:
-            print('display pixels:         {}'.format(pixels[0]))
+            print('[X] display pixels:         {}'.format(pixels[0]))
     else:
-        print('display pixels:         False')
+        print('[ ] display pixels:         False')
 
     if ratio_resize:
         if len(ratio_resize) == 2:
-            print('ratio size: {} x {}'.format(ratio_resize[0], ratio_resize[1]))
+            print('[X] ratio size:             {} x {}'.format(ratio_resize[0], ratio_resize[1]))
         elif len(ratio_resize) == 1:
-            print('ratio size: {}'.format(ratio_resize[0]))
+            print('[X] ratio size:             {}'.format(ratio_resize[0]))
     else:
-        print('ratio size:             Default')
+        print('[ ] ratio size:             Default')
    
     if output_file_name:
         if '.bmp' not in output_file_name:
             # add .bmp extension on output file if it has been forgotten
             output_file_name = output_file_name + '.bmp'
-        print('output file name:      ', output_file_name)
+        print('[X] output file name:      ', output_file_name)
         output_file_name = '../../images/generated/' + output_file_name
+    else:
+        print('[ ] output file name:       None')
         
     print('------------------------------\n')
 
@@ -240,7 +242,7 @@ def process_bmp():
     my_bmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
 
     #processing only if output file or histogram needed
-    if output_file_name or histogram:
+    if output_file_name or histogram or pixels:
         is_processing = True
     else:
         is_processing = False
