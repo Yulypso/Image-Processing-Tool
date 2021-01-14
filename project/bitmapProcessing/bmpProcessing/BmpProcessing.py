@@ -94,30 +94,39 @@ class BmpProcessing:
 
 
     def filter_image(self, filter_type):
-        print('filter type:', filter_type)
-        kernel = np.array([[0,0,0],[0,0,0],[0,0,0]])
-        if 'edge' == filter_type:
-            print('edge mode')
-            kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
-            #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
-            #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
-            #kernel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-            #kernel = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-    
+        '''
+        Filter application with convoluted matrix
+        1. sobel filter, edge detection
+        '''
         def filter(matrix, kernel):
-            copies = np.zeros((len(kernel)*len(kernel), len(matrix), len(matrix[1]), int(get_int_from_bytes(self.bi_bitcount)/8)), dtype='int64') #creation de 9 copies profondes
+            '''
+            The goal of this function is to make 9 shifted copies where the kernel is applied of the original matrix
+            Then we just sum up these 9 matrix together and finally optimized the convolution algorithm
+            '''
+            # initialize list of matrix copies 
+            copies = np.empty((len(kernel)*len(kernel), len(matrix), len(matrix[1]), int(get_int_from_bytes(self.bi_bitcount)/8)), dtype='int64') 
+            # Go through the kernel (size: 3x3)
             for i in range(np.shape(kernel)[1]):
                 for j in range(np.shape(kernel)[0]):
-                    copies[i*3 + j] = np.roll(matrix.copy(), (i-(len(kernel)//2), j-(len(kernel)//2)), (0,1)) * kernel[i][j]  
-            new = copies.sum(axis=0)
-            new[new < 0] = 0
-            new[new > 255] = 255
-            return (new).astype('uint8')
+                    # Save copies of the original image shifted by 1 pixel around + kernel value application 
+                    copies[i*3 + j] = np.roll(matrix.copy(), (i-(len(kernel)//2), j-(len(kernel)//2)), (0,1)) * kernel[i][j] 
+            # return the sum of each copies to get back our new matrix with kernel value applied
+            return copies.sum(axis=0)
 
-        self.image_matrix = filter(self.image_matrix, kernel)
-        print(np.shape(self.image_matrix))
-    
+        kernel = np.empty((3, 3))
+        if 'edge' == filter_type:
+            print('Sobel edge detection')
+            # Gradient horizontal
+            kernel1 = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+            # Gradient vertical
+            kernel2 = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+            res1 = filter(self.image_matrix, kernel1)
+            res2 = filter(self.image_matrix, kernel2)
+            self.image_matrix = np.sqrt(res1**2 + res2**2).astype('uint8')
 
+        #self.image_matrix = filter(self.image_matrix, kernel)
+        #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
+        #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
 
     def brightness_image(self, brightness):
         '''
