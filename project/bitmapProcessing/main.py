@@ -255,10 +255,10 @@ def process_bmp():
         my_bmp.display_histogram()
     if pixels:
         my_bmp.display_pixels(pixels)
-    if filter_type:
-        my_bmp.filter_image(filter_type)
     if grayscale:
         my_bmp.grayscale_image(grayscale)
+    if filter_type:
+        my_bmp.filter_image(filter_type)
     if blackwhite:
         my_bmp.blackwhite_image()
     if color:
