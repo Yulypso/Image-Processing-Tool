@@ -139,12 +139,9 @@ class BmpProcessing:
                 pixel[1] = round(brightness + pixel[1]) #green
                 pixel[2] = round(brightness + pixel[2]) #red
 
-                # truncate after calculation if the byte value is greater than 255 or lesser than 0
-                for i in range(3):
-                    if pixel[i] > 255:
-                        pixel[i] = 255
-                    elif pixel[i] < 0:
-                        pixel[i] = 0
+        # truncate after calculation if the byte value is greater than 255 or lesser than 0
+        self.image_matrix[self.image_matrix > 255] = 255
+        self.image_matrix[self.image_matrix < 0] = 0
 
 
     def display_histogram(self):
@@ -289,12 +286,9 @@ class BmpProcessing:
                 pixel[1] = round(factor * (pixel[1] - 128) + 128) # green
                 pixel[2] = round(factor * (pixel[2] - 128) + 128) # red
 
-                # truncate after calculation if the byte value is greater than 255 or lesser than 0
-                for i in range(3):
-                    if pixel[i] > 255:
-                        pixel[i] = 255
-                    elif pixel[i] < 0:
-                        pixel[i] = 0
+        # truncate after calculation if the byte value is greater than 255 or lesser than 0
+        self.image_matrix[self.image_matrix > 255] = 255
+        self.image_matrix[self.image_matrix < 0] = 0
         
                         
     def resize_image(self, factor):
