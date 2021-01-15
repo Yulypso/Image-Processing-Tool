@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from bmpProcessing.utils.Utils import get_int_from_bytes
+import timeit
 
 class BmpProcessing: 
     '''
@@ -54,6 +55,12 @@ class BmpProcessing:
         Fit the bitmap header
         1. if output is required we fit the bitmap palette and image bytes
         '''
+        if self.verbose:
+            #-------performance calculation--------
+            starttime = timeit.default_timer()
+            print("Start fitting time:", starttime)
+            #--------------------------------------
+
         # fit all bitmap bytes into self.octets
         self.ouverture_fichiers_image()
 
@@ -91,6 +98,9 @@ class BmpProcessing:
 
         if self.verbose:
             print('image successfully loaded\n')
+            #-------performance calculation--------
+            print("Fitting duration:", timeit.default_timer() - starttime)
+            #--------------------------------------
 
 
     def filter_image(self, filter_type):
@@ -116,6 +126,12 @@ class BmpProcessing:
         kernel = np.empty((3, 3))
         if 'edge' == filter_type:
             print('Sobel edge detection')
+            if self.verbose:
+                #-------performance calculation--------
+                starttime = timeit.default_timer()
+                print("Start Sobel edge detection time:", starttime)
+                #--------------------------------------
+
             # Gradient horizontal
             kernel1 = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
             # Gradient vertical
@@ -123,6 +139,11 @@ class BmpProcessing:
             res1 = filter(self.image_matrix, kernel1)
             res2 = filter(self.image_matrix, kernel2)
             self.image_matrix = np.sqrt(res1**2 + res2**2).astype('uint8')
+
+            if self.verbose:
+                #-------performance calculation--------
+                print("Sobel edge detection duration:", timeit.default_timer() - starttime)
+                #--------------------------------------
 
         #self.image_matrix = filter(self.image_matrix, kernel)
         #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
@@ -289,7 +310,7 @@ class BmpProcessing:
         # truncate after calculation if the byte value is greater than 255 or lesser than 0
         self.image_matrix[self.image_matrix > 255] = 255
         self.image_matrix[self.image_matrix < 0] = 0
-        
+
                         
     def resize_image(self, factor):
         '''
@@ -357,6 +378,12 @@ class BmpProcessing:
         '''
         Adjust header bytes and save image
         '''
+        if self.verbose:
+            #-------performance calculation--------
+            starttime = timeit.default_timer()
+            print("Start saving time:", starttime)
+            #--------------------------------------
+
         # Adjust bf_size within header bytes (width x length x bitperpixel/8 + offbits)
         self.bf_size = []
         for i in (int(np.shape(self.image_matrix)[1]) * 
@@ -418,6 +445,12 @@ class BmpProcessing:
         f_output.write(bytearray(self.octets[get_int_from_bytes(self.bf_offbits.tolist()):].tolist()))
         f_output.close
         print('generated image has been saved to {}'.format(output))
+
+        if self.verbose:
+            #-------performance calculation--------
+            print("Saving duration:", timeit.default_timer() - starttime)
+            print("Total process time", timeit.default_timer())
+            #--------------------------------------
 
 
     def display_pixels(self, option):
