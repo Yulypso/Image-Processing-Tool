@@ -124,8 +124,9 @@ class BmpProcessing:
             return copies.sum(axis=0)
 
 
-        if 'edge-reinforcement' in filter_type or 'edge-detection' in filter_type or 'blur' in filter_type :
+        if 'emboss' in filter_type or 'edge-reinforcement' in filter_type or 'edge-detection' in filter_type or 'blur' in filter_type :
             kernel = np.empty((3, 3))
+
             if 'edge-detection' in filter_type:
                 print('> Sobel edge detection filter')
                 if self.verbose:
@@ -179,6 +180,23 @@ class BmpProcessing:
                     print("Edege reinforcement filter processing duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
 
+            if 'emboss' in filter_type:
+                print('> Emboss filter')
+                if self.verbose:
+                    #-------performance calculation--------
+                    starttime = timeit.default_timer()
+                    print("Start emboss filter processing time:", starttime)
+                    #--------------------------------------
+                kernel = np.array([[-2, -1, 0], [-1, 1, 1], [0, 1, 2]])
+                self.image_matrix = filter(self.image_matrix, kernel)
+                self.image_matrix[self.image_matrix > 255] = 255
+                self.image_matrix[self.image_matrix < 0] = 0
+                if self.verbose:
+                    #-------performance calculation--------
+                    print("Emboss filter processing duration:", timeit.default_timer() - starttime)
+                    #-------------------------------
+
+            
             #self.image_matrix = filter(self.image_matrix, kernel)
             #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
             #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
