@@ -119,7 +119,7 @@ class BmpProcessing:
             for i in range(np.shape(kernel)[1]):
                 for j in range(np.shape(kernel)[0]):
                     # Save copies of the original image shifted by 1 pixel around + kernel value application 
-                    copies[i*3 + j] = np.roll(matrix.copy(), (i-(len(kernel)//2), j-(len(kernel)//2)), (0,1)) * kernel[i][j] 
+                    copies[i*len(kernel) + j] = np.roll(matrix.copy(), (i-(len(kernel)//2), j-(len(kernel)//2)), (0,1)) * kernel[i][j] 
             # return the sum of each copies to get back our new matrix with kernel value applied
             return copies.sum(axis=0)
 
@@ -145,6 +145,21 @@ class BmpProcessing:
                 print("Sobel edge detection duration:", timeit.default_timer() - starttime)
                 #--------------------------------------
 
+        elif 'mean' == filter_type:
+            print('Mean filter')
+            if self.verbose:
+                #-------performance calculation--------
+                starttime = timeit.default_timer()
+                print("Start mean filter processing time:", starttime)
+                #--------------------------------------
+                #kernel = np.array([[1/256, 4/256, 6/256, 4/256, 1/256],[4/256, 16/256, 24/256, 16/256, 4/256],[6/256, 24/256, 36/256, 24/256, 6/256],[4/256, 16/256, 24/256, 16/256, 4/256],[1/256, 4/256, 6/256, 4/256, 1/256]])
+                kernel = np.array([[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]])
+                self.image_matrix = (filter(self.image_matrix, kernel)).astype('uint8')
+
+                if self.verbose:
+                    #-------performance calculation--------
+                    print("Mean filter processing duration:", timeit.default_timer() - starttime)
+                    #--------------------------------------
         #self.image_matrix = filter(self.image_matrix, kernel)
         #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
         #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
