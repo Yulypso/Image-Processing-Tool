@@ -124,10 +124,10 @@ class BmpProcessing:
             return copies.sum(axis=0)
 
 
-        if 'edge' in filter_type or 'blur' in filter_type :
+        if 'edge-reinforcement' in filter_type or 'edge-detection' in filter_type or 'blur' in filter_type :
             kernel = np.empty((3, 3))
-            if 'edge' in filter_type:
-                print('> Sobel edge detection')
+            if 'edge-detection' in filter_type:
+                print('> Sobel edge detection filter')
                 if self.verbose:
                     #-------performance calculation--------
                     starttime = timeit.default_timer()
@@ -155,15 +155,33 @@ class BmpProcessing:
                     print("Start blur filter processing time:", starttime)
                     #--------------------------------------
                     kernel = np.array([[1/256, 4/256, 6/256, 4/256, 1/256],
-                                    [4/256, 16/256, 24/256, 16/256, 4/256],
-                                    [6/256, 24/256, 36/256, 24/256, 6/256],
-                                    [4/256, 16/256, 24/256, 16/256, 4/256],
-                                    [1/256, 4/256, 6/256, 4/256, 1/256]])
+                                       [4/256, 16/256, 24/256, 16/256, 4/256],
+                                       [6/256, 24/256, 36/256, 24/256, 6/256],
+                                       [4/256, 16/256, 24/256, 16/256, 4/256],
+                                       [1/256, 4/256, 6/256, 4/256, 1/256]])
                     self.image_matrix = (filter(self.image_matrix, kernel)).astype('uint8')
 
                     if self.verbose:
                         #-------performance calculation--------
                         print("Blur filter processing duration:", timeit.default_timer() - starttime)
+                        #--------------------------------------
+
+            if 'edge-reinforcement' in filter_type:
+                print('> Edge reinforcement filter')
+                if self.verbose:
+                    #-------performance calculation--------
+                    starttime = timeit.default_timer()
+                    print("Start edge reinforcement filter processing time:", starttime)
+                    #--------------------------------------
+
+                    kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+                    self.image_matrix = filter(self.image_matrix, kernel)
+                    self.image_matrix[self.image_matrix > 255] = 255
+                    self.image_matrix[self.image_matrix < 0] = 0
+
+                    if self.verbose:
+                        #-------performance calculation--------
+                        print("Edege reinforcement filter processing duration:", timeit.default_timer() - starttime)
                         #--------------------------------------
 
             #self.image_matrix = filter(self.image_matrix, kernel)
