@@ -123,46 +123,54 @@ class BmpProcessing:
             # return the sum of each copies to get back our new matrix with kernel value applied
             return copies.sum(axis=0)
 
-        kernel = np.empty((3, 3))
-        if 'edge' == filter_type:
-            print('Sobel edge detection')
-            if self.verbose:
-                #-------performance calculation--------
-                starttime = timeit.default_timer()
-                print("Start Sobel edge detection time:", starttime)
-                #--------------------------------------
 
-            # Gradient horizontal
-            kernel1 = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-            # Gradient vertical
-            kernel2 = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-            res1 = filter(self.image_matrix, kernel1)
-            res2 = filter(self.image_matrix, kernel2)
-            self.image_matrix = np.sqrt(res1**2 + res2**2).astype('uint8')
+        if 'edge' in filter_type or 'blur' in filter_type :
+            kernel = np.empty((3, 3))
+            if 'edge' in filter_type:
+                print('> Sobel edge detection')
+                if self.verbose:
+                    #-------performance calculation--------
+                    starttime = timeit.default_timer()
+                    print("Start Sobel edge detection time:", starttime)
+                    #--------------------------------------
 
-            if self.verbose:
-                #-------performance calculation--------
-                print("Sobel edge detection duration:", timeit.default_timer() - starttime)
-                #--------------------------------------
-
-        elif 'mean' == filter_type:
-            print('Mean filter')
-            if self.verbose:
-                #-------performance calculation--------
-                starttime = timeit.default_timer()
-                print("Start mean filter processing time:", starttime)
-                #--------------------------------------
-                #kernel = np.array([[1/256, 4/256, 6/256, 4/256, 1/256],[4/256, 16/256, 24/256, 16/256, 4/256],[6/256, 24/256, 36/256, 24/256, 6/256],[4/256, 16/256, 24/256, 16/256, 4/256],[1/256, 4/256, 6/256, 4/256, 1/256]])
-                kernel = np.array([[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]])
-                self.image_matrix = (filter(self.image_matrix, kernel)).astype('uint8')
+                # Gradient horizontal
+                kernel1 = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+                # Gradient vertical
+                kernel2 = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+                res1 = filter(self.image_matrix, kernel1)
+                res2 = filter(self.image_matrix, kernel2)
+                self.image_matrix = np.sqrt(res1**2 + res2**2).astype('uint8')
 
                 if self.verbose:
                     #-------performance calculation--------
-                    print("Mean filter processing duration:", timeit.default_timer() - starttime)
+                    print("Sobel edge detection duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
-        #self.image_matrix = filter(self.image_matrix, kernel)
-        #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
-        #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
+
+            if 'blur' in filter_type:
+                print('> Blur filter')
+                if self.verbose:
+                    #-------performance calculation--------
+                    starttime = timeit.default_timer()
+                    print("Start blur filter processing time:", starttime)
+                    #--------------------------------------
+                    kernel = np.array([[1/256, 4/256, 6/256, 4/256, 1/256],
+                                    [4/256, 16/256, 24/256, 16/256, 4/256],
+                                    [6/256, 24/256, 36/256, 24/256, 6/256],
+                                    [4/256, 16/256, 24/256, 16/256, 4/256],
+                                    [1/256, 4/256, 6/256, 4/256, 1/256]])
+                    self.image_matrix = (filter(self.image_matrix, kernel)).astype('uint8')
+
+                    if self.verbose:
+                        #-------performance calculation--------
+                        print("Blur filter processing duration:", timeit.default_timer() - starttime)
+                        #--------------------------------------
+
+            #self.image_matrix = filter(self.image_matrix, kernel)
+            #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
+            #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
+        else:
+            print('Error: --filter argument incorrect, no filter applied')
 
     def brightness_image(self, brightness):
         '''

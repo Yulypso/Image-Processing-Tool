@@ -131,10 +131,10 @@ def process_bmp():
                         required = False)
     parser.add_argument('--filter', 
                         '-ft',
-                        metavar = '<filter type>',
-                        choices = ['edge', 'mean'],
                         type = str,
-                        help = "image filter ['edge', 'mean']",
+                        metavar = "<filter type>",
+                        help = "image filter ['edge', 'blur']",
+                        nargs='+',
                         required = False)
     parser.add_argument('--output',
                         '-o',
