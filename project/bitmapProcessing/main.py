@@ -57,6 +57,11 @@ def process_bmp():
                         metavar = '<file_name.bmp>', 
                         help = 'image file to parse and gives header information', 
                         required = True)
+    parser.add_argument('--overlay', 
+                        '-ov',
+                        metavar = '<file_name.bmp>', 
+                        help = 'image file to overlay with the input image', 
+                        required = False)
     parser.add_argument('--rotate',
                         '-rt',
                         metavar = '<rotation degree>',
@@ -107,7 +112,7 @@ def process_bmp():
                         required = False)
     parser.add_argument('--colorchannel', 
                         '-cc',
-                        metavar = '<color>',
+                        metavar = '<color channel>',
                         choices = ['r', 'g', 'b', 'rg', 'rb', 'gb', 'gr', 'br', 'bg'],
                         type = str,
                         help = "image color adjustment ['r', 'g', 'b', 'rg', 'rb', 'gb']",
@@ -154,12 +159,14 @@ def process_bmp():
                                    '-fp' in sys.argv or
                                    '--blackwhite' in sys.argv or
                                    '-bw' in sys.argv or
-                                   '--color' in sys.argv or
-                                   '-cl' in sys.argv or
+                                   '--colorchannel' in sys.argv or
+                                   '-cc' in sys.argv or
                                    '--negative' in sys.argv or
                                    '-n' in sys.argv or
                                    '--filter' in sys.argv or
                                    '-ft' in sys.argv or
+                                   '--overlay' in sys.argv or
+                                   '-ov' in sys.argv or
                                    '--grayscale' in sys.argv or
                                    '-gs' in sys.argv 
                         )
@@ -167,6 +174,7 @@ def process_bmp():
     # get arguments from parser
     args = parser.parse_args()
     input_file_name = args.bmp
+    overlay_file_name = args.overlay
     pixels = args.pixels
     rotation_degree = args.rotate
     ratio_resize = args.resize
@@ -191,6 +199,16 @@ def process_bmp():
     
         print('[X] input file name:       ', input_file_name)
         input_file_name = '../../images/' + input_file_name
+    
+    if overlay_file_name:
+        if '.bmp' not in overlay_file_name: 
+            # add .bmp extension on input file if it has been forgotten
+            overlay_file_name = overlay_file_name + '.bmp'
+    
+        print('[X] overlay file name:     ', overlay_file_name)
+        overlay_file_name = '../../images/' + overlay_file_name
+    else:
+        print('[ ] overlay file name:      None')
 
     print('[X] rotation degree:       ', rotation_degree) if rotation_degree else print('[ ] rotation degree:        Default')
     print('[X] contrast value:        ', contrast_value) if contrast_value else print('[ ] contrast value:         Default')
@@ -275,6 +293,8 @@ def process_bmp():
         my_bmp.flip_image()
     if rotation_degree:
         my_bmp.rotate_image(rotation_degree)
+    #if overlay_file_name:
+    #    my_bmp.overlay(overlay_file_name)
     if output_file_name:
         my_bmp.save_image(output_file_name)
 
