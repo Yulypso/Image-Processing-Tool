@@ -148,7 +148,7 @@ def process_bmp():
                         '-ft',
                         type = str,
                         metavar = "<filter type>",
-                        help = "image filter ['edge-detection', 'blur', 'edge-reinforcement, 'emboss']",
+                        help = "image filter ['edge-detection', 'blur', 'edge-reinforcement', 'emboss']",
                         nargs='+',
                         required = False)
     parser.add_argument('--output',

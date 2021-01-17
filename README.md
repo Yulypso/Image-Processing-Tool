@@ -32,7 +32,7 @@ __Note__: This Bitmap Processing tool cannot process:
 - __Resize image__ \<ratio> or \<width> \<height>
 - __Contrast adjustment__ [-255, +255]
 - __Brightness adjustment__ [-255, +255]
-- __Color image to Grayscale image__ \<mean> method or \<luminance> method
+- __Color image to Grayscale image__ \<mean> method or \<luminance> method or \<atget> method
 - __Flip image__
 - __Color image to 1 or 2 colors channel__ (blue/red/green/blue-green/blue-red/green-red)
 - __Negative image__
@@ -40,6 +40,12 @@ __Note__: This Bitmap Processing tool cannot process:
 - __Verbose__
 - __Display Pixels__ \<all> or \<position x> \<positon y>
 - __Display image histogram__
+- __Overlay two images__ 
+- __Filter:__ 
+  - __Sobel edge detection__
+  - __Edge reinforcement__
+  - __Blur__
+  - __Emboss__
 
 <br>
 
@@ -76,9 +82,10 @@ __Run the code__
 ```bash
 > cd project/bitmapProcessing
 > python3 main.py [-h] --bmp <file_name.bmp> [--rotate <rotation degree>]
+                  [--overlay <file_name.bmp>, <option>][--blackwhite] 
                   [--resize <resizing ratio> or [<width> <height>]] 
                   [--verbose] [--flip] [--grayscale <grayscale method>] [--negative] 
-                  [--color <color>][--blackwhite] [--brightness <brightness value>]
+                  [--colorchannel <color channel>][--brightness <brightness value>]
                   [--pixels <all> or [<position x> <position y>]] [--histogram] 
                   [--contrast <contrast value>] [--filter <filter type>] 
                   [--output <file_name.bmp>]
@@ -91,6 +98,8 @@ optional arguments:
   -h, --help            show this help message and exit
   --bmp <file_name.bmp>
                         image file to parse and displays header information
+  --overlay, -ov <file_name.bmp>, <option>
+                        image file to overlay the input image, <maximum> or <minimum>
   --rotate, -rt <rotation degree>
                         degree of image rotation [90, 180, 270]
   --resize, -rs <resizing ratio> or [<width> <height>]
@@ -102,16 +111,16 @@ optional arguments:
   --verbose, -v         get more information
   --flip, -fp           image flip
   --grayscale, -gs <grayscale method>
-                        image grayscale <mean> or <luminance>
+                        image grayscale <mean> or <luminance> or <atget>
   --negative, -n        image negative
-  --color, -cl <color>
+ --colorchannel, -cc <color channel>
                         image color adjustment ['r', 'g', 'b', 'rg', 'rb', 'gb']
   --blackwhite, -bw     image black & white
   --pixels, -p <display option>     
                         display input image pixels <all> or [<position x> <position y>]
   --histogram, -hg      display input image histogram
   --filter, -ft <filter type>
-                        image filter ['edge']
+                        image filter ['edge-detection', 'blur', 'edge-reinforcement', 'emboss']
   --output, -o <file_name.bmp>
                         generated file
 ```
@@ -134,3 +143,9 @@ Ran 4 tests in 0.000s
 
 OK
 ```
+<br>
+
+## Feature Explanations
+
+
+
