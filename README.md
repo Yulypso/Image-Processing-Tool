@@ -147,5 +147,82 @@ OK
 
 ## Feature Explanations
 
+We will mainly use __Colored Lena__ to explain the features.
+<p align="center" width="100%">
+    <img align="center" width="300" height="300" src="https://raw.githubusercontent.com/Yulypso/Imagerie_Numerique/feature/README-pictures/README-Pictures/0-lena_couleur.bmp?token=AOIGHIDDWVHLFQK5WRYIVMDAATDEY"/>
+</p>
+
+<br>
+
+### Dashboard
+
+<br>
+
+### Display header
+
+<br>
+
+### Display pixels
+
+<br>
+
+### Rotate image
+
+<br>
+
+### Resize image
+
+<br>
+
+### Contrast adjustment
+
+<br>
+
+### Color to grayscale 
+
+<br>
+
+### Color to black & white (binary)
+
+<br>
+
+### Color to negative
+
+<br>
+
+### Keep color channel
+
+<br>
+
+### Brightness adjustment
+
+<br>
+
+### Flip image
+
+<br>
+
+### Filter: Edge-detection 
+
+<br>
+
+### Filter: Edge-reinforcement
+
+<br> 
+
+### Filter: Blur
+
+<br>
+
+### Filter: Emboss
+
+<br>
+
+### Color channel Histogram
+
+<br>
+
+### Overlay two images 
+
 
 
