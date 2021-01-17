@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from bmpProcessing.utils.Utils import get_int_from_bytes
@@ -49,6 +50,13 @@ class BmpProcessing:
         # Bitmap palette
         self.b_palette = []
 
+        # overlay part
+        self.overlay_name = None
+        self.overlay_header = []
+        self.overlay_palette = []
+        self.overlay_image = []
+        self.overlay_image_matrix = None
+
 
     def fit(self, is_processing):
         '''
@@ -97,7 +105,7 @@ class BmpProcessing:
                 )
 
         if self.verbose:
-            print('image successfully loaded\n')
+            print('image successfully loaded')
             #-------performance calculation--------
             print("Fitting duration:", timeit.default_timer() - starttime)
             #--------------------------------------
@@ -196,8 +204,89 @@ class BmpProcessing:
                     print("Emboss filter processing duration:", timeit.default_timer() - starttime)
                     #-------------------------------
         else:
-            print('Error: --filter argument incorrect, no filter applied')
+            print('Error: --filter argument is incorrect, no filter applied')
 
+
+    def overlay(self, option):
+        '''
+        Overlay two image together
+        1. option maximum between both images
+        2. option minimum between both images
+        '''
+        for i in range(np.shape(self.image_matrix)[1]):
+            for j in range(np.shape(self.image_matrix)[0]):
+                A = 0
+                B = 0
+                A = np.sum(self.image_matrix[i][j])
+                B = np.sum(self.overlay_image_matrix[i][j])
+
+                if 'maximum' in option:
+                    self.image_matrix[i][j] = np.maximum(self.image_matrix[i][j], self.overlay_image_matrix[i][j])
+                elif 'minimum' in option:
+                    self.image_matrix[i][j] = np.minimum(self.image_matrix[i][j], self.overlay_image_matrix[i][j])
+       
+
+    def fit_overlay(self, overlay_name):
+        '''
+        Fit Overlay image 
+        '''
+        if self.verbose:
+            #-------performance calculation--------
+            starttime = timeit.default_timer()
+            print("Start fitting overlay time:", starttime)
+            #--------------------------------------
+
+        self.overlay_name = overlay_name
+        #initialize overlay image
+        f_lecture = open(self.overlay_name,'rb')
+
+        # append overlay header
+        i = 0
+        while (i < 54):
+            octet = f_lecture.read(1)
+            self.overlay_header.append(ord(octet))
+            i += 1
+        bf_size = get_int_from_bytes(self.overlay_header[2:6])
+        bf_offbytes = get_int_from_bytes(self.overlay_header[10:14])
+
+        # append palette
+        while i < bf_offbytes:
+            octet = f_lecture.read(1) 
+            self.overlay_palette.append(ord(octet))
+            i += 1
+
+        # append image
+        while i < bf_size:
+            octet = f_lecture.read(1)
+            self.overlay_image.append(ord(octet))
+            i += 1
+
+        self.overlay_header = np.array(self.overlay_header)
+        self.overlay_palette = np.array(self.overlay_palette)
+        self.overlay_image = np.array(self.overlay_image)
+
+        # fit image matrix with bitmap image bytes
+        self.overlay_image_matrix = self.overlay_image.reshape(
+                get_int_from_bytes(self.overlay_header[18:22].tolist()),
+                get_int_from_bytes(self.overlay_header[22:26].tolist()), 
+                int(get_int_from_bytes(self.overlay_header[28:30].tolist())/8)
+            )
+        if self.verbose:
+            print('image to overload successfully loaded')
+            #-------performance calculation--------
+            print("Fitting duration:", timeit.default_timer() - starttime)
+            #--------------------------------------
+
+        if np.shape(self.overlay_image_matrix) != np.shape(self.image_matrix):
+            print('Error: Require both input images to be the same dimension')
+            print('{}: {}'.format(self.img, np.shape(self.image_matrix)))
+            print('{}: {}'.format(self.overlay_name, np.shape(self.overlay_image_matrix)))
+            f_lecture.close
+            sys.exit(-1)
+
+        f_lecture.close
+
+    
 
     def brightness_image(self, brightness):
         '''

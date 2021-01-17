@@ -44,6 +44,15 @@ def check_display_pixel_option(value):
         return int(value)
 
 
+def check_option(option):
+    if option[1] != 'maximum' and option[1] != 'minimum':
+        raise argparse.ArgumentTypeError(
+            "{} is an incorrect option. \n\t\t Please ".format(option[1])+
+            "choose between 'maximum' or 'minimum'"
+        )
+    return option
+
+
 def process_bmp():
     '''
     Bitmap processing
@@ -59,8 +68,9 @@ def process_bmp():
                         required = True)
     parser.add_argument('--overlay', 
                         '-ov',
-                        metavar = '<file_name.bmp>', 
-                        help = 'image file to overlay with the input image', 
+                        metavar = '<file_name.bmp>, <option>', 
+                        help = 'image file to overlay the input image, <maximum> or <minimum>',
+                        nargs= 2, 
                         required = False)
     parser.add_argument('--rotate',
                         '-rt',
@@ -175,6 +185,8 @@ def process_bmp():
     args = parser.parse_args()
     input_file_name = args.bmp
     overlay_file_name = args.overlay
+    if overlay_file_name:
+        overlay_file_name = check_option(overlay_file_name)
     pixels = args.pixels
     rotation_degree = args.rotate
     ratio_resize = args.resize
@@ -201,12 +213,12 @@ def process_bmp():
         input_file_name = '../../images/' + input_file_name
     
     if overlay_file_name:
-        if '.bmp' not in overlay_file_name: 
+        if '.bmp' not in overlay_file_name[0]: 
             # add .bmp extension on input file if it has been forgotten
-            overlay_file_name = overlay_file_name + '.bmp'
+            overlay_file_name[0] = overlay_file_name[0] + '.bmp'
     
-        print('[X] overlay file name:     ', overlay_file_name)
-        overlay_file_name = '../../images/' + overlay_file_name
+        print('[X] overlay file name:     ', overlay_file_name[0])
+        overlay_file_name[0] = '../../images/' + overlay_file_name[0]
     else:
         print('[ ] overlay file name:      None')
 
@@ -293,8 +305,9 @@ def process_bmp():
         my_bmp.flip_image()
     if rotation_degree:
         my_bmp.rotate_image(rotation_degree)
-    #if overlay_file_name:
-    #    my_bmp.overlay(overlay_file_name)
+    if overlay_file_name:
+        my_bmp.fit_overlay(overlay_file_name[0])
+        my_bmp.overlay(overlay_file_name[1])
     if output_file_name:
         my_bmp.save_image(output_file_name)
 
