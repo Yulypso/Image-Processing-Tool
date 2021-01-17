@@ -195,13 +195,9 @@ class BmpProcessing:
                     #-------performance calculation--------
                     print("Emboss filter processing duration:", timeit.default_timer() - starttime)
                     #-------------------------------
-
-            
-            #self.image_matrix = filter(self.image_matrix, kernel)
-            #kernel = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
-            #kernel = np.array([[1, 0, -1], [0, 0, 0], [-1, 0, 1]])
         else:
             print('Error: --filter argument incorrect, no filter applied')
+
 
     def brightness_image(self, brightness):
         '''
@@ -273,13 +269,13 @@ class BmpProcessing:
             for pixel in row:
                 temp_mean = (pixel[0] + pixel[1] + pixel[2])/3
                 if temp_mean > 127: 
-                    pixel[0] = 255 #bleu
-                    pixel[1] = 255 #vert
-                    pixel[2] = 255 #rouge
+                    pixel[0] = 255 #blue
+                    pixel[1] = 255 #green
+                    pixel[2] = 255 #red
                 else:
-                    pixel[0] = 0 #bleu
-                    pixel[1] = 0 #vert
-                    pixel[2] = 0 #rouge
+                    pixel[0] = 0 
+                    pixel[1] = 0 
+                    pixel[2] = 0 
 
 
     def color_image(self, color_array): 
@@ -323,6 +319,7 @@ class BmpProcessing:
         Turn color image into grayscale image depending on 
         1. mean method
         2. luminance method (more accurate)
+        3. Eugene atget method (Approximately Sepia)
         '''
         def channel_luminance(channel):
             '''
@@ -336,15 +333,23 @@ class BmpProcessing:
         # Applying grayscale formula for each pixels (RGB) in matrix
         for row in self.image_matrix:
             for pixel in row:
-                if 'mean' in grayscale_method:
-                    pixel_value = (pixel[0] + pixel[1] + pixel[2])/3
-                elif 'luminance' in grayscale_method:
-                    pixel_value = (0.0722*channel_luminance(pixel[0]/255) + 
-                                   0.7152*channel_luminance(pixel[1]/255) + 
-                                   0.2126*channel_luminance(pixel[2]/255)) * 255
-                pixel[0] = round(pixel_value)
-                pixel[1] = round(pixel_value)
-                pixel[2] = round(pixel_value)
+                if 'mean' in grayscale_method or 'luminance' in grayscale_method:
+                    if 'mean' in grayscale_method:
+                        pixel_value = (pixel[0] + pixel[1] + pixel[2])/3
+                    elif 'luminance' in grayscale_method:
+                        pixel_value = (0.0722*channel_luminance(pixel[0]/255) + 
+                                    0.7152*channel_luminance(pixel[1]/255) + 
+                                    0.2126*channel_luminance(pixel[2]/255)) * 255
+                    pixel[0] = round(pixel_value)
+                    pixel[1] = round(pixel_value)
+                    pixel[2] = round(pixel_value)
+                else:
+                    if 'atget' in grayscale_method:
+                        pixel[0] = round(0.272*pixel[2] + 0.534*pixel[1] + 0.131*pixel[0])
+                        pixel[1] = round(0.349*pixel[2] + 0.686*pixel[1] + 0.168*pixel[0])
+                        pixel[2] = round(0.393*pixel[2] + 0.769*pixel[1] + 0.189*pixel[0])
+        self.image_matrix[self.image_matrix > 255] = 255
+        self.image_matrix[self.image_matrix < 0] = 0    
 
 
     def contrast_image(self, contrast):

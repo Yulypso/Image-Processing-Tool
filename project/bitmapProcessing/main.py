@@ -96,17 +96,17 @@ def process_bmp():
     parser.add_argument('--grayscale',
                         '-gs',
                         metavar = '<grayscale method>',
-                        help = 'image grayscale <mean> or <luminance>',
+                        help = 'image grayscale <mean> or <luminance> or <atget>',
                         type = str,
-                        choices = ['mean', 'luminance'],
+                        choices = ['mean', 'luminance', 'atget'],
                         required = False)
     parser.add_argument('--negative', 
                         '-n',
                         help = 'image negative',
                         action='store_true',
                         required = False)
-    parser.add_argument('--color', 
-                        '-cl',
+    parser.add_argument('--colorchannel', 
+                        '-cc',
                         metavar = '<color>',
                         choices = ['r', 'g', 'b', 'rg', 'rb', 'gb', 'gr', 'br', 'bg'],
                         type = str,
@@ -176,7 +176,7 @@ def process_bmp():
     grayscale = args.grayscale
     blackwhite = args.blackwhite
     negative = args.negative
-    color = args.color
+    color = args.colorchannel
     filter_type = args.filter
     verbose = args.verbose
     histogram = args.histogram
