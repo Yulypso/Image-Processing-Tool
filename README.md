@@ -257,19 +257,19 @@ Adjust the contrast parameter of the bitmap
 
 - Negative adjustment (-255, -180, -80, -0)
 <p align="center" width="100%">
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904029-04232f00-5981-11eb-8ec4-234dace928b5.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904030-04232f00-5981-11eb-80b8-ebd6c3606513.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904036-04bbc580-5981-11eb-842c-c343a448b9de.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904037-05545c00-5981-11eb-8e13-455c25e5fd7a.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904029-04232f00-5981-11eb-8ec4-234dace928b5.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904030-04232f00-5981-11eb-80b8-ebd6c3606513.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904036-04bbc580-5981-11eb-842c-c343a448b9de.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904037-05545c00-5981-11eb-8e13-455c25e5fd7a.png"/>
 </p>
 
 - Positive adjustment (+0, +80, +180, +255)
   
 <p align="center" width="100%">
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904037-05545c00-5981-11eb-8e13-455c25e5fd7a.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904044-06858900-5981-11eb-9a1f-0be609ebe420.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904047-071e1f80-5981-11eb-957a-dd8c453517b4.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904052-071e1f80-5981-11eb-966c-775ff80f16a8.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904037-05545c00-5981-11eb-8e13-455c25e5fd7a.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904044-06858900-5981-11eb-9a1f-0be609ebe420.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904047-071e1f80-5981-11eb-957a-dd8c453517b4.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904052-071e1f80-5981-11eb-966c-775ff80f16a8.png"/>
 </p>
 
 <br>
@@ -280,9 +280,49 @@ Changes a colored bitmap into a grayscale image
 
 - With Eugène Atget method
 
+```bash
+> python3 main.py --bmp lena_couleur --grayscale atget --output generated.bmp --verbose
+```
+
 <p align="center" width="100%">
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904210-3765be00-5981-11eb-9e21-0ba18fe03e99.png"/>
 </p>
+
+- With mean method (average)
+
+```bash
+> python3 main.py --bmp lena_couleur --grayscale mean --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904217-39c81800-5981-11eb-8275-c424ca3a91d4.png"/>
+</p>
+
+- With depending on luminance method (more accurate than mean method)
+
+```bash
+> python3 main.py --bmp lena_couleur --grayscale luminance --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904223-3af94500-5981-11eb-846e-b3168f0c3cf0.png"/>
+</p>
+
+__To better understand the difference between mean and luminance method__
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904220-39c81800-5981-11eb-9eae-8132672ac7dc.png"/>
+</p>
+<p align='center'>Original</p>
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904222-3a60ae80-5981-11eb-90e0-aa6cc0b83a55.png"/>
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904228-3b91db80-5981-11eb-8e91-5ae55b9f9f4f.png"/>
+</p>
+
+<p align='center'>Mean method and Luminance method</p>
+
+Luminance method is much more accurate than mean method. 
 
 <br>
 
