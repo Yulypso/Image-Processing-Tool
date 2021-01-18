@@ -219,11 +219,11 @@ Rotate the bitmap to 90° or 180° or 270°
     <img align="center" width="270" height="270" src="https://user-images.githubusercontent.com/59794336/104903950-ece44180-5980-11eb-9c1b-83743b51c733.png"/>
     <img align="center" width="270" height="270" src="https://user-images.githubusercontent.com/59794336/104903953-ee156e80-5980-11eb-9110-04e4368c9122.png"/>
 </p>
-<div align="center">
-  <p style='display:inline; padding-right:17em'>90°</p>
-  <p style='display:inline'>180°</p>
-  <p style='display:inline; margin-left:17em'>270°</p>
-</div>
+
+  <p style='display:inline; padding-left:11em'>90°</p>
+  <p style='display:inline; padding-left:18em'>180°</p>
+  <p style='display:inline; margin-left:18em'>270°</p>
+
 
 <br>
 
