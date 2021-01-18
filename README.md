@@ -177,7 +177,7 @@ Display information inside the bitmap byte header
 ```
 
 <p align="center" width="100%">
-    <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
+    <img align="center" width="880" height="254" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
 </p>
 
 <br>
@@ -207,6 +207,23 @@ Display each bitmap pixel colors, here [ 55 81 158 ] is the first pixel value in
 <br>
 
 ### Rotate image
+
+Rotate the bitmap to 90° or 180° or 270°
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --rotate 90 --output generated.bmp --verbose 
+```
+
+<p align="center" width="100%">
+    <img align="center" width="270" height="270" src="https://user-images.githubusercontent.com/59794336/104903946-ec4bab00-5980-11eb-91a9-7a99b86fe0c6.png"/>
+    <img align="center" width="270" height="270" src="https://user-images.githubusercontent.com/59794336/104903950-ece44180-5980-11eb-9c1b-83743b51c733.png"/>
+    <img align="center" width="270" height="270" src="https://user-images.githubusercontent.com/59794336/104903953-ee156e80-5980-11eb-9110-04e4368c9122.png"/>
+</p>
+<div align="center">
+  <p style='display:inline; padding-right:17em'>90°</p>
+  <p style='display:inline'>180°</p>
+  <p style='display:inline; margin-left:17em'>270°</p>
+</div>
 
 <br>
 
