@@ -328,45 +328,215 @@ Luminance method is much more accurate than mean method.
 
 ### Color to black & white (binary)
 
+Changes a colored bitmap into a black and white image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --blackwhite --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904285-4c425180-5981-11eb-99cc-697b45c08731.png"/>
+</p>
+
 <br>
 
 ### Color to negative
+
+Changes a colored bitmap into a negative image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --negative --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904306-51070580-5981-11eb-9dab-786d12ff7fbe.png"/>
+</p>
 
 <br>
 
 ### Keep color channel
 
+Keep one-color or two-color channel of the bitmap 
+- Red
+- Green
+- Blue
+- Red/Blue (Magenta)
+- Red/Green (Yellow)
+- Blue/Green (Cyan)
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --colorchannel rg --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904334-57957d00-5981-11eb-9efd-b0de5ac87f25.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904340-582e1380-5981-11eb-9077-6e5eec130da0.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904348-59f7d700-5981-11eb-94bb-783821dc8be4.png"/>
+</p>
+
+<p align="center" width="100%">
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904350-5a906d80-5981-11eb-9b80-17d83938d613.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904355-5bc19a80-5981-11eb-94f8-f970f237a4bb.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904361-5c5a3100-5981-11eb-92bf-9ad5f239e317.png"/>
+</p>
+
 <br>
 
 ### Brightness adjustment
+
+Adjust the brightness parameter of the bitmap
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --brightness +80 --output generated.bmp --verbose
+```
+
+- Negative adjustment (-255, -180, -80, -0)
+<p align="center" width="100%">
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904452-7431b500-5981-11eb-8b67-f6c106e8f1e6.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904453-74ca4b80-5981-11eb-8bf0-ce0b9df13ada.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904454-74ca4b80-5981-11eb-9cc6-6c9021707c06.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904457-7562e200-5981-11eb-8df5-8df87dad842a.png"/>
+</p>
+
+- Positive adjustment (+0, +80, +180, +255)
+  
+<p align="center" width="100%">
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904457-7562e200-5981-11eb-8df5-8df87dad842a.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904465-76940f00-5981-11eb-808e-e6372af42bd1.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904465-76940f00-5981-11eb-808e-e6372af42bd1.png"/>
+    <img align="center" width="189" height='189'src="https://user-images.githubusercontent.com/59794336/104904466-772ca580-5981-11eb-877b-d47ab6abdef3.png"/>
+</p>
 
 <br>
 
 ### Flip image
 
+Flip the bitmap along its vertical axis (along its horizontal axis is the same as a rotation 180°)
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --flip --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904489-7eec4a00-5981-11eb-9d76-2a7b6480add6.png"/>
+</p>
+
 <br>
 
 ### Filter: Edge-detection 
+
+filter to detect the edges of the image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --filter edge-detection --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="270"src="https://user-images.githubusercontent.com/59794336/104904522-86abee80-5981-11eb-9259-d11dcd66aef4.png"/>
+    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904539-8ca1cf80-5981-11eb-88f0-967be5787ca9.png"/>
+    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904543-8e6b9300-5981-11eb-86fa-90630d5478de.png"/>
+</p>
 
 <br>
 
 ### Filter: Edge-reinforcement
 
+filter to reinforce the edges of the image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --filter edge-reinforcement --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904608-a2af9000-5981-11eb-85e0-8e32fd6f64ab.png"/>
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904626-a6dbad80-5981-11eb-80ad-6cd917af6a28.png"/>
+</p>
+
 <br> 
 
 ### Filter: Blur
+
+filter to blur the image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --filter blur --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904576-988d9180-5981-11eb-8f04-ca586e92d982.png"/>
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904577-9a575500-5981-11eb-8e34-75eea1b0ce59.png"/>
+</p>
 
 <br>
 
 ### Filter: Emboss
 
+filter to emboss the image
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --filter emboss --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904641-ad6a2500-5981-11eb-8724-bcf9eb2fc74e.png"/>
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904658-b1964280-5981-11eb-95b6-70aee570fa62.png"/>
+</p>
+
 <br>
 
 ### Color channel Histogram
+
+Display color channel histogram
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --histogram --output generated.bmp --verbose
+```
+
+- Color channel histogram for colored image
+  
+<p align="center" width="100%">
+    <img align="center" width="500" src="https://user-images.githubusercontent.com/59794336/104904391-667c2f80-5981-11eb-8cb4-e6eadc69a0a5.png"/>
+</p>
+
+- Color channel histogram for grayscale image
+
+<p align="center" width="100%">
+    <img align="center" width="500" src="https://user-images.githubusercontent.com/59794336/104904394-67ad5c80-5981-11eb-8975-336081ea4ca7.png"/>
+</p>
 
 <br>
 
 ### Overlay two images 
 
+Feature to superimpose one image to another
 
+- The output image is generated by obtaining the darkest pixel between the two images
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --overlay generated/bitmap512-512.bmp maximum --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904692-be1a9b00-5981-11eb-8179-78dc5e11e94a.png"/>
+</p>
+
+- The output image is generated by obtaining the lightest pixel between the two images
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --overlay generated/bitmap512-512.bmp minimum --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904699-bfe45e80-5981-11eb-9232-aa19feefb991.png"/>
+</p>
+
+--- 
+
+<br>
+
+### Fun zone
+
+<p align="center" width="100%">
+    <img align="center" width="300" height="300" src="https://user-images.githubusercontent.com/59794336/104904726-ca9ef380-5981-11eb-986d-55b6dd9baa5d.png"/>
+</p>
 
