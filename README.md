@@ -149,20 +149,60 @@ OK
 
 We will mainly use __Colored Lena__ to explain the features.
 <p align="center" width="100%">
-    <img align="center" width="300" height="300" src="https://raw.githubusercontent.com/Yulypso/Imagerie_Numerique/feature/README-pictures/README-Pictures/0-lena_couleur.bmp?token=AOIGHIDDWVHLFQK5WRYIVMDAATDEY"/>
+    <img align="center" width="300" height="300" src="https://user-images.githubusercontent.com/59794336/104903744-b6a6c200-5980-11eb-829c-8e4878cfa487.png"/>
 </p>
 
 <br>
 
 ### Dashboard
 
+Each feature applied on the input bitmap has a checkbox to know easily which feature has been chosen
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --rotate 90 -hg -rs 400 400 -fp -ct +80 --pixels all -o generated.bmp -cc rb
+```
+
+<p align="center" width="100%">
+    <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/104905977-6846f280-5983-11eb-9ff7-c58e5a3c6f46.png"/>
+</p>
+
 <br>
 
-### Display header
+### Display Bitmap header
+
+Display information inside the bitmap byte header
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp
+```
+
+<p align="center" width="100%">
+    <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
+</p>
 
 <br>
 
 ### Display pixels
+
+Display pixel colors at specific position, here x=128 and y=192
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --pixels 128 292
+```
+
+<p align="center" width="100%">
+    <img align="center" width="808" height="25" src="https://user-images.githubusercontent.com/59794336/104905129-3bdea680-5982-11eb-9a17-bc3cdfa331f5.png"/>
+</p>
+
+Display each bitmap pixel colors, here [ 55 81 158 ] is the first pixel value in the first row and first column of the matrix. (it refers to the real bitmap pixel at the last row and first column)
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp all
+```
+
+<p align="center" width="100%">
+    <img align="center" width="808" height="400" src="https://user-images.githubusercontent.com/59794336/104905128-3b461000-5982-11eb-97ff-37c67934d9f2.png"/>
+</p>
 
 <br>
 
