@@ -434,7 +434,7 @@ filter to detect the edges of the image
 <p align="center" width="100%">
     <img align="center" width="270"src="https://user-images.githubusercontent.com/59794336/104904522-86abee80-5981-11eb-9259-d11dcd66aef4.png"/>
     <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904539-8ca1cf80-5981-11eb-88f0-967be5787ca9.png"/>
-    <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104904543-8e6b9300-5981-11eb-86fa-90630d5478de.png"/>
+    <img align="center" width="270" height='270' src="https://user-images.githubusercontent.com/59794336/104904543-8e6b9300-5981-11eb-86fa-90630d5478de.png"/>
 </p>
 
 <br>
