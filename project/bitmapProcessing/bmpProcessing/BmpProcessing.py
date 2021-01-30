@@ -63,7 +63,7 @@ class BmpProcessing:
         Fit the bitmap header
         1. if output is required we fit the bitmap palette and image bytes
         '''
-        if self.verbose:
+        if self.verbose == True:
             #-------performance calculation--------
             starttime = timeit.default_timer()
             print("Start fitting time:", starttime)
@@ -104,7 +104,7 @@ class BmpProcessing:
                     int(get_int_from_bytes(self.bi_bitcount.tolist())/8)
                 )
 
-        if self.verbose:
+        if self.verbose == True:
             print('image successfully loaded')
             #-------performance calculation--------
             print("Fitting duration:", timeit.default_timer() - starttime)
@@ -136,8 +136,9 @@ class BmpProcessing:
             kernel = np.empty((3, 3))
 
             if 'edge-detection' in filter_type:
-                print('> Sobel edge detection filter')
-                if self.verbose:
+                if self.verbose == True:
+                    print('> Sobel edge detection filter')
+                if self.verbose == True:
                     #-------performance calculation--------
                     starttime = timeit.default_timer()
                     print("Start Sobel edge detection time:", starttime)
@@ -149,14 +150,15 @@ class BmpProcessing:
                 res1 = filter(self.image_matrix, kernel1)
                 res2 = filter(self.image_matrix, kernel2)
                 self.image_matrix = np.sqrt(res1**2 + res2**2).astype('uint8')
-                if self.verbose:
+                if self.verbose == True:
                     #-------performance calculation--------
                     print("Sobel edge detection duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
 
             if 'blur' in filter_type:
-                print('> Blur filter')
-                if self.verbose:
+                if self.verbose == True:
+                    print('> Blur filter')
+                if self.verbose == True:
                     #-------performance calculation--------
                     starttime = timeit.default_timer()
                     print("Start blur filter processing time:", starttime)
@@ -167,14 +169,15 @@ class BmpProcessing:
                                     [4/256, 16/256, 24/256, 16/256, 4/256],
                                     [1/256, 4/256, 6/256, 4/256, 1/256]])
                 self.image_matrix = (filter(self.image_matrix, kernel)).astype('uint8')
-                if self.verbose:
+                if self.verbose == True:
                     #-------performance calculation--------
                     print("Blur filter processing duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
 
             if 'edge-reinforcement' in filter_type:
-                print('> Edge reinforcement filter')
-                if self.verbose:
+                if self.verbose == True:
+                    print('> Edge reinforcement filter')
+                if self.verbose == True:
                     #-------performance calculation--------
                     starttime = timeit.default_timer()
                     print("Start edge reinforcement filter processing time:", starttime)
@@ -183,14 +186,15 @@ class BmpProcessing:
                 self.image_matrix = filter(self.image_matrix, kernel)
                 self.image_matrix[self.image_matrix > 255] = 255
                 self.image_matrix[self.image_matrix < 0] = 0
-                if self.verbose:
+                if self.verbose == True:
                     #-------performance calculation--------
                     print("Edege reinforcement filter processing duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
 
             if 'emboss' in filter_type:
-                print('> Emboss filter')
-                if self.verbose:
+                if self.verbose == True:
+                    print('> Emboss filter')
+                if self.verbose == True:
                     #-------performance calculation--------
                     starttime = timeit.default_timer()
                     print("Start emboss filter processing time:", starttime)
@@ -199,7 +203,7 @@ class BmpProcessing:
                 self.image_matrix = filter(self.image_matrix, kernel)
                 self.image_matrix[self.image_matrix > 255] = 255
                 self.image_matrix[self.image_matrix < 0] = 0
-                if self.verbose:
+                if self.verbose == True:
                     #-------performance calculation--------
                     print("Emboss filter processing duration:", timeit.default_timer() - starttime)
                     #-------------------------------
@@ -230,7 +234,7 @@ class BmpProcessing:
         '''
         Fit Overlay image 
         '''
-        if self.verbose:
+        if self.verbose == True:
             #-------performance calculation--------
             starttime = timeit.default_timer()
             print("Start fitting overlay time:", starttime)
@@ -271,7 +275,7 @@ class BmpProcessing:
                 get_int_from_bytes(self.overlay_header[22:26].tolist()), 
                 int(get_int_from_bytes(self.overlay_header[28:30].tolist())/8)
             )
-        if self.verbose:
+        if self.verbose == True:
             print('image to overload successfully loaded')
             #-------performance calculation--------
             print("Fitting duration:", timeit.default_timer() - starttime)
@@ -489,7 +493,7 @@ class BmpProcessing:
             ] for a in range(new_height)
         ]
 
-        if self.verbose:
+        if self.verbose == True:
             print("{} has been resized to {} x {}".format(self.img.replace('../images/',''), new_width, new_height))
         
 
@@ -511,7 +515,7 @@ class BmpProcessing:
         # k is the number of 90° rotation 
         self.image_matrix = np.rot90(self.image_matrix, k=nb_rot)
         
-        if self.verbose:
+        if self.verbose == True:
             print("{} has been rotated to {} degree".format(self.img, degree))
 
 
@@ -526,7 +530,7 @@ class BmpProcessing:
         '''
         Adjust header bytes and save image
         '''
-        if self.verbose:
+        if self.verbose == True:
             #-------performance calculation--------
             starttime = timeit.default_timer()
             print("Start saving time:", starttime)
@@ -592,9 +596,10 @@ class BmpProcessing:
         f_output.write(bytearray(self.b_palette.tolist()))
         f_output.write(bytearray(self.octets[get_int_from_bytes(self.bf_offbits.tolist()):].tolist()))
         f_output.close
-        print('generated image has been saved to {}'.format(output))
+        if not self.verbose == 'test':
+            print('generated image has been saved to {}'.format(output))
 
-        if self.verbose:
+        if self.verbose == True:
             #-------performance calculation--------
             print("Saving duration:", timeit.default_timer() - starttime)
             print("Total process time", timeit.default_timer())
@@ -606,7 +611,7 @@ class BmpProcessing:
         1. Display all pixels of the image (display truncated by Numpy)
         2. Display a specific pixel of the image depending on its position
         '''
-        if self.verbose:
+        if self.verbose == True:
             print("\nAffichage de la matrice de pixel [ Bleu Vert Rouge ]")
 
         if len(option) == 1:

@@ -5,6 +5,7 @@ import os
 import sys
 import numpy as np
 import bmpProcessing.BmpProcessing as BmpProcessing
+import unitTest as test
 
 def check_interval(value):
     '''
@@ -101,6 +102,11 @@ def process_bmp():
     parser.add_argument('--verbose',
                         '-v',
                         help = 'get more information',
+                        action='store_true',
+                        required = False)
+    parser.add_argument('--getall',
+                        '-ga',
+                        help = 'generate every features',
                         action='store_true',
                         required = False)
     parser.add_argument('--flip',
@@ -201,6 +207,7 @@ def process_bmp():
     verbose = args.verbose
     histogram = args.histogram
     output_file_name = args.output
+    getall = args.getall
 
     # Display which argument have been selected
     print('--- Bitmap processing tool ---')
@@ -233,6 +240,7 @@ def process_bmp():
     print('[X] image filter:          ', filter_type) if filter_type else print('[ ] image filter:           None')
     print('[X] verbose:               ', verbose) if verbose else print('[ ] verbose:                False')
     print('[X] histogram:             ', histogram) if histogram else print('[ ] histogram:              False')
+    print('[X] getall:                ', getall) if getall else print('[ ] getall:                 False')
     
     if pixels:
         if len(pixels) == 2:
@@ -262,11 +270,12 @@ def process_bmp():
     print('------------------------------\n')
 
     # verify if input file exists or not
-    if not os.path.isfile(input_file_name):
-        print('Error: "{}" does not exist'.format(input_file_name), file=sys.stderr)
-        sys.exit(-1)
-    else:
-        print('Opening {} successfully\n'.format(input_file_name))
+    if not getall:
+        if not os.path.isfile(input_file_name):
+            print('Error: "{}" does not exist'.format(input_file_name), file=sys.stderr)
+            sys.exit(-1)
+        else:
+            print('Opening {} successfully\n'.format(input_file_name))
 
     # Features application if arguments exists in parser
     my_bmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
@@ -279,7 +288,8 @@ def process_bmp():
     my_bmp.fit(is_processing)
 
     # display bitmap header
-    my_bmp.display_header()
+    if not getall:
+        my_bmp.display_header()
 
     if histogram:
         my_bmp.display_histogram()
@@ -309,8 +319,11 @@ def process_bmp():
         my_bmp.fit_overlay(overlay_file_name[0])
         my_bmp.overlay(overlay_file_name[1])
     if output_file_name:
+        if not os.path.exists('../../images/generated/'):
+            os.makedirs('../../images/generated/')
         my_bmp.save_image(output_file_name)
-
+    if getall:
+        test.test_all(input_file_name, 'test')
 
 def main():
     process_bmp() 
