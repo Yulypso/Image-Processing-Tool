@@ -114,9 +114,11 @@ class BmpProcessing:
             #--------------------------------------
 
     def colorize_image(self, angle):
+        '''
+        colorize an image by shifting its hue
+        '''
         def shift_hue(arr, hout):
             '''
-            colorize an image by shifting its hue
             1. convert rgb view to hsl view (hue, saturation, lightness)
             2. apply hue angle to the image
             3. convert back to rgb
@@ -127,13 +129,15 @@ class BmpProcessing:
             return rgb
 
         self.image_matrix = shift_hue(self.image_matrix, float(angle)/360)
-
-
+    
 
     def filter_image(self, filter_type):
         '''
         Filter application with convoluted matrix
         1. sobel filter, edge detection
+        2. blur filter
+        3. edge reinforcement filter
+        4. emboss filter
         '''
         def filter(matrix, kernel):
             '''
@@ -515,6 +519,46 @@ class BmpProcessing:
         if self.verbose == True:
             print("{} has been resized to {} x {}".format(self.img.replace('../images/',''), new_width, new_height))
         
+    def photomaton(self, value):
+        '''
+        photomaton features
+        '''
+        def new_coordinate(x, y, image): 
+            '''
+            new pixel coordinate calculation
+            - even pixel lines go to the top 
+            - odd pixel lines go the bottom
+            - even pixel columns go to the left 
+            - odd pixel columns go the right
+            '''
+            if x%2 == 0 and y%2 == 0:
+                new_x, new_y = x/2, y/2
+            elif x%2 == 0 and y%2 != 0:
+                new_x, new_y = x/2, (y-1)/2 + len(image)/2
+            elif x%2 != 0 and y%2 == 0:
+                new_x, new_y = (x-1)/2 + len(image[1])/2, y/2
+            elif x%2 != 0 and y%2 != 0:
+                new_x, new_y = (x-1)/2 + len(image[1])/2, (y-1)/2 + len(image)/2
+            return int(new_x), int(new_y)
+
+        def do_magic(image):
+            '''
+            generated new image by applying new_coordinate calculation on each pixels of the image
+            '''
+            new_image = np.empty((len(self.image_matrix), len(self.image_matrix[1]), int(get_int_from_bytes(self.bi_bitcount)/8)), dtype='int64')
+            for i in range(np.shape(image)[1]):
+                for j in range(np.shape(image)[0]):
+                    u, v = new_coordinate(i, j, image)
+                    new_image[u][v] = image[i][j]
+            return new_image
+
+        if np.shape(self.image_matrix)[0] == np.shape(self.image_matrix)[1]:
+            for i in range(value):
+                self.image_matrix = do_magic(self.image_matrix)
+        else:
+            raise Exception("Image width and length must be equal, Try Again")
+
+
 
     def rotate_image(self, degree):
         '''

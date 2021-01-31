@@ -17,6 +17,16 @@ def check_interval(value):
             "choose a value between [-255, +255]")
     return int(value)
 
+def check_split_interval(value):
+    '''
+    Check argument parser if value belongs to [0, +10] interval
+    '''
+    if (int(value) < 0) or (int(value) > 10):
+        raise argparse.ArgumentTypeError(
+            "{} is an incorrect value. Please ".format(value)+
+            "choose a value between [0 , +10]")
+    return int(value)
+
 def check_angle(value):
     '''
     Check argument parser if value belongs to [-255, +255] interval
@@ -136,6 +146,12 @@ def process_bmp():
                         help = 'image negative',
                         action='store_true',
                         required = False)
+    parser.add_argument('--photomaton', 
+                        '-ph',
+                        metavar = '<split n time>',
+                        type = check_split_interval,
+                        help = 'photomaton, split image by 4 n time',
+                        required = False)
     parser.add_argument('--colorchannel', 
                         '-cc',
                         metavar = '<color channel>',
@@ -201,6 +217,8 @@ def process_bmp():
                                    '-ov' in sys.argv or
                                    '--colorize' in sys.argv or
                                    '-cz' in sys.argv or
+                                   '--photomaton' in sys.argv or
+                                   '-ph' in sys.argv or
                                    '--grayscale' in sys.argv or
                                    '-gs' in sys.argv 
                         )
@@ -227,6 +245,7 @@ def process_bmp():
     output_file_name = args.output
     getall = args.getall
     colorize = args.colorize
+    photomaton = args.photomaton
 
     # Display which argument have been selected
     print('--- Bitmap processing tool ---')
@@ -260,6 +279,7 @@ def process_bmp():
     print('[X] verbose:               ', verbose) if verbose else print('[ ] verbose:                False')
     print('[X] histogram:             ', histogram) if histogram else print('[ ] histogram:              False')
     print('[X] getall:                ', getall) if getall else print('[ ] getall:                 False')
+    print('[X] photomaton:            ', photomaton, 'time(s)') if photomaton else print('[ ] photomaton:             None')
     print('[X] colorize:               hue {}°'.format(colorize)) if colorize else print('[ ] colorize:               None')
     
     if pixels:
@@ -337,6 +357,8 @@ def process_bmp():
         my_bmp.rotate_image(rotation_degree)
     if colorize:
         my_bmp.colorize_image(colorize)
+    if photomaton:
+        my_bmp.photomaton(photomaton)
     if overlay_file_name:
         my_bmp.fit_overlay(overlay_file_name[0])
         my_bmp.overlay(overlay_file_name[1])
