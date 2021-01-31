@@ -176,7 +176,8 @@ We will mainly use __Colored Lena__ to explain the features.
 
 <br/>
 
-### Dashboard
+### Dashboard 
+[Learn more about it]()
 
 Each feature applied on the input bitmap has a checkbox to know easily which feature has been chosen
 
