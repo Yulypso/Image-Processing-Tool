@@ -182,6 +182,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
 
 <p align="center" width="100%">
     <img align="center" width="192" height="302" src="https://user-images.githubusercontent.com/59794336/106397530-526b1000-640e-11eb-9b7c-cb38d68ed894.png"/>
+    <img align="center" width="580" src="https://user-images.githubusercontent.com/59794336/106398056-09688b00-6411-11eb-8383-b33b8fc8c82a.png"/>
 </p>
 
 <br>
