@@ -1,12 +1,12 @@
 # Digital Image - Bitmap processing tool
 
-To go back to the description of those features **->** [Click here](./EXPLANATIONS.md)
+To go back to the description of those features **->** __[Click here](./README.md)__
 
 ## Table of Contents
 
-- [Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)
-  - [Table of Contents](#table-of-contents)
-  - [Feature Explanations](#feature-explanations)
+- __[Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)__
+  - __[Table of Contents](#table-of-contents)__
+  - __[Feature Implementations](#feature-implementations)__
     - [Dashboard](#dashboard)
     - [Generate each feature within a test directory](#generate-each-feature-within-a-test-directory)
     - [Display Bitmap header](#display-bitmap-header)
@@ -29,7 +29,7 @@ To go back to the description of those features **->** [Click here](./EXPLANATIO
     - [Image colorization](#image-colorization)
     - [Photomaton](#photomaton)
 
-## Feature Explanations
+## Feature Implementations
 
 ### Dashboard
 

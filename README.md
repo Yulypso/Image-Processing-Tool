@@ -4,13 +4,13 @@
 
 [Thierry Khamphousone](https://www.linkedin.com/in/tkhamphousone/)
 
-<br>
+<br/>
 
 ## Introduction 
 
 This project is about creating a tool that reads an image in a given format (bitmap or jpeg), process this image (enlarge, shrink ...), save the image in an output file different from the one given as input ( same format as input or different) to never corrupt the original files. 
 
-<br>
+<br/>
 
 __Note__: This Bitmap Processing tool cannot process:
 
@@ -23,16 +23,17 @@ __Note__: This Bitmap Processing tool cannot process:
   - bitmap v7
   - bitmap v8
 
-<br>
+<br/>
 
 ## Table of Contents
 
-- [Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)
-  - [Author](#author)
-  - [Introduction](#introduction)
-  - [Table of Contents](#table-of-contents)
-  - [Get Started](#get-started)
-  - [Feature Descriptions](#feature-descriptions)
+- __[Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)__
+  - __[Author](#author)__
+  - __[Introduction](#introduction)__
+  - __[Table of Contents](#table-of-contents)__
+  - __[Getting Started](#getting-started)__
+  - __[Feature Implementations](#feature-implementations)__
+  - __[Feature Descriptions](#feature-descriptions)__
     - [Dashboard](#dashboard)
     - [Generate each feature within a test directory](#generate-each-feature-within-a-test-directory)
     - [Display Bitmap header](#display-bitmap-header)
@@ -56,9 +57,9 @@ __Note__: This Bitmap Processing tool cannot process:
     - [Photomaton](#photomaton)
     - [Fun zone](#fun-zone)
 
-<br>
+<br/>
 
-## Get Started
+## Getting Started
 
 __Setup__
 ```bash
@@ -79,13 +80,13 @@ __Setup__
 
 __[Check Dependency Graph](https://github.com/Yulypso/Imagerie_Numerique/network/dependencies)__
 
-<br>
+<br/>
 
-__Note__: In Visual Studio Code, don't forget to select the correct Python interpreter. <br>
+__Note__: In Visual Studio Code, don't forget to select the correct Python interpreter. <br/>
 
 [CMD + SHIFT + P] > select Interpreter > Python 3.9.0 64-bits ('.venv') [./.venv/bin/python]
 
-<br>
+<br/>
 
 __Run the code__
 ```bash
@@ -158,7 +159,13 @@ Ran 4 tests in 0.000s
 
 OK
 ```
-<br>
+<br/>
+
+## Feature Implementations
+
+To better understand the implementation of those features **->** __[Click here](./EXPLANATIONS.md)__
+
+<br/>
 
 ## Feature Descriptions
 
@@ -167,9 +174,7 @@ We will mainly use __Colored Lena__ to explain the features.
     <img align="center" width="300" height="300" src="https://user-images.githubusercontent.com/59794336/104903744-b6a6c200-5980-11eb-829c-8e4878cfa487.png"/>
 </p>
 
-To better understand the implementation of those features **->** [Click here](./EXPLANATIONS.md)
-
-<br>
+<br/>
 
 ### Dashboard
 
@@ -183,7 +188,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
     <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/106396371-c524bd00-6407-11eb-8e66-29c6e5602cb3.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Generate each feature within a test directory
 
@@ -196,7 +201,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
     <img align="center" width="580" src="https://user-images.githubusercontent.com/59794336/106398056-09688b00-6411-11eb-8383-b33b8fc8c82a.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Display Bitmap header
 
@@ -210,7 +215,7 @@ Display information inside the bitmap byte header
     <img align="center" width="880" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Display pixels
 
@@ -234,7 +239,7 @@ Display each bitmap pixel colors, here [ 55 81 158 ] is the first pixel value in
     <img align="center" width="808" src="https://user-images.githubusercontent.com/59794336/104905128-3b461000-5982-11eb-97ff-37c67934d9f2.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Rotate image
 
@@ -250,7 +255,7 @@ Rotate the bitmap to 90° or 180° or 270°
     <img align="center" width="270" src="https://user-images.githubusercontent.com/59794336/104903953-ee156e80-5980-11eb-9110-04e4368c9122.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Resize image
 
@@ -275,7 +280,7 @@ Resize the bitmap to a ratio value or specific dimensions
     <img align="center" width="1000" src="https://user-images.githubusercontent.com/59794336/104905247-616bb000-5982-11eb-9112-5868a63c8fc4.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Contrast adjustment
 
@@ -302,7 +307,7 @@ Adjust the contrast parameter of the bitmap
     <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/104904052-071e1f80-5981-11eb-966c-775ff80f16a8.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Color to grayscale 
 
@@ -354,7 +359,7 @@ __To better understand the difference between mean and luminance method__
 
 Luminance method is much more accurate than mean method. 
 
-<br>
+<br/>
 
 ### Color to black & white (binary)
 
@@ -368,7 +373,7 @@ Changes a colored bitmap into a black and white image
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904285-4c425180-5981-11eb-99cc-697b45c08731.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Color to negative
 
@@ -382,7 +387,7 @@ Changes a colored bitmap into a negative image
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904306-51070580-5981-11eb-9dab-786d12ff7fbe.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Keep color channel
 
@@ -410,7 +415,7 @@ Keep one-color or two-color channel of the bitmap
     <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/104904361-5c5a3100-5981-11eb-92bf-9ad5f239e317.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Brightness adjustment
 
@@ -437,7 +442,7 @@ Adjust the brightness parameter of the bitmap
     <img align="center" width="189" height='189'src="https://user-images.githubusercontent.com/59794336/104904466-772ca580-5981-11eb-877b-d47ab6abdef3.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Flip image
 
@@ -451,7 +456,7 @@ Flip the bitmap along its vertical axis (along its horizontal axis is the same a
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904489-7eec4a00-5981-11eb-9d76-2a7b6480add6.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Filter: Edge-detection 
 
@@ -467,7 +472,7 @@ filter to detect the edges of the image
     <img align="center" width="270" height='270' src="https://user-images.githubusercontent.com/59794336/104904543-8e6b9300-5981-11eb-86fa-90630d5478de.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Filter: Edge-reinforcement
 
@@ -482,7 +487,7 @@ filter to reinforce the edges of the image
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904626-a6dbad80-5981-11eb-80ad-6cd917af6a28.png"/>
 </p>
 
-<br> 
+<br/> 
 
 ### Filter: Blur
 
@@ -497,7 +502,7 @@ filter to blur the image
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904577-9a575500-5981-11eb-8e34-75eea1b0ce59.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Filter: Emboss
 
@@ -512,7 +517,7 @@ filter to emboss the image
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904658-b1964280-5981-11eb-95b6-70aee570fa62.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Color channel Histogram
 
@@ -534,7 +539,7 @@ Display color channel histogram
     <img align="center" width="500" src="https://user-images.githubusercontent.com/59794336/104904394-67ad5c80-5981-11eb-8975-336081ea4ca7.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Overlay two images 
 
@@ -560,7 +565,7 @@ Feature to superimpose one image to another
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904699-bfe45e80-5981-11eb-9232-aa19feefb991.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Image colorization
 
@@ -586,7 +591,7 @@ Image colorization is mainly used to add color on grayscale images.
     <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397122-1f278180-640c-11eb-9f9e-c42fd89b8072.png"/>
 </p>
 
-<br>
+<br/>
 
 ### Photomaton
 
@@ -610,7 +615,7 @@ The photo booth or Photomaton is used to get several identical images in a whole
 
 --- 
 
-<br>
+<br/>
 
 ### Fun zone
 
