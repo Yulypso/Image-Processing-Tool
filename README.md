@@ -25,27 +25,36 @@ __Note__: This Bitmap Processing tool cannot process:
 
 <br>
 
-## Features implemented
+## Table of Contents
 
-- __Display bitmap header__
-- __Rotate image__ [90, 180, 270]
-- __Resize image__ \<ratio> or \<width> \<height>
-- __Contrast adjustment__ [-255, +255]
-- __Brightness adjustment__ [-255, +255]
-- __Color image to Grayscale image__ \<mean> method or \<luminance> method or \<atget> method
-- __Flip image__
-- __Color image to 1 or 2 colors channel__ (blue/red/green/blue-green/blue-red/green-red)
-- __Negative image__
-- __Black & white image__
-- __Verbose__
-- __Display Pixels__ \<all> or \<position x> \<positon y>
-- __Display image histogram__
-- __Overlay two images__ 
-- __Filter:__ 
-  - __Sobel edge detection__
-  - __Edge reinforcement__
-  - __Blur__
-  - __Emboss__
+- [Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)
+  - [Author](#author)
+  - [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
+  - [Get Started](#get-started)
+  - [Feature Descriptions](#feature-descriptions)
+    - [Dashboard](#dashboard)
+    - [Generate each feature within a test directory](#generate-each-feature-within-a-test-directory)
+    - [Display Bitmap header](#display-bitmap-header)
+    - [Display pixels](#display-pixels)
+    - [Rotate image](#rotate-image)
+    - [Resize image](#resize-image)
+    - [Contrast adjustment](#contrast-adjustment)
+    - [Color to grayscale](#color-to-grayscale)
+    - [Color to black & white (binary)](#color-to-black--white-binary)
+    - [Color to negative](#color-to-negative)
+    - [Keep color channel](#keep-color-channel)
+    - [Brightness adjustment](#brightness-adjustment)
+    - [Flip image](#flip-image)
+    - [Filter: Edge-detection](#filter-edge-detection)
+    - [Filter: Edge-reinforcement](#filter-edge-reinforcement)
+    - [Filter: Blur](#filter-blur)
+    - [Filter: Emboss](#filter-emboss)
+    - [Color channel Histogram](#color-channel-histogram)
+    - [Overlay two images](#overlay-two-images)
+    - [Image colorization](#image-colorization)
+    - [Photomaton](#photomaton)
+    - [Fun zone](#fun-zone)
 
 <br>
 
@@ -151,12 +160,14 @@ OK
 ```
 <br>
 
-## Feature Explanations
+## Feature Descriptions
 
 We will mainly use __Colored Lena__ to explain the features.
 <p align="center" width="100%">
     <img align="center" width="300" height="300" src="https://user-images.githubusercontent.com/59794336/104903744-b6a6c200-5980-11eb-829c-8e4878cfa487.png"/>
 </p>
+
+To better understand the implementation of those features **->** [Click here](./EXPLANATIONS.md)
 
 <br>
 
@@ -574,7 +585,6 @@ Image colorization is mainly used to add color on grayscale images.
     <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397094-0323e000-640c-11eb-986e-5404c77a8d68.png"/>
     <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397122-1f278180-640c-11eb-9f9e-c42fd89b8072.png"/>
 </p>
-
 
 <br>
 
