@@ -126,7 +126,7 @@ def process_bmp():
                         required = False)
     parser.add_argument('--getall',
                         '-ga',
-                        help = 'generate every features',
+                        help = 'generate each feature',
                         action='store_true',
                         required = False)
     parser.add_argument('--flip',

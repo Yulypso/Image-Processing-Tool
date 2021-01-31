@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import unittest
 import argparse 
-import os 
-import sys
+import os, sys, shutil
 import numpy as np
 from main import check_interval
 from main import check_resize_ratio
@@ -61,6 +60,9 @@ class bitmapProcessingTest(unittest.TestCase):
         self.assertTrue(isinstance(get_int_from_bytes([0, 2, 0, 0]), int))
         
 def test_all(input_file_name, verbose):
+    if os.path.exists('../../images/test/'):
+        shutil.rmtree('../../images/test/')
+
     printProgressBar(0, 497, prefix='Progress:', suffix='Complete', length=50)
     # Test Rotation 90 #
     pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)

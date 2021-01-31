@@ -88,6 +88,7 @@ __Run the code__
                   [--colorchannel <color channel>][--brightness <brightness value>]
                   [--pixels <all> or [<position x> <position y>]] [--histogram] 
                   [--contrast <contrast value>] [--filter <filter type>] 
+                  [--getall] [--photomaton <split n time>] [--colorize <angle>]
                   [--output <file_name.bmp>]
 ```
 
@@ -121,6 +122,11 @@ optional arguments:
   --histogram, -hg      display input image histogram
   --filter, -ft <filter type>
                         image filter ['edge-detection', 'blur', 'edge-reinforcement', 'emboss']
+  --photomaton, -ph <split n time>
+                        photomaton, split image by 4 n time
+  --colorize, -cz <angle>
+                        colorize an image through its hue angle [0°, 360°]
+  --getall, -ga         generate each feature
   --output, -o <file_name.bmp>
                         generated file
 ```
@@ -163,7 +169,19 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
 ```
 
 <p align="center" width="100%">
-    <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/104905977-6846f280-5983-11eb-9ff7-c58e5a3c6f46.png"/>
+    <img align="center" width="808" height="260" src="https://user-images.githubusercontent.com/59794336/106396371-c524bd00-6407-11eb-8e66-29c6e5602cb3.png"/>
+</p>
+
+<br>
+
+### Generate each feature within a test directory
+
+```bash
+> python3 main.py --bmp lena_couleur.bmp --getall
+```
+
+<p align="center" width="100%">
+    <img align="center" width="192" height="302" src="https://user-images.githubusercontent.com/59794336/106397530-526b1000-640e-11eb-9b7c-cb38d68ed894.png"/>
 </p>
 
 <br>
@@ -177,7 +195,7 @@ Display information inside the bitmap byte header
 ```
 
 <p align="center" width="100%">
-    <img align="center" width="880" height="254" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
+    <img align="center" width="880" src="https://user-images.githubusercontent.com/59794336/104903889-db9b3500-5980-11eb-9c2b-4d00b3c7764d.png"/>
 </p>
 
 <br>
@@ -278,10 +296,10 @@ Adjust the contrast parameter of the bitmap
 
 Changes a colored bitmap into a grayscale image
 
-- With Eugène Atget method
+- With Eugène Atget sepia method
 
 ```bash
-> python3 main.py --bmp lena_couleur --grayscale atget --output generated.bmp --verbose
+> python3 main.py --bmp lena_couleur --grayscale sepia --output generated.bmp --verbose
 ```
 
 <p align="center" width="100%">
@@ -528,6 +546,55 @@ Feature to superimpose one image to another
 
 <p align="center" width="100%">
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904699-bfe45e80-5981-11eb-9232-aa19feefb991.png"/>
+</p>
+
+<br>
+
+### Image colorization
+
+Image colorization is mainly used to add color on grayscale images.
+
+```bash
+> python3 main.py --bmp lena_sepia.bmp --colorize 180 --output generated.bmp --verbose
+```
+
+- Colorization hue angle: 0°/360°, 45°, 90°, 135°
+<p align="center" width="100%">
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106396952-53e70900-640b-11eb-8aec-0e666529e1ed.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397000-901a6980-640b-11eb-8136-477c33ed8878.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397015-a6c0c080-640b-11eb-9412-4150f328007a.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397022-b17b5580-640b-11eb-8417-ca628a572a50.png"/>
+</p>
+
+- Colorization hue angle: 180°, 225°, 270°, 315°
+<p align="center" width="100%">
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397056-d2dc4180-640b-11eb-8d03-e08745085c89.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397086-f56e5a80-640b-11eb-97db-71ce88915ece.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397094-0323e000-640c-11eb-986e-5404c77a8d68.png"/>
+    <img align="center" width="189" src="https://user-images.githubusercontent.com/59794336/106397122-1f278180-640c-11eb-9f9e-c42fd89b8072.png"/>
+</p>
+
+
+<br>
+
+### Photomaton
+
+The photo booth or Photomaton is used to get several identical images in a whole image 
+
+```bash
+> python3 main.py --bmp lena_sepia.bmp --photomaton 1 --output generated.bmp --verbose
+```
+
+<p align="center" width="100%">
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397340-2f8c2c00-640d-11eb-8c20-e4ca41280851.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397347-39159400-640d-11eb-95e5-c23d7c5e905d.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397360-42066580-640d-11eb-8893-0aedeb9b3613.png"/>
+</p>
+
+<p align="center" width="100%">
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397370-49c60a00-640d-11eb-80c0-e950725e05a4.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397381-577b8f80-640d-11eb-97eb-2364f44c10e9.png"/>
+    <img align="center" width="250" src="https://user-images.githubusercontent.com/59794336/106397389-5f3b3400-640d-11eb-8154-1143df684420.png"/>
 </p>
 
 --- 

@@ -129,6 +129,8 @@ class BmpProcessing:
             return rgb
 
         self.image_matrix = shift_hue(self.image_matrix, float(angle)/360)
+        if self.verbose == True:
+            print("colorization applied for {} degree".format(angle))
     
 
     def filter_image(self, filter_type):
@@ -555,6 +557,8 @@ class BmpProcessing:
         if np.shape(self.image_matrix)[0] == np.shape(self.image_matrix)[1]:
             for i in range(value):
                 self.image_matrix = do_magic(self.image_matrix)
+            if self.verbose == True:
+                print("Photomaton applied for {} times".format(value))
         else:
             raise Exception("Image width and length must be equal, Try Again")
 
