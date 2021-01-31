@@ -4,6 +4,9 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from bmpProcessing.utils.Utils import get_int_from_bytes
+from bmpProcessing.utils.Utils import hsv_to_rgb
+from bmpProcessing.utils.Utils import rgb_to_hsv
+
 import timeit
 
 class BmpProcessing: 
@@ -109,6 +112,22 @@ class BmpProcessing:
             #-------performance calculation--------
             print("Fitting duration:", timeit.default_timer() - starttime)
             #--------------------------------------
+
+    def colorize_image(self, angle):
+        def shift_hue(arr, hout):
+            '''
+            colorize an image by shifting its hue
+            1. convert rgb view to hsl view (hue, saturation, lightness)
+            2. apply hue angle to the image
+            3. convert back to rgb
+            '''
+            hsv = rgb_to_hsv(arr)
+            hsv[...,0] = hout
+            rgb = hsv_to_rgb(hsv)
+            return rgb
+
+        self.image_matrix = shift_hue(self.image_matrix, float(angle)/360)
+
 
 
     def filter_image(self, filter_type):
@@ -437,7 +456,7 @@ class BmpProcessing:
                     pixel[1] = round(pixel_value)
                     pixel[2] = round(pixel_value)
                 else:
-                    if 'atget' in grayscale_method:
+                    if 'sepia' in grayscale_method:
                         pixel[0] = round(0.272*pixel[2] + 0.534*pixel[1] + 0.131*pixel[0])
                         pixel[1] = round(0.349*pixel[2] + 0.686*pixel[1] + 0.168*pixel[0])
                         pixel[2] = round(0.393*pixel[2] + 0.769*pixel[1] + 0.189*pixel[0])

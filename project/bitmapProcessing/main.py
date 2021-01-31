@@ -17,6 +17,16 @@ def check_interval(value):
             "choose a value between [-255, +255]")
     return int(value)
 
+def check_angle(value):
+    '''
+    Check argument parser if value belongs to [-255, +255] interval
+    '''
+    if (float(value) < 0.0) or (float(value) > 360.0):
+        raise argparse.ArgumentTypeError(
+            "{} is an incorrect angle value. Please ".format(value)+
+            "choose a value between [0°, 360°]")
+    return float(value)
+
 
 def check_resize_ratio(value):
     '''
@@ -117,9 +127,9 @@ def process_bmp():
     parser.add_argument('--grayscale',
                         '-gs',
                         metavar = '<grayscale method>',
-                        help = 'image grayscale <mean> or <luminance> or <atget>',
+                        help = 'image grayscale <mean> or <luminance> or <sepia>',
                         type = str,
-                        choices = ['mean', 'luminance', 'atget'],
+                        choices = ['mean', 'luminance', 'sepia'],
                         required = False)
     parser.add_argument('--negative', 
                         '-n',
@@ -149,6 +159,12 @@ def process_bmp():
                         '-hg',
                         help = 'display input image histogram',
                         action='store_true',
+                        required = False)
+    parser.add_argument('--colorize',
+                        '-cz',
+                        metavar = '<angle>',
+                        help = 'colorize an image through its hue angle [0°, 360°]',
+                        type = check_angle,
                         required = False)
     parser.add_argument('--filter', 
                         '-ft',
@@ -183,6 +199,8 @@ def process_bmp():
                                    '-ft' in sys.argv or
                                    '--overlay' in sys.argv or
                                    '-ov' in sys.argv or
+                                   '--colorize' in sys.argv or
+                                   '-cz' in sys.argv or
                                    '--grayscale' in sys.argv or
                                    '-gs' in sys.argv 
                         )
@@ -208,6 +226,7 @@ def process_bmp():
     histogram = args.histogram
     output_file_name = args.output
     getall = args.getall
+    colorize = args.colorize
 
     # Display which argument have been selected
     print('--- Bitmap processing tool ---')
@@ -241,6 +260,7 @@ def process_bmp():
     print('[X] verbose:               ', verbose) if verbose else print('[ ] verbose:                False')
     print('[X] histogram:             ', histogram) if histogram else print('[ ] histogram:              False')
     print('[X] getall:                ', getall) if getall else print('[ ] getall:                 False')
+    print('[X] colorize:               hue {}°'.format(colorize)) if colorize else print('[ ] colorize:               None')
     
     if pixels:
         if len(pixels) == 2:
@@ -315,6 +335,8 @@ def process_bmp():
         my_bmp.flip_image()
     if rotation_degree:
         my_bmp.rotate_image(rotation_degree)
+    if colorize:
+        my_bmp.colorize_image(colorize)
     if overlay_file_name:
         my_bmp.fit_overlay(overlay_file_name[0])
         my_bmp.overlay(overlay_file_name[1])
