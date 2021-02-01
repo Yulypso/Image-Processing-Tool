@@ -124,8 +124,8 @@ def process_bmp():
                         help = 'get more information',
                         action='store_true',
                         required = False)
-    parser.add_argument('--getall',
-                        '-ga',
+    parser.add_argument('--test_features',
+                        '-tf',
                         help = 'generate each feature',
                         action='store_true',
                         required = False)
@@ -243,7 +243,7 @@ def process_bmp():
     verbose = args.verbose
     histogram = args.histogram
     output_file_name = args.output
-    getall = args.getall
+    test_features = args.test_features
     colorize = args.colorize
     photomaton = args.photomaton
 
@@ -278,7 +278,7 @@ def process_bmp():
     print('[X] image filter:          ', filter_type) if filter_type else print('[ ] image filter:           None')
     print('[X] verbose:               ', verbose) if verbose else print('[ ] verbose:                False')
     print('[X] histogram:             ', histogram) if histogram else print('[ ] histogram:              False')
-    print('[X] getall:                ', getall) if getall else print('[ ] getall:                 False')
+    print('[X] test_features:          ', test_features) if test_features else print('[ ] test_features:           False')
     print('[X] photomaton:            ', photomaton, 'time(s)') if photomaton else print('[ ] photomaton:             None')
     print('[X] colorize:               hue {}°'.format(colorize)) if colorize else print('[ ] colorize:               None')
     
@@ -310,7 +310,7 @@ def process_bmp():
     print('------------------------------\n')
 
     # verify if input file exists or not
-    if not getall:
+    if not test_features:
         if not os.path.isfile(input_file_name):
             print('Error: "{}" does not exist'.format(input_file_name), file=sys.stderr)
             sys.exit(-1)
@@ -326,13 +326,13 @@ def process_bmp():
     else:
         is_processing = False
     
-    if getall:
+    if test_features:
         test.test_all(input_file_name, 'test')
     else:
         my_bmp.fit(is_processing)
 
         # display bitmap header
-        if not getall:
+        if not test_features:
             my_bmp.display_header()
 
         if histogram:

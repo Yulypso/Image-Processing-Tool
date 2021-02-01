@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys
+import sys, timeit
 import numpy as np
 import matplotlib.pyplot as plt
 from bmpProcessing.utils.Utils import get_int_from_bytes
 from bmpProcessing.utils.Utils import hsv_to_rgb
 from bmpProcessing.utils.Utils import rgb_to_hsv
-
-import timeit
 
 class BmpProcessing: 
     '''
@@ -59,22 +57,6 @@ class BmpProcessing:
         self.overlay_palette = []
         self.overlay_image = []
         self.overlay_image_matrix = None
-
-    def verify_dimension_format(self, height, width):
-        '''
-        1. verify if each pixels can be written on 4 bytes
-            - byte for the red channel
-            - byte for the green channel
-            - byte for the blue channel
-            - reserved byte
-        2. resize the picture if not
-        '''
-        new_height, new_width = height, width
-        if height%4 != 0:
-            new_height = height + 4 - height%4
-        if width%4 != 0:
-            new_width = width + 4 - width%4
-        self.resize_image([new_width, new_height])
 
 
     def fit(self, is_processing):
@@ -275,6 +257,7 @@ class BmpProcessing:
         '''
         Fit Overlay image 
         '''
+
         if self.verbose == True:
             #-------performance calculation--------
             starttime = timeit.default_timer()
@@ -316,6 +299,9 @@ class BmpProcessing:
                 get_int_from_bytes(self.overlay_header[22:26].tolist()), 
                 int(get_int_from_bytes(self.overlay_header[28:30].tolist())/8)
             )
+        
+        self.resize_image([get_int_from_bytes(self.overlay_header[22:26].tolist()), get_int_from_bytes(self.overlay_header[18:22].tolist())])
+
         if self.verbose == True:
             print('image to overload successfully loaded')
             #-------performance calculation--------
@@ -561,16 +547,18 @@ class BmpProcessing:
 
         def do_magic(image):
             '''
-            generated new image by applying new_coordinate calculation on each pixels of the image
+            generated a new image by applying new_coordinate calculation on each pixels of the image
             '''
             new_image = np.empty((len(self.image_matrix), len(self.image_matrix[1]), int(get_int_from_bytes(self.bi_bitcount)/8)), dtype='int64')
-            for i in range(np.shape(image)[1]):
-                for j in range(np.shape(image)[0]):
+            width = np.shape(image)[1]
+            length = np.shape(image)[0]
+            for i in range(width):
+                for j in range(length):
                     u, v = new_coordinate(i, j, image)
                     new_image[u][v] = image[i][j]
             return new_image
 
-        if verbose == 'test':
+        if self.verbose == 'test':
             self.resize_image([600, 600])
        
         if np.shape(self.image_matrix)[0] == np.shape(self.image_matrix)[1]:
@@ -616,13 +604,29 @@ class BmpProcessing:
         '''
         Adjust header bytes and save image
         '''
+        def verify_dimension_format(height, width):
+            '''
+            1. verify if each pixels can be written on 4 bytes
+                - byte for the red channel
+                - byte for the green channel
+                - byte for the blue channel
+                - reserved byte
+            2. resize the picture if not
+            '''
+            new_height, new_width = height, width
+            if height%4 != 0:
+                new_height = height + 4 - height%4
+            if width%4 != 0:
+                new_width = width + 4 - width%4
+            self.resize_image([new_width, new_height])
+
         if self.verbose == True:
             #-------performance calculation--------
             starttime = timeit.default_timer()
             print("Start saving time:", starttime)
             #--------------------------------------
 
-        self.verify_dimension_format(np.shape(self.image_matrix)[0], np.shape(self.image_matrix)[1])
+        verify_dimension_format(np.shape(self.image_matrix)[0], np.shape(self.image_matrix)[1])
 
         # Adjust bf_size within header bytes (width x length x bitperpixel/8 + offbits)
         self.bf_size = []

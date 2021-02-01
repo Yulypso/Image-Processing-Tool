@@ -98,7 +98,7 @@ __Run the code__
                   [--colorchannel <color channel>][--brightness <brightness value>]
                   [--pixels <all> or [<position x> <position y>]] [--histogram] 
                   [--contrast <contrast value>] [--filter <filter type>] 
-                  [--getall] [--photomaton <split n time>] [--colorize <angle>]
+                  [--test_features] [--photomaton <split n time>] [--colorize <angle>]
                   [--output <file_name.bmp>]
 ```
 
@@ -136,7 +136,7 @@ optional arguments:
                         photomaton, split image by 4 n time
   --colorize, -cz <angle>
                         colorize an image through its hue angle [0°, 360°]
-  --getall, -ga         generate each feature
+  --test_features, -tf  generate each feature
   --output, -o <file_name.bmp>
                         generated file
 ```
@@ -195,7 +195,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
 [Learn more about it](./EXPLANATIONS.md#generate-each-feature-within-a-test-directory)
 
 ```bash
-> python3 main.py --bmp lena_couleur.bmp --getall
+> python3 main.py --bmp lena_couleur.bmp --test_features
 ```
 
 <p align="center" width="100%">
