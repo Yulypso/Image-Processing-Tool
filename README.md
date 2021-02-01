@@ -221,7 +221,8 @@ Display information inside the bitmap byte header
 <br/>
 
 ### Display pixels
-[Learn more about it]()
+[Learn more about it](./EXPLANATIONS.md#display-pixels)
+https://github.com/Yulypso/Imagerie_Numerique#author
 
 Display pixel colors at specific position, here x=128 and y=192
 
