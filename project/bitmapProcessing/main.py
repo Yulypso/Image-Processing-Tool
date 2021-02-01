@@ -325,50 +325,51 @@ def process_bmp():
         is_processing = True
     else:
         is_processing = False
-    my_bmp.fit(is_processing)
-
-    # display bitmap header
-    if not getall:
-        my_bmp.display_header()
-
-    if histogram:
-        my_bmp.display_histogram()
-    if pixels:
-        my_bmp.display_pixels(pixels)
-    if grayscale:
-        my_bmp.grayscale_image(grayscale)
-    if filter_type:
-        my_bmp.filter_image(filter_type)
-    if blackwhite:
-        my_bmp.blackwhite_image()
-    if color:
-        my_bmp.color_image(color)
-    if contrast_value:
-        my_bmp.contrast_image(contrast_value)
-    if brightness_value:
-        my_bmp.brightness_image(brightness_value)
-    if negative:
-        my_bmp.negative_image()
-    if ratio_resize:
-        my_bmp.resize_image(ratio_resize)
-    if flip:
-        my_bmp.flip_image()
-    if rotation_degree:
-        my_bmp.rotate_image(rotation_degree)
-    if colorize:
-        my_bmp.colorize_image(colorize)
-    if photomaton:
-        my_bmp.photomaton(photomaton)
-    if overlay_file_name:
-        my_bmp.fit_overlay(overlay_file_name[0])
-        my_bmp.overlay(overlay_file_name[1])
-    if output_file_name:
-        if not os.path.exists('../../images/generated/'):
-            os.makedirs('../../images/generated/')
-        my_bmp.save_image(output_file_name)
+    
     if getall:
         test.test_all(input_file_name, 'test')
+    else:
+        my_bmp.fit(is_processing)
 
+        # display bitmap header
+        if not getall:
+            my_bmp.display_header()
+
+        if histogram:
+            my_bmp.display_histogram()
+        if pixels:
+            my_bmp.display_pixels(pixels)
+        if grayscale:
+            my_bmp.grayscale_image(grayscale)
+        if filter_type:
+            my_bmp.filter_image(filter_type)
+        if blackwhite:
+            my_bmp.blackwhite_image()
+        if color:
+            my_bmp.color_image(color)
+        if contrast_value:
+            my_bmp.contrast_image(contrast_value)
+        if brightness_value:
+            my_bmp.brightness_image(brightness_value)
+        if negative:
+            my_bmp.negative_image()
+        if ratio_resize:
+            my_bmp.resize_image(ratio_resize)
+        if flip:
+            my_bmp.flip_image()
+        if rotation_degree:
+            my_bmp.rotate_image(rotation_degree)
+        if colorize:
+            my_bmp.colorize_image(colorize)
+        if photomaton:
+            my_bmp.photomaton(photomaton)
+        if overlay_file_name:
+            my_bmp.fit_overlay(overlay_file_name[0])
+            my_bmp.overlay(overlay_file_name[1])
+        if output_file_name:
+            if not os.path.exists('../../images/generated/'):
+                os.makedirs('../../images/generated/')
+            my_bmp.save_image(output_file_name)
 def main():
     process_bmp() 
     sys.exit(0)
