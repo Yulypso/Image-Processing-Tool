@@ -177,7 +177,7 @@ We will mainly use __Colored Lena__ to explain the features.
 <br/>
 
 ### Dashboard 
-[Learn more about it]()
+[Learn more about it](./EXPLANATIONS.md#dashboard)
 
 Each feature applied on the input bitmap has a checkbox to know easily which feature has been chosen
 
@@ -192,7 +192,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
 <br/>
 
 ### Generate each feature within a test directory
-[Learn more about it]()
+[Learn more about it](./EXPLANATIONS.md#generate-each-feature-within-a-test-directory)
 
 ```bash
 > python3 main.py --bmp lena_couleur.bmp --getall
@@ -206,7 +206,7 @@ Each feature applied on the input bitmap has a checkbox to know easily which fea
 <br/>
 
 ### Display Bitmap header
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#display-bitmap-header)
 
 Display information inside the bitmap byte header
 
@@ -222,7 +222,6 @@ Display information inside the bitmap byte header
 
 ### Display pixels
 [Learn more about it](./EXPLANATIONS.md#display-pixels)
-https://github.com/Yulypso/Imagerie_Numerique#author
 
 Display pixel colors at specific position, here x=128 and y=192
 
@@ -247,7 +246,7 @@ Display each bitmap pixel colors, here [ 55 81 158 ] is the first pixel value in
 <br/>
 
 ### Rotate image
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#rotate-image)
 
 Rotate the bitmap to 90° or 180° or 270°
 
@@ -264,7 +263,7 @@ Rotate the bitmap to 90° or 180° or 270°
 <br/>
 
 ### Resize image
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#resize-image)
 
 Resize the bitmap to a ratio value or specific dimensions
 - The bitmap has been resized to 256x256 with ratio value=0.5
@@ -290,7 +289,7 @@ Resize the bitmap to a ratio value or specific dimensions
 <br/>
 
 ### Contrast adjustment
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#contrast-adjustment)
 
 Adjust the contrast parameter of the bitmap
 
@@ -318,7 +317,7 @@ Adjust the contrast parameter of the bitmap
 <br/>
 
 ### Color to grayscale 
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#color-to-grayscale)
 
 Changes a colored bitmap into a grayscale image
 
@@ -371,7 +370,7 @@ Luminance method is much more accurate than mean method.
 <br/>
 
 ### Color to black & white (binary)
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#color-to-black--white-binary)
 
 Changes a colored bitmap into a black and white image
 
@@ -386,7 +385,7 @@ Changes a colored bitmap into a black and white image
 <br/>
 
 ### Color to negative
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#color-to-negative)
 
 Changes a colored bitmap into a negative image
 
@@ -401,7 +400,7 @@ Changes a colored bitmap into a negative image
 <br/>
 
 ### Keep color channel
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#keep-color-channel)
 
 Keep one-color or two-color channel of the bitmap 
 - Red
@@ -430,7 +429,7 @@ Keep one-color or two-color channel of the bitmap
 <br/>
 
 ### Brightness adjustment
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#brightness-adjustment)
 
 Adjust the brightness parameter of the bitmap
 
@@ -458,7 +457,7 @@ Adjust the brightness parameter of the bitmap
 <br/>
 
 ### Flip image
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#flip-image)
 
 Flip the bitmap along its vertical axis (along its horizontal axis is the same as a rotation 180°)
 
@@ -473,7 +472,7 @@ Flip the bitmap along its vertical axis (along its horizontal axis is the same a
 <br/>
 
 ### Filter: Edge-detection 
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#filter-edge-detection)
 
 filter to detect the edges of the image
 
@@ -490,7 +489,7 @@ filter to detect the edges of the image
 <br/>
 
 ### Filter: Edge-reinforcement
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#filter-edge-reinforcement)
 
 filter to reinforce the edges of the image
 
@@ -506,7 +505,7 @@ filter to reinforce the edges of the image
 <br/> 
 
 ### Filter: Blur
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#filter-blur)
 
 filter to blur the image
 
@@ -522,7 +521,7 @@ filter to blur the image
 <br/>
 
 ### Filter: Emboss
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#filter-emboss)
 
 filter to emboss the image
 
@@ -538,7 +537,7 @@ filter to emboss the image
 <br/>
 
 ### Color channel Histogram
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#color-channel-histogram)
 
 Display color channel histogram
 
@@ -561,7 +560,7 @@ Display color channel histogram
 <br/>
 
 ### Overlay two images 
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#overlay-two-images)
 
 Feature to superimpose one image to another
 
@@ -588,7 +587,7 @@ Feature to superimpose one image to another
 <br/>
 
 ### Image colorization
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#image-colorization)
 
 Image colorization is mainly used to add color on grayscale images.
 
@@ -615,7 +614,7 @@ Image colorization is mainly used to add color on grayscale images.
 <br/>
 
 ### Photomaton
-[Learn more about it]()
+[Learn more about it](/EXPLANATIONS.md#photomaton)
 
 The photo booth or Photomaton is used to get several identical images in a whole image 
 

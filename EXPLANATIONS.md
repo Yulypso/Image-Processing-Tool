@@ -32,85 +32,104 @@ To go back to the description of those features **->** __[Click here](./README.m
 ## Feature Implementations
 
 ### Dashboard
+[Back to description](./README.md#dashboard)
 
 <br>
 
 ### Generate each feature within a test directory
+[Back to description](./README.md#generate-each-feature-within-a-test-directory)
 
 <br>
 
 ### Display Bitmap header
-
+[Back to description](./README.md#display-bitmap-header)
 
 <br>
 
 ### Display pixels
+[Back to description](./README.md#display-pixels)
 
 <br>
 
 ### Rotate image
+[Back to description](./README.md#rotate-image)
 
 <br>
 
 ### Resize image
-
+[Back to description](./README.md#resize-image)
 
 <br>
 
 ### Contrast adjustment
+[Back to description](./README.md#contrast-adjustment)
 
 <br>
 
 ### Color to grayscale
+[Back to description](./README.md#color-to-grayscale)
 
 <br>
 
 ### Color to black & white (binary)
+[Back to description](./README.md#color-to-black--white-binary)
 
 <br>
 
 ### Color to negative
+[Back to description](./README.md#color-to-negative)
 
 <br>
 
 ### Keep color channel
+[back to description](./README.md#keep-color-channel)
 
 <br>
 
 ### Brightness adjustment
+[back to description](./README.md#brightness-adjustment)
 
 <br>
 
 ### Flip image
+[back to description](./README.md#flip-image)
 
 <br>
 
 ### Filter: Edge-detection 
+[back to description](./README.md#filter-edge-detection)
 
 <br>
 
 ### Filter: Edge-reinforcement
+[back to description](./README.md#filter-edge-reinforcement)
 
 <br> 
 
 ### Filter: Blur
+[back to description](./README.md#filter-blur)
 
 <br>
 
 ### Filter: Emboss
+[back to description](./README.md#filter-emboss)
 
 <br>
 
 ### Color channel Histogram
+[back to description](./README.md#color-channel-histogram)
 
 <br>
 
 ### Overlay two images 
+[back to description](./README.md#overlay-two-images)
 
 <br>
 
 ### Image colorization
+[back to description](./README.md#image-colorization)
 
 <br>
 
 ### Photomaton
+[back to description](./README.md#photomaton)
