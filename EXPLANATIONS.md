@@ -190,7 +190,82 @@ brightness value is defined within [0, 255] interval
 ### Flip image
 [back to description](./README.md#flip-image)
 
-<code>--flip</code> command allows us to generate a new flipped image by flipping every image pixels along its axis=1.
+<code>--flip</code> command allows us to generate a new flipped image by flipping every image pixels along its axis=1 (vertical).
+
+<br/>
+
+### Convolution matrix
+
+#### General intuition
+[Convolution matrices](https://fr.wikipedia.org/wiki/Noyau_(traitement_d%27image)) allow you to apply filters in image processing. For example the edge detection filter, blur filter, edge reinforcement filter or even the emboss filter.
+
+
+The principle of the convolution matrix is ​​to go through all the pixels of the original image (except the pixels located at the edge of the image) and to apply the “kernel” or “mask” matrix.
+
+For each kernel applied, the value of the new pixel is recalculated for each of its channels. In this example, we apply the same kernel for each of these channels.
+
+<pre>The 3x3 kernel applied in this example is: <strong>
+[[0 1 2]
+ [2 2 0]
+ [0 1 2]]</strong>
+
+Considering that the image covered by the kernel is: <strong>
+[[a b c]
+ [d e f]
+ [g h i]]</strong>
+
+The calculation for each new pixels goes like this:
+new pixel = <strong>0</strong>*a + <strong>1</strong>*b + <strong>2</strong>*c + <strong>2</strong>*d + <strong>2</strong>*e + <strong>0</strong>*f + <strong>0</strong>*g + <strong>1</strong>*h + <strong>2</strong>*i
+</pre>
+
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/106818689-ecce8c00-6678-11eb-9130-7a4b6d84e987.gif"/>
+</p>
+
+<br/>
+
+#### My implementation 
+
+My method is much faster than general intuition. Let's start by giving you some intuition. 
+
+As before, in order to apply the convolution, we will scan the original image pixel by pixel and calculate the convolution product. This method is long, especially as the image is large!
+
+<u>So how can you speed up the process?</u>
+
+I chose to use memory. Actually, if the original image is of width w and height h, I decided not to do <var><strong>(w-2) * (h-2) iterations</strong></var> to which is multiplied by <var><strong>3 * 3 iterations</strong></var> for each image pixel iterations to apply the kernel but <strong>I instead chose to only do 9 iterations</strong>.
+
+<pre>
+Let's take an example. <hr/>
+Imagine having an image which is: <var><strong>2400 x 1600 (width x height)</strong></var>. 
+
+Convolution matrix application would have needed: <var><strong>((2400-2) * (1600-2)) * (3*3) = 34 488 036 total iterations</strong></var>.
+</pre>
+
+<u>How does it works?</u>
+
+<pre>
+<h3>Convolution matrix</h3><hr/>
+
+1. Take an image of dimension 2400 x 1600 (width x height) as input.
+   
+2. Initialize a list of 9 empty 3-dimension array of the size of the input image.
+   -> The shape of this list would be a 4-dimension array such as (9, 2400, 1600, 3).
+      - 9 copies
+      - 2400 width
+      - 1600 height
+      - 3 color channels
+  
+3. Kernel application
+   a. for each kernel indexes (i,j) make a copy of the input image shifted by 1 pixel depending on kernel indexes (i,j).
+   b. during this process, add also the kernel value by multiplying all the copied image by the value of the kernel at index (i, j).
+      -> By creating shifted image copies, pixels end up outside the image.
+         There are several methods to manage the edges.
+            - add white pixels (pixel value = 0) along the edges of the image.
+            - use the carousel method by rolling pixels. 
+      -> I chose to use the carousel method. It means that the convolution matrix which use pixels located on the edge of the image will depend on the pixels located opposite the image.
+   c. Finally, sum the 9 copies of shifted images in order to obtain our input image again but with the application of the convolution matrix with the kernel.
+</pre>
+
 
 <br/>
 

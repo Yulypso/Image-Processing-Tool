@@ -133,7 +133,7 @@ class BmpProcessing:
 
     def filter_image(self, filter_type):
         '''
-        Filter application with convoluted matrix
+        Filter application with convolution matrix
         1. sobel filter, edge detection
         2. blur filter
         3. edge reinforcement filter
