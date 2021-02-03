@@ -31,105 +31,115 @@ To go back to the description of those features **->** __[Click here](./README.m
 
 ## Feature Implementations
 
-### Dashboard
-[Back to description](./README.md#dashboard)
+We will mainly use __Colored Lena__ to explain the features.
+<p align="center" width="100%">
+    <img align="center" width="300" height="300" src="https://user-images.githubusercontent.com/59794336/104903744-b6a6c200-5980-11eb-829c-8e4878cfa487.png"/>
+</p>
 
-<br>
+We don't need to specify the image directory wether it is located within <sample>images</sample> directory.
+
+<code>--bmp image_name.bmp</code> 
+
+<br/>
 
 ### Generate each feature within a test directory
 [Back to description](./README.md#generate-each-feature-within-a-test-directory)
 
-<br>
+<code>--test_features</code> command allows us to generated all features that requires output.
+
+It automatically saves every generated images to this path: <sample>images/test/{feature-name}/{image-name}</sample> 
+
+<br/>
 
 ### Display Bitmap header
 [Back to description](./README.md#display-bitmap-header)
 
-<br>
+<br/>
 
 ### Display pixels
 [Back to description](./README.md#display-pixels)
 
-<br>
+<br/>
 
 ### Rotate image
 [Back to description](./README.md#rotate-image)
 
-<br>
+<br/>
 
 ### Resize image
 [Back to description](./README.md#resize-image)
 
-<br>
+<br/>
 
 ### Contrast adjustment
 [Back to description](./README.md#contrast-adjustment)
 
-<br>
+<br/>
 
 ### Color to grayscale
 [Back to description](./README.md#color-to-grayscale)
 
-<br>
+<br/>
 
 ### Color to black & white (binary)
 [Back to description](./README.md#color-to-black--white-binary)
 
-<br>
+<br/>
 
 ### Color to negative
 [Back to description](./README.md#color-to-negative)
 
-<br>
+<br/>
 
 ### Keep color channel
 [back to description](./README.md#keep-color-channel)
 
-<br>
+<br/>
 
 ### Brightness adjustment
 [back to description](./README.md#brightness-adjustment)
 
-<br>
+<br/>
 
 ### Flip image
 [back to description](./README.md#flip-image)
 
-<br>
+<br/>
 
 ### Filter: Edge-detection 
 [back to description](./README.md#filter-edge-detection)
 
-<br>
+<br/>
 
 ### Filter: Edge-reinforcement
 [back to description](./README.md#filter-edge-reinforcement)
 
-<br> 
+<br/> 
 
 ### Filter: Blur
 [back to description](./README.md#filter-blur)
 
-<br>
+<br/>
 
 ### Filter: Emboss
 [back to description](./README.md#filter-emboss)
 
-<br>
+<br/>
 
 ### Color channel Histogram
 [back to description](./README.md#color-channel-histogram)
 
-<br>
+<br/>
 
 ### Overlay two images 
 [back to description](./README.md#overlay-two-images)
 
-<br>
+<br/>
 
 ### Image colorization
 [back to description](./README.md#image-colorization)
 
-<br>
+<br/>
 
 ### Photomaton
 [back to description](./README.md#photomaton)

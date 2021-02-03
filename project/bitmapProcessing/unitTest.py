@@ -61,6 +61,10 @@ class bitmapProcessingTest(unittest.TestCase):
         
 def test_all(input_file_name, verbose):
     starttime = timeit.default_timer()
+    if '../../images/test_image.bmp' == input_file_name:
+        print("Average duration: 4.6 minutes")
+    elif '../../images/lena_couleur.bmp' == input_file_name:
+        print("Average duration: 6.6 minutes")
     print("Start test features time:", starttime)
 
     if os.path.exists('../../images/test/'):
@@ -113,7 +117,7 @@ def test_all(input_file_name, verbose):
     pandaBmp.save_image("../../images/test/resize/resize_ratio_800_400.bmp")
 
     # Test contrast adjustment #
-    for i in range(-255, 256, 10):
+    for i in range(-255, 256, 15):
         printProgressBar(i+6+255, 1419, prefix='Progress:', suffix='Contrast {}          '.format(i), length=50)
         pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
         pandaBmp.fit(True)
@@ -126,7 +130,7 @@ def test_all(input_file_name, verbose):
             pandaBmp.save_image("../../images/test/contrast/contrast+{}.bmp".format(i))
 
     # Test brightness adjustment -255 #
-    for i in range(-255, 256, 10):
+    for i in range(-255, 256, 15):
         printProgressBar(i+517+255, 1419, prefix='Progress:', suffix='Brightness {}          '.format(i), length=50)
         pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
         pandaBmp.fit(True)
@@ -236,7 +240,7 @@ def test_all(input_file_name, verbose):
     # Test overlay two images maximum #
     pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
     pandaBmp.fit(True)
-    pandaBmp.fit_overlay('../../images/bitmap512x512.bmp')
+    pandaBmp.fit_overlay('../../images/bitmap.bmp')
     pandaBmp.overlay('maximum')
     if not os.path.exists('../../images/test/overlay/'):
         os.makedirs('../../images/test/overlay/')
@@ -246,7 +250,7 @@ def test_all(input_file_name, verbose):
     # Test overlay two images minimum #
     pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
     pandaBmp.fit(True)
-    pandaBmp.fit_overlay('../../images/bitmap512x512.bmp')
+    pandaBmp.fit_overlay('../../images/bitmap.bmp')
     pandaBmp.overlay('minimum')
     pandaBmp.save_image("../../images/test/overlay/overlay-minimum.bmp")
 
@@ -259,7 +263,7 @@ def test_all(input_file_name, verbose):
         os.makedirs('../../images/test/filter/')
     pandaBmp.save_image("../../images/test/filter/filter-sobel-edge-detection.bmp")
 
-    printProgressBar(1043, 1419, prefix='Progress:', suffix='Emboss filter          ', length=50)
+    printProgressBar(1043, 1419, prefix='Progress:', suffix='Emboss filter              ', length=50)
     # Test emboss filter #
     pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
     pandaBmp.fit(True)
@@ -273,7 +277,7 @@ def test_all(input_file_name, verbose):
     pandaBmp.filter_image('edge-reinforcement')
     pandaBmp.save_image("../../images/test/filter/filter-edge-reinforcement.bmp")
 
-    printProgressBar(1045, 1419, prefix='Progress:', suffix='Blur filter          ', length=50)
+    printProgressBar(1045, 1419, prefix='Progress:', suffix='Blur filter               ', length=50)
     # Test blur filter #
     pandaBmp = BmpProcessing.BmpProcessing(input_file_name, verbose)
     pandaBmp.fit(True)
@@ -303,7 +307,7 @@ def test_all(input_file_name, verbose):
 
     printProgressBar(1419, 1419, prefix='Progress:', suffix='Complete          ', length=50)
 
-    print("\ntest features duration:", timeit.default_timer() - starttime)
+    print("\ntest features duration:", (timeit.default_timer() - starttime)/60, 'minutes')
 
 if __name__ == '__main__':
     unittest.main()
