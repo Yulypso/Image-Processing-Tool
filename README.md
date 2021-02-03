@@ -220,7 +220,6 @@ Display information inside the bitmap byte header
 <br/>
 
 ### Display pixels
-[Learn more about it](./EXPLANATIONS.md#display-pixels)
 
 Display pixel colors at specific position, here x=128 and y=192
 
@@ -235,7 +234,7 @@ Display pixel colors at specific position, here x=128 and y=192
 Display each bitmap pixel colors, here [ 55 81 158 ] is the first pixel value in the first row and first column of the matrix. (it refers to the real bitmap pixel at the last row and first column)
 
 ```bash
-> python3 main.py --bmp lena_couleur.bmp all
+> python3 main.py --bmp lena_couleur.bmp --pixels all
 ```
 
 <p align="center" width="100%">
@@ -349,22 +348,6 @@ Changes a colored bitmap into a grayscale image
 <p align="center" width="100%">
     <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904223-3af94500-5981-11eb-846e-b3168f0c3cf0.png"/>
 </p>
-
-__To better understand the difference between mean and luminance method__
-
-<p align="center" width="100%">
-    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904220-39c81800-5981-11eb-9eae-8132672ac7dc.png"/>
-</p>
-<p align='center'>Original</p>
-
-<p align="center" width="100%">
-    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904222-3a60ae80-5981-11eb-90e0-aa6cc0b83a55.png"/>
-    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/104904228-3b91db80-5981-11eb-8e91-5ae55b9f9f4f.png"/>
-</p>
-
-<p align='center'>Mean method and Luminance method</p>
-
-Luminance method is much more accurate than mean method. 
 
 <br/>
 
