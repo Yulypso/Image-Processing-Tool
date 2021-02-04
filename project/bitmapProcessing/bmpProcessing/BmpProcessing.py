@@ -211,7 +211,7 @@ class BmpProcessing:
                 self.image_matrix[self.image_matrix < 0] = 0
                 if self.verbose == True:
                     #-------performance calculation--------
-                    print("Edege reinforcement filter processing duration:", timeit.default_timer() - starttime)
+                    print("Edge reinforcement filter processing duration:", timeit.default_timer() - starttime)
                     #--------------------------------------
 
             if 'emboss' in filter_type:
