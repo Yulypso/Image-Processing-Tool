@@ -7,10 +7,8 @@ To go back to the description of those features **->** __[Click here](./README.m
 - __[Digital Image - Bitmap processing tool](#digital-image---bitmap-processing-tool)__
   - __[Table of Contents](#table-of-contents)__
   - __[Feature Implementations](#feature-implementations)__
-    - [Dashboard](#dashboard)
     - [Generate each feature within a test directory](#generate-each-feature-within-a-test-directory)
     - [Display Bitmap header](#display-bitmap-header)
-    - [Display pixels](#display-pixels)
     - [Rotate image](#rotate-image)
     - [Resize image](#resize-image)
     - [Contrast adjustment](#contrast-adjustment)
@@ -27,7 +25,6 @@ To go back to the description of those features **->** __[Click here](./README.m
     - [Filter: Edge-reinforcement](#filter-edge-reinforcement)
     - [Filter: Blur](#filter-blur)
     - [Filter: Emboss](#filter-emboss)
-    - [Color channel Histogram](#color-channel-histogram)
     - [Overlay two images](#overlay-two-images)
     - [Image colorization](#image-colorization)
     - [Photomaton](#photomaton)
@@ -371,20 +368,71 @@ new_image = filter(input_image, emboss_kernel)
 
 <br/>
 
-### Color channel Histogram
-[back to description](./README.md#color-channel-histogram)
-
-<br/>
-
 ### Overlay two images 
 [back to description](./README.md#overlay-two-images)
+
+<code>--overlay {maximum, minimum}</code> command allows you to mix two images together.
+
+<pre>
+1. Before covering one image with another, they must have the same dimension. 
+   To do this, we do a preprocessing step to resize one image so that it is the same size as the other. 
+2. We go through the whole dimension of an image and we recover either the maximum or the minimum of the two images depending on the {option} in order to build the new image. 
+</pre>
 
 <br/>
 
 ### Image colorization
 [back to description](./README.md#image-colorization)
 
+<code>--colorize {hue_value}</code> command allows you to colorize an image by changing its hue. Hue value is a number defined within [0°, 360°] interval. 
+
+In order to be able to modify the hue parameter of an image, we must change the base and switch from the RGB color space to HSV color space.
+
+- byte order within a pixel for RGB color space: [Blue, Green, Red]
+- byte order within a pixel for HSV color space: [Brightness, Saturation, Hue]
+
+<p align="center" width="100%">
+    <img align="center" width="500" src="https://user-images.githubusercontent.com/59794336/106936903-6d46c880-671d-11eb-89b0-e7bc31d59683.png"/>
+</p>
+
+<pre>
+<h3>Image colorization application:</h3><hr/>
+1. Convert RGB color space to HSV color space
+2. Edit Hue channel of each pixel by hue_value
+3. Convert back from HSV color space to RGB color space
+</pre>
+
 <br/>
 
 ### Photomaton
 [back to description](./README.md#photomaton)
+
+<code>--photomaton {value}</code> command allows you to create a 'Photomaton' from an image by shifting pixels on the new image.
+
+The images must be square, that is to say <var><strong>image height = image width</strong></var>
+
+<var><strong>{value}</strong></var> corresponds to the number of time we will split the image into 4 parts. 
+
+<br/>
+
+<h4><strong>New pixel position table</strong></h4>
+
+Position in line | Posiiton in column | New pixel position
+- |:-: | -:
+Even | Even | Top Left
+Even | Odd | Top Right
+Odd | Even | Bottom Left
+Odd | Odd | Bottom Right
+
+<br/>
+
+<p align="center" width="100%">
+    <img align="center" width="350" src="https://user-images.githubusercontent.com/59794336/106942838-ee558e00-6724-11eb-955d-c70eb7b80e70.png"/>
+    <img align="center" width="350" src="https://user-images.githubusercontent.com/59794336/106942851-f0b7e800-6724-11eb-9eb7-30d6c07e54b4.png"/>
+</p>
+
+<pre>
+<h3>Photomaton application:</h3><hr/>
+1. Let's do some preprocessing, you have to resize the input image in square shape.
+2. Browse every pixel of the original image and a new pixel will be appened to the new image according to the <strong>New pixel position table</strong>.
+</pre>

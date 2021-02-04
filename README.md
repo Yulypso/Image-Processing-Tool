@@ -519,7 +519,6 @@ filter to emboss the image
 <br/>
 
 ### Color channel Histogram
-[Learn more about it](/EXPLANATIONS.md#color-channel-histogram)
 
 Display color channel histogram
 

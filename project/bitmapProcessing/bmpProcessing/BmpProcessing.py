@@ -4,8 +4,6 @@ import sys, timeit
 import numpy as np
 import matplotlib.pyplot as plt
 from bmpProcessing.utils.Utils import get_int_from_bytes
-from bmpProcessing.utils.Utils import hsv_to_rgb
-from bmpProcessing.utils.Utils import rgb_to_hsv
 
 class BmpProcessing: 
     '''
@@ -115,6 +113,41 @@ class BmpProcessing:
         '''
         colorize an image by shifting its hue
         '''
+        def hsv_to_rgb(hsv):
+            rgb = np.empty_like(hsv)
+            h, s, v = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+            i = (h * 6.0).astype('uint8')
+            f = (h * 6.0) - i
+            p = v * (1.0 - s)
+            q = v * (1.0 - s * f)
+            t = v * (1.0 - s * (1.0 - f))
+            i = i % 6
+            conditions = [s == 0.0, i == 1, i == 2, i == 3, i == 4, i == 5]
+            rgb[..., 0] = np.select(conditions, [v, q, p, p, t, v], default=v)
+            rgb[..., 1] = np.select(conditions, [v, v, v, q, p, p], default=t)
+            rgb[..., 2] = np.select(conditions, [v, p, t, v, v, q], default=p)
+            return rgb.astype('uint8')
+
+        def rgb_to_hsv(rgb):
+            rgb = rgb.astype('float')
+            hsv = np.zeros_like(rgb)
+            r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+            maxc = np.max(rgb[..., :3], axis=-1)
+            minc = np.min(rgb[..., :3], axis=-1)
+            hsv[..., 2] = maxc
+            mask = maxc != minc
+            hsv[mask, 1] = (maxc - minc)[mask] / maxc[mask]
+            rc = np.zeros_like(r)
+            gc = np.zeros_like(g)
+            bc = np.zeros_like(b)
+            rc[mask] = (maxc - r)[mask] / (maxc - minc)[mask]
+            gc[mask] = (maxc - g)[mask] / (maxc - minc)[mask]
+            bc[mask] = (maxc - b)[mask] / (maxc - minc)[mask]
+            hsv[..., 0] = np.select(
+                [r == maxc, g == maxc], [bc - gc, 2.0 + rc - bc], default=4.0 + gc - rc)
+            hsv[..., 0] = (hsv[..., 0] / 6.0) % 1.0
+            return hsv
+
         def shift_hue(arr, hout):
             '''
             1. convert rgb view to hsl view (hue, saturation, lightness)
