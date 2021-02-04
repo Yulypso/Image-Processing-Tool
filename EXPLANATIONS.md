@@ -417,12 +417,12 @@ The images must be square, that is to say <var><strong>image height = image widt
 
 <h4><strong>New pixel position table</strong></h4>
 
-Position in line | Posiiton in column | New pixel position
-- |:-: | -:
-Even | Even | Top Left
-Even | Odd | Top Right
-Odd | Even | Bottom Left
-Odd | Odd | Bottom Right
+Position in line | Position in column | New pixel position
+| :---: | :---: | :---:
+Even  | Even | Top Left
+Even  | Odd | Top Right
+Odd  | Even | Bottom Left
+Odd  | Odd | Bottom Right
 
 <br/>
 
