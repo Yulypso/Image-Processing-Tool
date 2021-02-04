@@ -20,6 +20,9 @@ To go back to the description of those features **->** __[Click here](./README.m
     - [Keep color channel](#keep-color-channel)
     - [Brightness adjustment](#brightness-adjustment)
     - [Flip image](#flip-image)
+    - [Convolution matrix](#convolution-matrix)
+      - [General intuition](#general-intuition)
+      - [My implementation](#my-implementation)
     - [Filter: Edge-detection](#filter-edge-detection)
     - [Filter: Edge-reinforcement](#filter-edge-reinforcement)
     - [Filter: Blur](#filter-blur)
@@ -50,7 +53,7 @@ Each bitmap images has 1 or 3 color channels. It means that we have 2-dimensiona
 ### Generate each feature within a test directory
 [Back to description](./README.md#generate-each-feature-within-a-test-directory)
 
-<code>--test_features</code> command allows us to generated all features that requires output.
+<code>--test_features</code> command allows you to generated all features that requires output.
 
 It automatically saves every generated images to this path: <samp><strong>images/test/{feature-name}/{image-name}</strong></samp> 
 
@@ -71,14 +74,14 @@ bitmap order and size:
 ### Rotate image
 [Back to description](./README.md#rotate-image)
 
-<code>--rotate {90, 180, 270}</code> command allows us to rotate an image by rotating bytes along its axis 0 and 1 (height and width) by 90° or 190° or 270°. 
+<code>--rotate {90, 180, 270}</code> command allows you to rotate an image by rotating bytes along its axis 0 and 1 (height and width) by 90° or 190° or 270°. 
 
 <br/>
 
 ### Resize image
 [Back to description](./README.md#resize-image)
 
-<code>--resize ratio_value</code> command allows us to resize an image by a ratio value. It means that the new image size will be: <var><strong>(height x ratio_value, width x ratio_value)</strong></var>
+<code>--resize ratio_value</code> command allows you to resize an image by a ratio value. It means that the new image size will be: <var><strong>(height x ratio_value, width x ratio_value)</strong></var>
 
 <code>--resize height_value width_value</code> command allows to resize an image by specifying a dimension. It means that the new image dimension will be: <var><strong>(height_value, width_value)</strong></var> 
 
@@ -89,7 +92,7 @@ to resize the image, we browse the entire original image and copy the pixels int
 ### Contrast adjustment
 [Back to description](./README.md#contrast-adjustment)
 
-<code>--contrast contrast_value</code> command allows us to generate a new image after modifying the contrast of the image by updating each color channel of each pixel through this formula: 
+<code>--contrast contrast_value</code> command allows you to generate a new image after modifying the contrast of the image by updating each color channel of each pixel through this formula: 
 
 <var><pre>factor = (259 * (contrast + 255)) / (255 * (259 - contrast))</pre></var> 
 
@@ -100,7 +103,7 @@ contrast value is defined within [0, 255] interval
 ### Color to grayscale
 [Back to description](./README.md#color-to-grayscale)
 
-<code>--grayscale sepia</code> command allows us to generated a new sepia image by applying a specific formula for each color channels. 
+<code>--grayscale sepia</code> command allows you to generated a new sepia image by applying a specific formula for each color channels. 
 
 <pre>
 <var>green channel = round(0.272*pixel[2] + 0.534*pixel[1] + 0.131*pixel[0])</var>
@@ -110,12 +113,12 @@ contrast value is defined within [0, 255] interval
 <var>red channel = round(0.393*pixel[2] + 0.769*pixel[1] + 0.189*pixel[0])</var></pre>
 
 
-<code>--grayscale mean</code> command allows us to generated a new mean grayscale image by applying a specific formula for each color channels. 
+<code>--grayscale mean</code> command allows you to generated a new mean grayscale image by applying a specific formula for each color channels. 
 
 <var><pre>all channels = (pixel[0] + pixel[1] + pixel[2])/3</pre></var>
 
 
-<code>--grayscale luminance</code> command allows us to generated a new grayscale image depending on luminance by applying a specific formula for each color channels. 
+<code>--grayscale luminance</code> command allows you to generated a new grayscale image depending on luminance by applying a specific formula for each color channels. 
 
 <var><pre>all channels = (0.0722*channel_luminance(pixel[0]/255) + 0.7152*channel_luminance(pixel[1]/255) + 0.2126*channel_luminance(pixel[2]/255)) * 255 </pre></var>
 
@@ -140,7 +143,7 @@ Luminance method is much more accurate than mean method.
 ### Color to black & white (binary)
 [Back to description](./README.md#color-to-black--white-binary)
 
-<code>--blackwhite</code> command allows us to generated a new binary (Black=0, White=255) image by applying a specific formula for each color channels. 
+<code>--blackwhite</code> command allows you to generated a new binary (Black=0, White=255) image by applying a specific formula for each color channels. 
 
 <var><pre>all channels = 255 if mean(pixel[0] + pixel[1] + pixel[2]) > 127</var>
 
@@ -151,7 +154,7 @@ Luminance method is much more accurate than mean method.
 ### Color to negative
 [Back to description](./README.md#color-to-negative)
 
-<code>--negative</code> command allows us to generated a new negative image by applying a specific formula for each color channels. 
+<code>--negative</code> command allows you to generated a new negative image by applying a specific formula for each color channels. 
 
 <var><pre>all channels = 255 - pixel_value</pre></var>
 
@@ -160,7 +163,7 @@ Luminance method is much more accurate than mean method.
 ### Keep color channel
 [back to description](./README.md#keep-color-channel)
 
-<code>--colorchannel {g, b, r, gb, gr, br}</code> command allows us to generated a new image where only 1 or 2 color channels are kept by inhibiting color channels that are not wanted. That is to say by setting up inhibited color to 0 value (black).
+<code>--colorchannel {g, b, r, gb, gr, br}</code> command allows you to generated a new image where only 1 or 2 color channels are kept by inhibiting color channels that are not wanted. That is to say by setting up inhibited color to 0 value (black).
 
 <var><pre>green-image = inhibit blue + red channels</var>
 
@@ -179,7 +182,7 @@ Luminance method is much more accurate than mean method.
 ### Brightness adjustment
 [back to description](./README.md#brightness-adjustment)
 
-<code>--brightness brightness_value</code> command allows us to generate a new image after modifying the brightness of the image by updating each color channel of each pixel through this formula: 
+<code>--brightness brightness_value</code> command allows you to generate a new image after modifying the brightness of the image by updating each color channel of each pixel through this formula: 
 
 <var><pre>all pixels = brightness + pixel</pre></var> 
 
@@ -190,7 +193,7 @@ brightness value is defined within [0, 255] interval
 ### Flip image
 [back to description](./README.md#flip-image)
 
-<code>--flip</code> command allows us to generate a new flipped image by flipping every image pixels along its axis=1 (vertical).
+<code>--flip</code> command allows you to generate a new flipped image by flipping every image pixels along its axis=1 (vertical).
 
 <br/>
 
@@ -205,13 +208,13 @@ The principle of the convolution matrix is ​​to go through all the pixels of
 For each kernel applied, the value of the new pixel is recalculated for each of its channels. In this example, we apply the same kernel for each of these channels.
 
 <pre>The 3x3 kernel applied in this example is: <strong>
-[[0 1 2]
- [2 2 0]
+[[0 1 2],
+ [2 2 0],
  [0 1 2]]</strong>
 
 Considering that the image covered by the kernel is: <strong>
-[[a b c]
- [d e f]
+[[a b c],
+ [d e f],
  [g h i]]</strong>
 
 The calculation for each new pixels goes like this:
@@ -244,7 +247,7 @@ Convolution matrix application would have needed: <var><strong>((2400-2) * (1600
 <u>How does it works?</u>
 
 <pre>
-<h3>Convolution matrix</h3><hr/>
+<h3>Convolution matrix | filter(input_image, kernel)</h3><hr/>
 
 1. Take an image of dimension 2400 x 1600 (width x height) as input.
    
@@ -271,6 +274,42 @@ Convolution matrix application would have needed: <var><strong>((2400-2) * (1600
 
 ### Filter: Edge-detection 
 [back to description](./README.md#filter-edge-detection)
+
+<code>--filter edge-detection</code> command allows you to apply the edge detection filter on the input image through convolution matrix application.
+
+In order to correctly detect the edges of the image, you need to apply two kernels to detect horizontal edges and vertical edges of the image.
+
+[See my convolution matrix filter implementation](#my-implementation)
+
+<pre>
+horizontal_kernel: [[1, 2, 1], 
+                    [0, 0, 0], 
+                    [-1, -2, -1]]
+          
+Vvrtical_kernel: [[-1, 0, 1], 
+                  [-2, 0, 2], 
+                  [-1, 0, 1]]
+
+<h3>Edge-detection application:</h3><hr/>
+1. Apply filter function with horizontal and vertical kernel
+res1 = filter(input_image, horizontal_kernel)
+res2 = filter(input_image, vertical_kernel)
+
+1. combine both res1 and res2 in order to get the edge-detected image generated by applying this formula:
+new_image = <var><strong>sqrt(res1<sup>2</sup> + res2<sup>2</sup>)</strong></var>
+</pre>
+
+- Horizontal kernel and Vertical kernel separated
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/106925363-5057c880-6710-11eb-8223-940865dbd068.png"/>
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/106925425-5f3e7b00-6710-11eb-8794-84f1de20ddcb.png"/>
+</p>
+
+- Horizontal kernel and Vertical kernel combined
+<p align="center" width="100%">
+    <img align="center" width="300" src="https://user-images.githubusercontent.com/59794336/106925476-6bc2d380-6710-11eb-91c0-db71a8fb0c08.png"/>
+</p>
+
 
 <br/>
 
