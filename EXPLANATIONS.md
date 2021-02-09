@@ -260,7 +260,7 @@ Convolution matrix application would have needed: <var><strong>((2400-2) * (1600
    b. during this process, add also the kernel value by multiplying all the copied image by the value of the kernel at index (i, j).
       -> By creating shifted image copies, pixels end up outside the image.
          There are several methods to manage the edges.
-            - add white pixels (pixel value = 0) along the edges of the image.
+            - add black pixels (pixel value = 0) along the edges of the image.
             - use the carousel method by rolling pixels. 
       -> I chose to use the carousel method. It means that the convolution matrix which use pixels located on the edge of the image will depend on the pixels located opposite the image.
    c. Finally, sum the 9 copies of shifted images in order to obtain our input image again but with the application of the convolution matrix with the kernel.
@@ -417,12 +417,12 @@ The images must be square, that is to say <var><strong>image height = image widt
 
 <h4><strong>New pixel position table</strong></h4>
 
-Position in line | Posiiton in column | New pixel position
-- |:-: | -:
-Even | Even | Top Left
-Even | Odd | Top Right
-Odd | Even | Bottom Left
-Odd | Odd | Bottom Right
+Position in line | Position in column | New pixel position
+| :---: | :---: | :---:
+Even  | Even | Top Left
+Even  | Odd | Top Right
+Odd  | Even | Bottom Left
+Odd  | Odd | Bottom Right
 
 <br/>
 

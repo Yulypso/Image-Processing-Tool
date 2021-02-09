@@ -1,4 +1,4 @@
-# Digital Image - Bitmap processing tool
+# Image processing: Bitmap processing tool
 
 ## Author
 
