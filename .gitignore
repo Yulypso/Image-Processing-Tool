@@ -1,9 +1,10 @@
-*.docx 
-*.pdf
+Documents
 .DS_Store
 __pycache__
 .venv
 .vscode
 private
-README-Pictures
 test/
+
+#LaTeX Report
+Report

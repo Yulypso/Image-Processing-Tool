@@ -63,8 +63,8 @@ __Note__: This Bitmap Processing tool cannot process:
 
 __Setup__
 ```bash
-> git clone https://github.com/Yulypso/Imagerie_Numerique.git
-> cd Imagerie_numerique
+> git clone https://github.com/Yulypso/Image-Processing-Tool.git
+> cd Image-Processing-Tool
 > python3 -m venv .venv
 
 # for MacOs/Linux
